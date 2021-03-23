@@ -7,7 +7,8 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Anime sucks.
+          <img src="https://i.kym-cdn.com/photos/images/newsfeed/001/357/799/35a.gif"></img>
         </p>
         <a
           className="App-link"
