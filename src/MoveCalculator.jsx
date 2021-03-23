@@ -13,7 +13,7 @@ export class MoveCalculator extends React.Component {
 
     render() {
         return (
-            <div className = "moveCalculator">
+            <div className="moveCalculator">
                 
             </div>
         );
