@@ -5,7 +5,9 @@ export class MoveCalculator extends React.Component {
         super(props);
 
         this.state = {
-            uid: ""
+            uid: "",
+            isAdvanced: false,
+            
         };
     }
 
