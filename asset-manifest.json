@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/move-thrower/static/css/main.9d5b29c0.chunk.css",
-    "main.js": "/move-thrower/static/js/main.c36005ce.chunk.js",
-    "main.js.map": "/move-thrower/static/js/main.c36005ce.chunk.js.map",
+    "main.css": "/move-thrower/static/css/main.1635e87c.chunk.css",
+    "main.js": "/move-thrower/static/js/main.bc3f2840.chunk.js",
+    "main.js.map": "/move-thrower/static/js/main.bc3f2840.chunk.js.map",
     "runtime-main.js": "/move-thrower/static/js/runtime-main.a9a8f6cd.js",
     "runtime-main.js.map": "/move-thrower/static/js/runtime-main.a9a8f6cd.js.map",
     "static/js/2.2e33a137.chunk.js": "/move-thrower/static/js/2.2e33a137.chunk.js",
@@ -10,14 +10,14 @@
     "static/js/3.b340d5ad.chunk.js": "/move-thrower/static/js/3.b340d5ad.chunk.js",
     "static/js/3.b340d5ad.chunk.js.map": "/move-thrower/static/js/3.b340d5ad.chunk.js.map",
     "index.html": "/move-thrower/index.html",
-    "static/css/main.9d5b29c0.chunk.css.map": "/move-thrower/static/css/main.9d5b29c0.chunk.css.map",
+    "static/css/main.1635e87c.chunk.css.map": "/move-thrower/static/css/main.1635e87c.chunk.css.map",
     "static/js/2.2e33a137.chunk.js.LICENSE.txt": "/move-thrower/static/js/2.2e33a137.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/move-thrower/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.a9a8f6cd.js",
     "static/js/2.2e33a137.chunk.js",
-    "static/css/main.9d5b29c0.chunk.css",
-    "static/js/main.c36005ce.chunk.js"
+    "static/css/main.1635e87c.chunk.css",
+    "static/js/main.bc3f2840.chunk.js"
   ]
 }
