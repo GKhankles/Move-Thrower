@@ -1,52 +1,31 @@
-/*let baseStats = {
-    health: 91,
-    attack: 134,
-    defense: 95,
-    spAttack: 100,
-    spDefense: 100,
-    speed: 80
-};
-let EVs = {
-    health: 150,
-    attack: 232,
-    defense: 80,
-    spAttack: 0,
-    spDefense: 192,
-    speed: 252
-}
-let IVs = {
-    health: 20,
-    attack: 1,
-    defense: 31,
-    spAttack: 26,
-    spDefense: 10,
-    speed: 7
-}
+export class StatCalculator {
+    constructor() {
+        this.getStatTotals = this.getStatTotals.bind(this);
+    }
 
-getStatTotals(baseStats, EVs, IVs, 100, "rash"); */
-
-function getStatTotals(baseStats, EVs, IVs, level, nature) {
+getStatTotals(baseStats, EVs, IVs, level, nature) {
+    let tempNature = nature.toLowerCase();
     let statTotals = {
-        HP: setHealth(baseStats.health, EVs.health, IVs.health, level, nature),
-        Attack: setAttack(baseStats.attack, EVs.attack, IVs.attack, level, nature),
-        Defense: setDefense(baseStats.defense, EVs.defense, IVs.defense, level, nature),
-        SpAttack: setSpAttack(baseStats.spAttack, EVs.spAttack, IVs.spAttack, level, nature),
-        SpDefense: setSpDefense(baseStats.spDefense, EVs.spDefense, IVs.spDefense, level, nature),
-        Speed: setSpeed(baseStats.speed, EVs.speed, IVs.speed, level, nature)
+        HP: this.setHealth(baseStats.HP, EVs.HP, IVs.HP, level, tempNature),
+        Atk: this.setAttack(baseStats.Atk, EVs.Atk, IVs.Atk, level, tempNature),
+        Def: this.setDefense(baseStats.Def, EVs.Def, IVs.Def, level, tempNature),
+        SpAtk: this.setSpAttack(baseStats.SpAtk, EVs.SpAtk, IVs.SpAtk, level, tempNature),
+        SpDef: this.setSpDefense(baseStats.SpDef, EVs.SpDef, IVs.SpDef, level, tempNature),
+        Spd: this.setSpeed(baseStats.Spd, EVs.Spd, IVs.Spd, level, tempNature)
     };
 
     return statTotals;
 }
 
 //does gen 3 calculation for now
-function setHealth(baseHealth, EVHealth, IVHealth, level, nature) {
+ setHealth(baseHealth, EVHealth, IVHealth, level, nature) {
     let HP = ((2 * baseHealth + IVHealth + Math.floor(EVHealth / 4)) * level);
     HP = Math.floor(HP / 100);
     HP = HP + level + 10;
     return HP;
 }
 
-function setAttack(baseAttack, EVAttack, IVAttack, level, nature) {
+ setAttack(baseAttack, EVAttack, IVAttack, level, nature) {
     let Attack = ((2 * baseAttack + IVAttack + Math.floor(EVAttack / 4)) * level);
     Attack = Math.floor(Attack / 100);
     Attack = Attack + 5;
@@ -63,7 +42,7 @@ function setAttack(baseAttack, EVAttack, IVAttack, level, nature) {
     return Attack;
 }
 
-function setDefense(baseDefense, EVDefense, IVDefense, level, nature) {
+ setDefense(baseDefense, EVDefense, IVDefense, level, nature) {
     let Defense = ((2 * baseDefense + IVDefense + Math.floor(EVDefense / 4)) * level);
     Defense = Math.floor(Defense / 100);
     Defense = Defense + 5;
@@ -80,7 +59,7 @@ function setDefense(baseDefense, EVDefense, IVDefense, level, nature) {
     return Defense;
 }
 
-function setSpAttack(baseSpAttack, EVSpAttack, IVSpAttack, level, nature) {
+ setSpAttack(baseSpAttack, EVSpAttack, IVSpAttack, level, nature) {
     let SpAttack = ((2 * baseSpAttack + IVSpAttack + Math.floor(EVSpAttack / 4)) * level);
     SpAttack = Math.floor(SpAttack / 100);
     SpAttack = SpAttack + 5;
@@ -97,7 +76,7 @@ function setSpAttack(baseSpAttack, EVSpAttack, IVSpAttack, level, nature) {
     return SpAttack;
 }
 
-function setSpDefense(baseSpDefense, EVSpDefense, IVSpDefense, level, nature) {
+ setSpDefense(baseSpDefense, EVSpDefense, IVSpDefense, level, nature) {
     let SpDefense = ((2 * baseSpDefense + IVSpDefense + Math.floor(EVSpDefense / 4)) * level);
     SpDefense = Math.floor(SpDefense / 100);
     SpDefense = SpDefense + 5;
@@ -114,7 +93,7 @@ function setSpDefense(baseSpDefense, EVSpDefense, IVSpDefense, level, nature) {
     return SpDefense;
 }
 
-function setSpeed(baseSpeed, EVSpeed, IVSpeed, level, nature) {
+ setSpeed(baseSpeed, EVSpeed, IVSpeed, level, nature) {
     let Speed = ((2 * baseSpeed + IVSpeed + Math.floor(EVSpeed / 4)) * level);
     Speed = Math.floor(Speed / 100);
     Speed = Speed + 5;
@@ -130,3 +109,6 @@ function setSpeed(baseSpeed, EVSpeed, IVSpeed, level, nature) {
     Speed = Math.floor(Speed * multiplier);
     return Speed;
 }
+}
+
+export default StatCalculator;
