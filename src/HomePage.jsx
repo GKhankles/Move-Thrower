@@ -49,7 +49,7 @@ export class HomePage extends React.Component {
 	sampleFetch() {
 		fetch('https://pokeapi.co/api/v2/pokemon/bulbasaur')
 		.then(response => response.json())
-		.then(bulbasaur => console.log(bulbasaur));
+		.then(pokemon => console.log(pokemon));
 	}
 
     render () {
