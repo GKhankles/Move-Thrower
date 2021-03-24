@@ -102,6 +102,35 @@ const elemental_types = {
     Fairy: 18
   };
 
+const elemental_types = {
+    Normal: 1,
+    Fire: 2,
+    Water: 3,
+    Electric: 4,
+    Grass: 5,
+    Ice: 6,
+    Fight: 7,
+    Poison: 8,
+    Ground: 9,
+    Flying: 10,
+    Psychic: 11,
+    Big: 12,
+    Rock: 13,
+    Ghost: 14,
+    Dragon: 15,
+    Dark: 16,
+    Steel: 17,
+    Fairy: 18
+};
+
+const physical_types = [elemental_types.Normal, elemental_types.Fighting, 
+    elemental_types.Flying, elemental_types.Poison, elemental_types.Ground, 
+    elemental_types.Rock, elemental_types.Bug, elemental_types.Ghost, elemental_types.Steel]
+
+const speical_types = [elemental_types.Fire, elemental_types.Water, 
+    elemental_types.Grass, elemental_types.Electric, elemental_types.Psychic, 
+    elemental_types.Ice, elemental_types.Dragon, elemental_types.Dark, elemental_types.Fairy,]
+
 const weather_types = {
     Clear: 1,
     Harsh_Sunlight: 2,
@@ -134,6 +163,9 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
     let Ability_mod = 1
     let Item_mod = 1
 
+    max_damage = 0
+    min_damage = 0
+
     //Ready to be tested
     if (generation == 1){
         let max_level = 2*AtkPokemon.level
@@ -147,7 +179,7 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         //Chooses correct a and d based on type of move
         let a = 0
         let d = 0
-        if (move.type <= 9){
+        if (physical_types.indexOf(move.type) > -1) {
             a = AtkPokemon.attack
             d = DefPokemon.defense
         } else {
@@ -163,8 +195,8 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         //Skipped type for now
         let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
         let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
-        let max_damage = (((2*max_level/5 + 2)*power*a/d)/50 + 2)*max_modifier
-        let min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier
+        max_damage = (((2*max_level/5 + 2)*power*a/d)/50 + 2)*max_modifier
+        min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier
     }
 
     if (generation == 2){
@@ -177,7 +209,8 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         //Chooses correct a and d based on type of move
         let a = 0
         let d = 0
-        if (move.type <= 9){
+        
+        if (physical_types.indexOf(move.type) > -1) {
             a = AtkPokemon.attack
             d = DefPokemon.defense
         } else {
@@ -201,21 +234,22 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
     }
 
     if (generation == 3){
-
-        max_rand_mod = 1
-        min_rand_mod = 0.85
+        let level = AtkPokemon.level
+        let power = move.power
         
         //Chooses correct a and d based on type of move
         let a = 0
         let d = 0
-        if (move.type <= 9){
+
+        if (physical_types.indexOf(move.type) > -1) {
             a = AtkPokemon.attack
             d = DefPokemon.defense
         } else {
             a = AtkPokemon.special_attack
             d = DefPokemon.special_defense
         }
-        
+    
+        //Calculating Modifier Components
         // Weather
         if (stage_cond.weather == weather_types.Harsh_Sunlight && move.type == elemental_types.Fire){
             Weather_mod = 1.5
@@ -230,9 +264,23 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
             Weather_mod = 0.5
         }
 
-
-        let max_damage = (((2*max_level/5 + 2)*power*a/d)/50 + 2)*max_modifier
-        let min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier
+        //Randomness
+        let max_rand_mod = 1
+        let min_rand_mod = 0.85
+        //STAB
+        if (move.type.in(AtkPokemon.type)){
+            Stab_mod = 1.5
+        }
+        //Type effects (fix later) (check if second type is actual a thing)
+        //This assumes move array has two vals, and second is null if pokemon only has one type
+        Type_mod = gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[0]]
+        Type_mod *= DefPokemon.type[1] == null ? 1 : gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[1]]
+        
+        let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
+        let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
+        
+        max_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*max_modifier
+        min_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*min_modifier
     }
 
     if (generation == 4){
