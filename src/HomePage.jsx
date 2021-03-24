@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { Redirect } from 'react-router-dom';
 import SignIn from './SignIn.jsx';
+import Pokemon from './Pokemon.jsx';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
@@ -44,6 +45,18 @@ export class HomePage extends React.Component {
         });*/
     }
 
+	//May have to change to George's CSV file with all pokemon later
+    readPokemonFromFile(fileName) {
+        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
+    }
+
+    getPokemonHelper(text) {
+        let pokemonNames = [];
+        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
+        console.log(pokemonNames);
+        return pokemonNames;
+    }
+
     render () {
         return (
 			<div className = "App" style={{fontSize: 25}}>
@@ -55,29 +68,7 @@ export class HomePage extends React.Component {
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
-						{/* We should find a better way to space these things 
-							besides using 7 br elements in a row, doesn't necessarily have to be
-							done for this iteration*/}
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<b>Level:</b>
-						<br/>
-						<b>HP: </b>
-						<br/>
-						<b>ATK: </b>
-						<br/>
-						<b>DEF: </b>
-						<br/>
-						<b>SP ATK: </b>
-						<br/>
-						<b>SP DEF: </b>
-						<br/>
-						<b>SPD: </b>
+						<Pokemon />
 					</div>
 					<div className="App-body">
 						<br/>
@@ -106,27 +97,7 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<b>Level:</b>
-						
-						<br/>
-						<b>HP: </b>
-						<br/>
-						<b>ATK: </b>
-						<br/>
-						<b>DEF: </b>
-						<br/>
-						<b>SP ATK: </b>
-						<br/>
-						<b>SP DEF: </b>
-						<br/>
-						<b>SPD: </b>
+						<Pokemon />
 					</div>
 				</div>
 				<div className="App-body" style={{display:"flex"}}>
