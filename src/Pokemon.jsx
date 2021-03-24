@@ -39,8 +39,7 @@ export class Pokemon extends React.Component {
 			evInfo: emptyStats,
 			totalStats: emptyStats,
 			level: 0,
-			nature: "Hardy", //Should probably set to a neutral nature for now,
-			pokemonList: []
+			nature: "Hardy" //Should probably set to a neutral nature for now,
         };
     }
 
@@ -180,6 +179,9 @@ export class Pokemon extends React.Component {
 
     render() {
 		let tempList = ["Pikachu", "Squirtle", "Caterpie"];
+
+		//Will have to fix this for later
+		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} /> : null;
 		let hpAdvanced = this.props.isAdvanced ? <div className="advancedHP">
 							
 						</div>: null;
@@ -189,7 +191,7 @@ export class Pokemon extends React.Component {
                 		{/* Image will eventually replace the 7 br here, and styling needs to be done
 							for all of the stats below. Not sure if possible, but can try to shorten up
 							the level input bar?*/}
-						<Dropdown names={this.props.pokemonList}/>
+						{dropDownMenu}
 						<br/>
 						<br/>
 						<br/>
