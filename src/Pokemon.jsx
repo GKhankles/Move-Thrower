@@ -50,11 +50,24 @@ export class Pokemon extends React.Component {
 		//Call the PokeAPI here to update pokemon info
 	}
 
+	//Updates the pokemons level, limit from 0-100
 	updatePkmnLevel(event) {
-		let level = event.target.value;
-		if (level >= 100) {
-			level = 100;
+		let nature = this.state.nature;
+		let ivInfo = this.state.ivInfo;
+		let baseStats = this.state.baseStats;
+		let evInfo = this.state.evInfo;
+		let tempLevel = event.target.value;
+		if (tempLevel >= 100) {
+			tempLevel = 100;
+		} else if (tempLevel < 0) {
+			tempLevel = 0;
 		}
+
+		this.setState({
+			level: tempLevel
+		});
+
+		this.statCalculator.getStatTotals(baseStats, evInfo, ivInfo, tempLevel, nature);
 	}
 
 	//Takes in event value as well as the stat it is to update PkmnEV value
