@@ -3,6 +3,8 @@ import React from 'react';
 export class Dropdown extends React.Component {
     constructor(props) {
         super(props);
+		this.onOptionChange = this.onOptionChange.bind(this);
+		this.getOptionList = this.getOptionList.bind(this);
 
         this.state = {
             uid: ""
@@ -45,5 +47,6 @@ export class Dropdown extends React.Component {
             </select>
         );
     }
-
 }
+
+export default Dropdown;

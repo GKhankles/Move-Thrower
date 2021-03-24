@@ -1,6 +1,7 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Switch, Link, Redirect} from "react-router-dom";
 import HomePage from './HomePage.jsx';
+import signInPage from './SignIn.jsx';
 
 function App() {
   return (
@@ -8,7 +9,6 @@ function App() {
       <Router>
           <Switch>
             <Route exact path = "/" component = {HomePage}/>
-            <Route path = "/Move-Thrower" component = {HomePage}/>
           </Switch>
       </Router>
     </div>
