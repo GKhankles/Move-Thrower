@@ -22,7 +22,7 @@ export class Dropdown extends React.Component {
         let optionsList = [];
         names.forEach(element => (
             optionsList.push(
-                <option name={element}>{element}</option>
+                <option name={element} key={element}>{element}</option>
             )
         ));
         return optionsList;
