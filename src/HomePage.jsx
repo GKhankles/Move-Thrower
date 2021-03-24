@@ -43,7 +43,14 @@ export class HomePage extends React.Component {
 				hasUpdated: true
 			});
         });*/
+		this.sampleFetch();
     }
+
+	sampleFetch() {
+		fetch('https://pokeapi.co/api/v2/pokemon/bulbasaur')
+		.then(response => response.json())
+		.then(bulbasaur => console.log(bulbasaur));
+	}
 
     render () {
 		console.log("Pokemon List: ", this.state.pokemonList);
