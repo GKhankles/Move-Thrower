@@ -1,32 +1,24 @@
 import React from 'react';
 import './App.css';
 import { Redirect } from 'react-router-dom';
+import SignIn from './SignIn.jsx';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
 export class HomePage extends React.Component {
     constructor (props) {
         super(props);
-        /*this.updateMenuItem = this.updateMenuItem.bind(this);
 
-		let userInfo = this.props.location.state;
-        this.state = {
-			hasUpdated: false,
-            uid: userInfo.uid,
-            email: userInfo.email,
-            phone: userInfo.phone,
-            address: userInfo.address,
-            type: userInfo.type,
-            paymentType: userInfo.paymentType,
-            fireBaseInitialized: userInfo.fireBaseInitialized,
-            isSignOut: false,
-            cart: (userInfo.cart||[]),
-            menu: [],
-            cart: (this.props.cart||[])
-        };*/
+		this.state = {
+		
+		};
     }
     
-    //When AdminMenu is first called, retrieves menu info from the backend
+    /*The Idea here is that since our website is technically only one page, there is nearly 
+	* no way that we can encounter the error that we were getting with Badger-Bytes. I think
+	* the only situation that could cause us to call more than once would be when the user needs
+	* to reset their password.
+	*/
     componentDidMount() {
         /*let fbMenu = [];
         //call firebase here for menu info
@@ -57,10 +49,15 @@ export class HomePage extends React.Component {
 			<div className = "App" style={{fontSize: 25}}>
 				<header className="App-header">
 					<h1>Pokemon Move Thrower!</h1>
+					{/*We also need a way to make this horizontal instead of vertical*/}
+					<SignIn />
 				</header>
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
+						{/* We should find a better way to space these things 
+							besides using 7 br elements in a row, doesn't necessarily have to be
+							done for this iteration*/}
 						<br/>
 						<br/>
 						<br/>
@@ -69,7 +66,6 @@ export class HomePage extends React.Component {
 						<br/>
 						<br/>
 						<b>Level:</b>
-						
 						<br/>
 						<b>HP: </b>
 						<br/>

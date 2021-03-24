@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-mid {
   color: white;
   display: table;
@@ -91,22 +80,4 @@ body {
 
 .App-link {
   color: #61dafb;
-}
-
-.menuItem {
-  max-height:200px;
-  width: auto;
-}
-
-.cartItems {
-  padding-inline-start: 0px;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

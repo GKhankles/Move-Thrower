@@ -14,9 +14,11 @@ export class SignIn extends React.Component {
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.resetErrors = this.resetErrors.bind(this);
+		this.updateUserInfo = this.updateUserInfo.bind(this);
 
-        let fbInitialized = false
-		if (this.props.location.state) {
+        let fbInitialized = false;
+
+		if (this.props.state) {
 			fbInitialized = true;
 		}
 
@@ -174,11 +176,11 @@ export class SignIn extends React.Component {
     }
 
     render() {
-        
         let curUID = this.state.uid;
         let accountDisplay = curUID === "" ? this.signInDisplay() : this.loggedInDisplay();
         return (
             <div className = "signIn">
+				{/*Will probably have to change the formatting here too*/}
                 {this.signInDisplay()}
             </div>
         );
