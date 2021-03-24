@@ -3,12 +3,6 @@ import './App.css';
 import { Redirect } from 'react-router-dom';
 import SignIn from './SignIn.jsx';
 import Pokemon from './Pokemon.jsx';
-import Gen1Pokemon from './gen1pokemon.txt';
-import Gen2Pokemon from './gen2pokemon.txt';
-import Gen3Pokemon from './gen3pokemon.txt';
-import Gen4Pokemon from './gen4pokemon.txt';
-import Gen5Pokemon from './gen5pokemon.txt';
-import Gen6Pokemon from './gen6pokemon.txt';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
@@ -17,7 +11,7 @@ export class HomePage extends React.Component {
         super(props);
 
 		this.state = {
-		
+			pokemonList: []
 		};
     }
     
@@ -49,30 +43,10 @@ export class HomePage extends React.Component {
 				hasUpdated: true
 			});
         });*/
-		this.readPokemonFromFile(Gen3Pokemon);
-    }
-
-	//May have to change to George's CSV file with all pokemon later
-    readPokemonFromFile(fileName) {
-        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
-		//console.log("HERE");
-    }
-
-    getPokemonHelper(text) {
-        let pokemonNames = [];
-        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
-        //might need to remove below code when running on github
-		for (let i = 0; i < pokemonNames.length; i++) {
-			pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
-		}
-		//above snippet
-		this.setState({
-			pokemonList: pokemonNames
-		});
-        return pokemonNames;
     }
 
     render () {
+		console.log("Pokemon List: ", this.state.pokemonList);
         return (
 			<div className = "App" style={{fontSize: 25}}>
 				<header className="App-header">
@@ -112,7 +86,7 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon />
+						<Pokemon pokemonList={this.state.pokemonList}/>
 					</div>
 				</div>
 				<div className="App-body" style={{display:"flex"}}>

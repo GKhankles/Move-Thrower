@@ -1,6 +1,12 @@
 import React from 'react';
 import Dropdown from './Dropdown.jsx';
 import StatCalculator from './StatCalculator.js';
+import Gen1Pokemon from './gen1pokemon.txt';
+import Gen2Pokemon from './gen2pokemon.txt';
+import Gen3Pokemon from './gen3pokemon.txt';
+import Gen4Pokemon from './gen4pokemon.txt';
+import Gen5Pokemon from './gen5pokemon.txt';
+import Gen6Pokemon from './gen6pokemon.txt';
 
 export class Pokemon extends React.Component {
     constructor(props) {
@@ -33,9 +39,14 @@ export class Pokemon extends React.Component {
 			evInfo: emptyStats,
 			totalStats: emptyStats,
 			level: 0,
-			nature: "Hardy" //Should probably set to a neutral nature for now
+			nature: "Hardy", //Should probably set to a neutral nature for now,
+			pokemonList: []
         };
     }
+
+	componentDidMount() {
+		this.readPokemonFromFile(Gen3Pokemon);
+	}
 
 	//Callback function passed to Dropdown to retrieve pokemon selected from the list
 	retrievePkmnFromList(selectedPkmn) {
@@ -146,6 +157,27 @@ export class Pokemon extends React.Component {
 		this.statCalculator.getStatTotals(baseStats, evInfo, tempIvInfo, level, nature);
 	}
 
+		//May have to change to George's CSV file with all pokemon later
+    readPokemonFromFile(fileName) {
+        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
+		//console.log("HERE");
+    }
+
+    getPokemonHelper(text) {
+        let pokemonNames = [];
+        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
+        //might need to remove below code when running on github
+		for (let i = 0; i < pokemonNames.length; i++) {
+			pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
+		}
+		console.log(pokemonNames);
+		//above snippet
+		this.setState({
+			pokemonList: pokemonNames
+		});
+        return pokemonNames;
+    }
+
     render() {
 		let tempList = ["Pikachu", "Squirtle", "Caterpie"];
 		let hpAdvanced = this.props.isAdvanced ? <div className="advancedHP">
@@ -157,7 +189,7 @@ export class Pokemon extends React.Component {
                 		{/* Image will eventually replace the 7 br here, and styling needs to be done
 							for all of the stats below. Not sure if possible, but can try to shorten up
 							the level input bar?*/}
-						<Dropdown names={tempList}/>
+						<Dropdown names={this.props.pokemonList}/>
 						<br/>
 						<br/>
 						<br/>
