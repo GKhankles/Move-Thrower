@@ -2,18 +2,82 @@
   text-align: center;
 }
 
+.App-mid {
+  color: white;
+  display: table;
+  background-color: white;
+  align-items: center;
+  justify-content: center;
+  background-color: #aaf0d1;
+}
+
+.button {
+  position: relative;
+  background-color: #0AFF00;
+  border-color: black;
+  font-size: 28px;
+  color: black;
+  padding: 20px;
+  width: 200px;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.button:after {
+  content: "";
+  background: #00FFFF;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px!important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.5s
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s
+}
 
 .App-header {
-  background-color: #282c34;
+  min-width:999px;
+  color: #282c34;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
+  background-color: white;
+}
+
+.App-body {
+  min-width:333px;
+  color: #282c34;
+  display: table-cell;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+
+body {
+  background-color: #aaf0d1;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   color: white;
+  font-family: Arial;
+  text-align: center;
 }
 
 .App-link {
   color: #61dafb;
 }
-

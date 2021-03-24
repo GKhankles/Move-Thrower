@@ -1,14 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-import MoveCalculator from './MoveCalculator.jsx';
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from "react-router-dom";
+import HomePage from './HomePage.jsx';
+import signInPage from './SignIn.jsx';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <h2> Move Thrower: The Pokemon Move Calculator </h2>
-      </header>
-      <MoveCalculator/>
+      <Router>
+          <Switch>
+            <Route exact path = "/" component = {HomePage}/>
+          </Switch>
+      </Router>
     </div>
   );
 }
