@@ -69,7 +69,7 @@ export class Pokemon extends React.Component {
 				SpDef: 0,
 				Spd: 0
 			},
-			level: 0,
+			level: 1,
 			nature: "Hardy",
 			moves: [],
 			types: [],
@@ -332,7 +332,7 @@ export class Pokemon extends React.Component {
 						{pkmnImg}
 						<div className="pkmnLevel">
 							<b>Level:</b>
-							<input type="number" onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
+							<input type="number" value={this.state.level} onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
 						</div>
 						<div className="nature">
 							<b>Nature: </b>
