@@ -10,7 +10,7 @@ export class SignIn extends React.Component {
         this.sendLogIn = this.sendLogIn.bind(this);
         this.sendSignUp = this.sendSignUp.bind(this);
         this.signInDisplay = this.signInDisplay.bind(this);
-        this.loggedInDisplay = this.loggedInDisplay.bind(this);
+        //this.loggedInDisplay = this.loggedInDisplay.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.resetErrors = this.resetErrors.bind(this);

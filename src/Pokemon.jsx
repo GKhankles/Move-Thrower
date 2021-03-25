@@ -15,8 +15,9 @@ export class Pokemon extends React.Component {
 		this.updatePkmnInfo = this.updatePkmnInfo.bind(this);
 		this.retrievePkmnInfo = this.retrievePkmnInfo.bind(this);
 		this.updatePkmnEV = this.updatePkmnEV.bind(this);
-		this.updatePkmnIV = this.updatePkmnInfo.bind(this);
+		this.updatePkmnIV = this.updatePkmnIV.bind(this);
 		this.updatePkmnLevel = this.updatePkmnLevel.bind(this);
+		this.retrieveNatureFromList = this.retrieveNatureFromList.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -36,10 +37,38 @@ export class Pokemon extends React.Component {
         this.state = {
             uid: "",
 			curPkmn: "",
-			baseStats: emptyStats,
-			ivInfo: emptyStats,
-			evInfo: emptyStats,
-			totalStats: emptyStats,
+			baseStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			ivInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			evInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			totalStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
 			level: 0,
 			nature: "Hardy", //Should probably set to a neutral nature for now,
 			moves: [],
@@ -51,6 +80,13 @@ export class Pokemon extends React.Component {
 
 	componentDidMount() {
 		this.readPokemonFromFile(Gen3Pokemon);
+	}
+
+
+	retrieveNatureFromList(selectedNature) {
+		this.setState({
+			nature: selectedNature
+		});
 	}
 
 	//Callback function passed to Dropdown to retrieve pokemon selected from the list
@@ -80,7 +116,6 @@ export class Pokemon extends React.Component {
 	}
 
 	updatePkmnInfo(pkmnInfo) {
-		console.log("This is the returned object", pkmnInfo);
 		let stats = pkmnInfo.stats;
 		let newBaseStats = {
 			HP: stats[0].base_stat,
@@ -129,12 +164,9 @@ export class Pokemon extends React.Component {
 	//Takes in event value as well as the stat it is to update PkmnEV value
 	//Restricts EVs at 252 individually, with a minimum of 0. Then calls calculateStats
 	updatePkmnEV(event, statType) {
-
-		console.log("event.target.value", event.target.value);
 		let level = this.state.level;
 		let nature = this.state.nature;
 		let ivInfo = this.state.ivInfo;
-		console.log("ivInfo inside of updateev", ivInfo);
 		let baseStats = this.state.baseStats;
 		let tempEvInfo = this.state.evInfo;
 		
@@ -147,8 +179,6 @@ export class Pokemon extends React.Component {
 		} else if (!newStat) {
 			newStat = 0;
 		}
-
-		console.log(newStat);
 
 		if (statType === "HP") {
 			tempEvInfo.HP = newStat;
@@ -168,18 +198,12 @@ export class Pokemon extends React.Component {
 			evInfo: tempEvInfo
 		});
 
-		console.log("after evInfo got set in state", this.state.ivInfo);
-
-
-		console.log("print this out", tempEvInfo);
 		//Call function to update Total stats
 		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature));
 	}
 
 	//Updates the Pokemon's IVs in state and calls calculateStats
 	updatePkmnIV(event, statType) {
-		console.log("Here is the event: ", event);
-		console.log("And the statType: ", statType);
 
 		let level = this.state.level;
 		let nature = this.state.nature;
@@ -210,8 +234,6 @@ export class Pokemon extends React.Component {
 		} else if (statType === "Spd") {
 			tempIvInfo.Spd = newStat;
 		}
-
-		console.log("hI THERE", tempIvInfo);
 
 		this.setState({
 			ivInfo: tempIvInfo
@@ -245,9 +267,34 @@ export class Pokemon extends React.Component {
 		//Will have to fix this for later
 		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
-		let hpAdvanced = this.state.isAdvanced ? <div className="advancedHP">
+		let hpAdvanced = this.state.isAdvanced ? <div className="advancedStat">
 							<input type="number" onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
 							<input type="number" onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
+						</div>: null;
+
+		let atkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Atk")} onBlur={(e) => this.updatePkmnIV(e, "Atk")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Atk")} onBlur={(e) => this.updatePkmnEV(e, "Atk")} />
+						</div>: null;
+
+		let defAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Def")} onBlur={(e) => this.updatePkmnIV(e, "Def")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Def")} onBlur={(e) => this.updatePkmnEV(e, "Def")} />
+						</div>: null;
+
+		let SpAtkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "SpAtk")} onBlur={(e) => this.updatePkmnIV(e, "SpAtk")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "SpAtk")} onBlur={(e) => this.updatePkmnEV(e, "SpAtk")} />
+						</div>: null;
+
+		let SpDefAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "SpDef")} onBlur={(e) => this.updatePkmnIV(e, "SpDef")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "SpDef")} onBlur={(e) => this.updatePkmnEV(e, "SpDef")} />
+						</div>: null;
+
+		let SpdAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Spd")} onBlur={(e) => this.updatePkmnIV(e, "Spd")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Spd")} onBlur={(e) => this.updatePkmnEV(e, "Spd")} />
 						</div>: null;
 
         return (
@@ -262,29 +309,33 @@ export class Pokemon extends React.Component {
 							<b>Level:</b>
 							<input type="number" onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
 						</div>
+						<div className="nature">
+							<b>Nature: </b>
+							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
+						</div>
 						<div className="pkmnStat">
 							<b>HP: {this.state.totalStats.HP}</b>
 							{hpAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>ATK: {this.state.totalStats.Atk}</b>
-							{}
+							{atkAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>DEF: {this.state.totalStats.Def}</b>
-							{}
+							{defAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>SP ATK: {this.state.totalStats.SpAtk}</b>
-							{}
+							{SpAtkAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>SP DEF: {this.state.totalStats.SpDef}</b>
-							{}
+							{SpDefAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>SPD: {this.state.totalStats.Spd}</b>
-							{}
+							{SpdAdvanced}
 						</div>
             </div>
         );
