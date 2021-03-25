@@ -139,8 +139,8 @@ Murkrow
 Natu
 Nidoking
 Nidoqueen
-Nidoran♀
-Nidoran♂
+Nidoran-F
+Nidoran-M
 Nidorina
 Nidorino
 Ninetales
