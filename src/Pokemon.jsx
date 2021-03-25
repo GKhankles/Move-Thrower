@@ -44,7 +44,8 @@ export class Pokemon extends React.Component {
 			nature: "Hardy", //Should probably set to a neutral nature for now,
 			moves: [],
 			types: [],
-			pkmnImg: ""
+			pkmnImg: "",
+			isAdvanced: true
         };
     }
 
@@ -62,7 +63,6 @@ export class Pokemon extends React.Component {
 
 	//Called after retrievePkmnFromList is called to update pokemon stats
 	retrievePkmnInfo(pkmn) {
-		console.log("Inside of pokemon.jsx", pkmn);
 		//Call the PokeAPI here to update pokemon info
 		let pokemonName = pkmn.toLowerCase();
         let stats = [];
@@ -104,17 +104,19 @@ export class Pokemon extends React.Component {
 		this.updateTotalStats(this.statCalculator.getStatTotals(newBaseStats, this.state.evInfo, this.state.ivInfo, this.state.level, this.state.nature));
 	}
 
-	//Updates the pokemons level, limit from 0-100
+	//Updates the pokemons level, limit from 1-100
 	updatePkmnLevel(event) {
 		let nature = this.state.nature;
 		let ivInfo = this.state.ivInfo;
 		let baseStats = this.state.baseStats;
 		let evInfo = this.state.evInfo;
-		let tempLevel = event.target.value;
+		let tempLevel = parseInt(event.target.value);
 		if (tempLevel >= 100) {
 			tempLevel = 100;
-		} else if (tempLevel < 0) {
-			tempLevel = 0;
+		} else if (tempLevel <= 0) {
+			tempLevel = 1;
+		} else if (!tempLevel) {
+			tempLevel = 1;
 		}
 
 		this.setState({
@@ -127,19 +129,26 @@ export class Pokemon extends React.Component {
 	//Takes in event value as well as the stat it is to update PkmnEV value
 	//Restricts EVs at 252 individually, with a minimum of 0. Then calls calculateStats
 	updatePkmnEV(event, statType) {
+
+		console.log("event.target.value", event.target.value);
 		let level = this.state.level;
 		let nature = this.state.nature;
 		let ivInfo = this.state.ivInfo;
+		console.log("ivInfo inside of updateev", ivInfo);
 		let baseStats = this.state.baseStats;
 		let tempEvInfo = this.state.evInfo;
 		
-		let newStat = event.target.value;
+		let newStat = parseInt(event.target.value);
 
 		if(newStat >= 252) {
 			newStat = 252;
 		} else if (newStat < 0) {
 			newStat = 0;
+		} else if (!newStat) {
+			newStat = 0;
 		}
+
+		console.log(newStat);
 
 		if (statType === "HP") {
 			tempEvInfo.HP = newStat;
@@ -158,23 +167,33 @@ export class Pokemon extends React.Component {
 		this.setState({
 			evInfo: tempEvInfo
 		});
+
+		console.log("after evInfo got set in state", this.state.ivInfo);
+
+
+		console.log("print this out", tempEvInfo);
 		//Call function to update Total stats
 		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature));
 	}
 
 	//Updates the Pokemon's IVs in state and calls calculateStats
 	updatePkmnIV(event, statType) {
+		console.log("Here is the event: ", event);
+		console.log("And the statType: ", statType);
+
 		let level = this.state.level;
 		let nature = this.state.nature;
 		let evInfo = this.state.evInfo;
 		let baseStats = this.state.baseStats;
 		let tempIvInfo = this.state.ivInfo;
 		
-		let newStat = event.target.value;
+		let newStat = parseInt(event.target.value);
 
 		if(newStat >= 31) {
 			newStat = 31;
 		} else if (newStat < 0) {
+			newStat = 0;
+		} else if (!newStat) {
 			newStat = 0;
 		}
 
@@ -191,6 +210,8 @@ export class Pokemon extends React.Component {
 		} else if (statType === "Spd") {
 			tempIvInfo.Spd = newStat;
 		}
+
+		console.log("hI THERE", tempIvInfo);
 
 		this.setState({
 			ivInfo: tempIvInfo
@@ -224,9 +245,10 @@ export class Pokemon extends React.Component {
 		//Will have to fix this for later
 		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
-		let hpAdvanced = this.props.isAdvanced ? <div className="advancedHP">
-							
-						</div>: null;//TODO FINISH IMPLEMENTING THIS
+		let hpAdvanced = this.state.isAdvanced ? <div className="advancedHP">
+							<input type="number" onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
+							<input type="number" onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
+						</div>: null;
 
         return (
             <div className = "pokemon">
@@ -242,7 +264,7 @@ export class Pokemon extends React.Component {
 						</div>
 						<div className="pkmnStat">
 							<b>HP: {this.state.totalStats.HP}</b>
-							{}
+							{hpAdvanced}
 						</div>
 						<div className="pkmnStat">
 							<b>ATK: {this.state.totalStats.Atk}</b>

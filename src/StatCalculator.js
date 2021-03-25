@@ -5,6 +5,8 @@ export class StatCalculator {
 
 getStatTotals(baseStats, EVs, IVs, level, nature) {
     let tempNature = nature.toLowerCase();
+    console.log("IVs inside of stat calc", IVs);
+    console.log("EVs inside of stat calc", EVs);
     let statTotals = {
         HP: this.setHealth(baseStats.HP, EVs.HP, IVs.HP, level, tempNature),
         Atk: this.setAttack(baseStats.Atk, EVs.Atk, IVs.Atk, level, tempNature),
@@ -21,7 +23,7 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
  setHealth(baseHealth, EVHealth, IVHealth, level, nature) {
     let HP = ((2 * baseHealth + IVHealth + Math.floor(EVHealth / 4)) * level);
     HP = Math.floor(HP / 100);
-    HP = HP + parseInt(level) + 10;
+    HP = HP + level + 10;
     return HP;
 }
 
