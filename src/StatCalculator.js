@@ -21,7 +21,7 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
  setHealth(baseHealth, EVHealth, IVHealth, level, nature) {
     let HP = ((2 * baseHealth + IVHealth + Math.floor(EVHealth / 4)) * level);
     HP = Math.floor(HP / 100);
-    HP = HP + level + 10;
+    HP = HP + parseInt(level) + 10;
     return HP;
 }
 

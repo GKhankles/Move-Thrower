@@ -13,8 +13,10 @@ export class Pokemon extends React.Component {
         super(props);
 		this.retrievePkmnFromList = this.retrievePkmnFromList.bind(this);
 		this.updatePkmnInfo = this.updatePkmnInfo.bind(this);
+		this.retrievePkmnInfo = this.retrievePkmnInfo.bind(this);
 		this.updatePkmnEV = this.updatePkmnEV.bind(this);
 		this.updatePkmnIV = this.updatePkmnInfo.bind(this);
+		this.updatePkmnLevel = this.updatePkmnLevel.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -39,7 +41,10 @@ export class Pokemon extends React.Component {
 			evInfo: emptyStats,
 			totalStats: emptyStats,
 			level: 0,
-			nature: "Hardy" //Should probably set to a neutral nature for now,
+			nature: "Hardy", //Should probably set to a neutral nature for now,
+			moves: [],
+			types: [],
+			pkmnImg: ""
         };
     }
 
@@ -52,12 +57,51 @@ export class Pokemon extends React.Component {
 		this.setState({
 			curPkmn: selectedPkmn
 		});
-		this.updatePkmnInfo(selectedPkmn);
+		this.retrievePkmnInfo(selectedPkmn);
 	}
 
 	//Called after retrievePkmnFromList is called to update pokemon stats
-	updatePkmnInfo(pkmn) {
+	retrievePkmnInfo(pkmn) {
+		console.log("Inside of pokemon.jsx", pkmn);
 		//Call the PokeAPI here to update pokemon info
+		let pokemonName = pkmn.toLowerCase();
+        let stats = [];
+        let url = "https://pokeapi.co/api/v2/pokemon/" + pokemonName;
+        let pokemonInfo = {};
+        fetch(url)
+        .then(response => response.json())
+        .then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
+	}
+
+	updateTotalStats(newTotalStats) {
+		this.setState({
+			totalStats: newTotalStats
+		});
+	}
+
+	updatePkmnInfo(pkmnInfo) {
+		console.log("This is the returned object", pkmnInfo);
+		let stats = pkmnInfo.stats;
+		let newBaseStats = {
+			HP: stats[0].base_stat,
+			Atk: stats[1].base_stat,
+			SpAtk: stats[3].base_stat,
+			Def: stats[2].base_stat,
+			SpDef: stats[4].base_stat,
+			Spd: stats[5].base_stat,
+		}
+
+		let newMoves = pkmnInfo.moves;
+		let newImg = pkmnInfo.sprites.front_default;
+		let newTypes = pkmnInfo.types;
+		this.setState({
+			baseStats: newBaseStats,
+			moves: newMoves,
+			pkmnImg: newImg,
+			types: newTypes
+		});
+
+		this.updateTotalStats(this.statCalculator.getStatTotals(newBaseStats, this.state.evInfo, this.state.ivInfo, this.state.level, this.state.nature));
 	}
 
 	//Updates the pokemons level, limit from 0-100
@@ -77,7 +121,7 @@ export class Pokemon extends React.Component {
 			level: tempLevel
 		});
 
-		this.statCalculator.getStatTotals(baseStats, evInfo, ivInfo, tempLevel, nature);
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, evInfo, ivInfo, tempLevel, nature));
 	}
 
 	//Takes in event value as well as the stat it is to update PkmnEV value
@@ -115,7 +159,7 @@ export class Pokemon extends React.Component {
 			evInfo: tempEvInfo
 		});
 		//Call function to update Total stats
-		this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature);
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature));
 	}
 
 	//Updates the Pokemon's IVs in state and calls calculateStats
@@ -153,7 +197,7 @@ export class Pokemon extends React.Component {
 		});
 
 		//Call function to update Total stats
-		this.statCalculator.getStatTotals(baseStats, evInfo, tempIvInfo, level, nature);
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, evInfo, tempIvInfo, level, nature));
 	}
 
 		//May have to change to George's CSV file with all pokemon later
@@ -169,7 +213,6 @@ export class Pokemon extends React.Component {
 		for (let i = 0; i < pokemonNames.length; i++) {
 			pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
 		}
-		console.log(pokemonNames);
 		//above snippet
 		this.setState({
 			pokemonList: pokemonNames
@@ -178,13 +221,12 @@ export class Pokemon extends React.Component {
     }
 
     render() {
-		let tempList = ["Pikachu", "Squirtle", "Caterpie"];
-
 		//Will have to fix this for later
-		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} /> : null;
+		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
+		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
 		let hpAdvanced = this.props.isAdvanced ? <div className="advancedHP">
 							
-						</div>: null;
+						</div>: null;//TODO FINISH IMPLEMENTING THIS
 
         return (
             <div className = "pokemon">
@@ -193,15 +235,10 @@ export class Pokemon extends React.Component {
 							the level input bar?*/}
 						{dropDownMenu}
 						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
+						{pkmnImg}
 						<div className="pkmnLevel">
 							<b>Level:</b>
-							<input type="number" />
+							<input type="number" onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
 						</div>
 						<div className="pkmnStat">
 							<b>HP: {this.state.totalStats.HP}</b>
