@@ -140,7 +140,7 @@ export class SignIn extends React.Component {
         const logInError = logInErrorMessage !== "" ? <p>{logInErrorMessage}</p> : null;
 
         let signedIn = this.state.signedIn;
-        const signInRedirect = signedIn ? <Redirect push to={{ pathname: "/Homepage", state: { uid: this.state.uid, username: this.state.email, password: this.state.password, 
+        const signInRedirect = signedIn ? <Redirect push to={{ pathname: "/Homepage", state: { uid: this.state.uid, username: this.state.username, password: this.state.password, 
              fireBaseInitialized: this.state.fireBaseInitialized }}} /> : null;
 
         return (
@@ -163,6 +163,7 @@ export class SignIn extends React.Component {
     }
 
     //function returning the display for the logged in display
+    /*
     loggedInDisplay() {
         let displayUsername = this.state.username;
         return (
@@ -174,10 +175,11 @@ export class SignIn extends React.Component {
             </div> 
         );
     }
+    */
 
     render() {
-        let curUID = this.state.uid;
-        let accountDisplay = curUID === "" ? this.signInDisplay() : this.loggedInDisplay();
+        //let curUID = this.state.uid;
+        //let accountDisplay = curUID === "" ? this.signInDisplay() : this.loggedInDisplay();
         return (
             <div className = "signIn">
 				{/*Will probably have to change the formatting here too*/}

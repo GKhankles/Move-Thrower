@@ -11,7 +11,6 @@ export class HomePage extends React.Component {
         super(props);
 
 		this.state = {
-		
 		};
     }
     
@@ -45,19 +44,8 @@ export class HomePage extends React.Component {
         });*/
     }
 
-	//May have to change to George's CSV file with all pokemon later
-    readPokemonFromFile(fileName) {
-        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
-    }
-
-    getPokemonHelper(text) {
-        let pokemonNames = [];
-        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
-        console.log(pokemonNames);
-        return pokemonNames;
-    }
-
     render () {
+		console.log("Pokemon List: ", this.state.pokemonList);
         return (
 			<div className = "App" style={{fontSize: 25}}>
 				<header className="App-header">
@@ -97,7 +85,7 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon />
+						<Pokemon pokemonList={this.state.pokemonList}/>
 					</div>
 				</div>
 				<div className="App-body" style={{display:"flex"}}>

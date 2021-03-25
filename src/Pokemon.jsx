@@ -1,14 +1,22 @@
 import React from 'react';
 import Dropdown from './Dropdown.jsx';
 import StatCalculator from './StatCalculator.js';
+import Gen1Pokemon from './gen1pokemon.txt';
+import Gen2Pokemon from './gen2pokemon.txt';
+import Gen3Pokemon from './gen3pokemon.txt';
+import Gen4Pokemon from './gen4pokemon.txt';
+import Gen5Pokemon from './gen5pokemon.txt';
+import Gen6Pokemon from './gen6pokemon.txt';
 
 export class Pokemon extends React.Component {
     constructor(props) {
         super(props);
 		this.retrievePkmnFromList = this.retrievePkmnFromList.bind(this);
 		this.updatePkmnInfo = this.updatePkmnInfo.bind(this);
+		this.retrievePkmnInfo = this.retrievePkmnInfo.bind(this);
 		this.updatePkmnEV = this.updatePkmnEV.bind(this);
 		this.updatePkmnIV = this.updatePkmnInfo.bind(this);
+		this.updatePkmnLevel = this.updatePkmnLevel.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -33,28 +41,87 @@ export class Pokemon extends React.Component {
 			evInfo: emptyStats,
 			totalStats: emptyStats,
 			level: 0,
-			nature: "Hardy" //Should probably set to a neutral nature for now
+			nature: "Hardy", //Should probably set to a neutral nature for now,
+			moves: [],
+			types: [],
+			pkmnImg: ""
         };
     }
+
+	componentDidMount() {
+		this.readPokemonFromFile(Gen3Pokemon);
+	}
 
 	//Callback function passed to Dropdown to retrieve pokemon selected from the list
 	retrievePkmnFromList(selectedPkmn) {
 		this.setState({
 			curPkmn: selectedPkmn
 		});
-		this.updatePkmnInfo(selectedPkmn);
+		this.retrievePkmnInfo(selectedPkmn);
 	}
 
 	//Called after retrievePkmnFromList is called to update pokemon stats
-	updatePkmnInfo(pkmn) {
+	retrievePkmnInfo(pkmn) {
+		console.log("Inside of pokemon.jsx", pkmn);
 		//Call the PokeAPI here to update pokemon info
+		let pokemonName = pkmn.toLowerCase();
+        let stats = [];
+        let url = "https://pokeapi.co/api/v2/pokemon/" + pokemonName;
+        let pokemonInfo = {};
+        fetch(url)
+        .then(response => response.json())
+        .then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
 	}
 
-	updatePkmnLevel(event) {
-		let level = event.target.value;
-		if (level >= 100) {
-			level = 100;
+	updateTotalStats(newTotalStats) {
+		this.setState({
+			totalStats: newTotalStats
+		});
+	}
+
+	updatePkmnInfo(pkmnInfo) {
+		console.log("This is the returned object", pkmnInfo);
+		let stats = pkmnInfo.stats;
+		let newBaseStats = {
+			HP: stats[0].base_stat,
+			Atk: stats[1].base_stat,
+			SpAtk: stats[3].base_stat,
+			Def: stats[2].base_stat,
+			SpDef: stats[4].base_stat,
+			Spd: stats[5].base_stat,
 		}
+
+		let newMoves = pkmnInfo.moves;
+		let newImg = pkmnInfo.sprites.front_default;
+		let newTypes = pkmnInfo.types;
+		this.setState({
+			baseStats: newBaseStats,
+			moves: newMoves,
+			pkmnImg: newImg,
+			types: newTypes
+		});
+
+		this.updateTotalStats(this.statCalculator.getStatTotals(newBaseStats, this.state.evInfo, this.state.ivInfo, this.state.level, this.state.nature));
+	}
+
+	//Updates the pokemons level, limit from 0-100
+	updatePkmnLevel(event) {
+		let nature = this.state.nature;
+		let ivInfo = this.state.ivInfo;
+		let baseStats = this.state.baseStats;
+		let evInfo = this.state.evInfo;
+		let tempLevel = event.target.value;
+		if (tempLevel >= 100) {
+			tempLevel = 100;
+		} else if (tempLevel < 0) {
+			tempLevel = 0;
+		}
+
+		this.setState({
+			level: tempLevel
+		});
+
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, evInfo, ivInfo, tempLevel, nature));
 	}
 
 	//Takes in event value as well as the stat it is to update PkmnEV value
@@ -92,7 +159,7 @@ export class Pokemon extends React.Component {
 			evInfo: tempEvInfo
 		});
 		//Call function to update Total stats
-		this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature);
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, tempEvInfo, ivInfo, level, nature));
 	}
 
 	//Updates the Pokemon's IVs in state and calls calculateStats
@@ -130,31 +197,48 @@ export class Pokemon extends React.Component {
 		});
 
 		//Call function to update Total stats
-		this.statCalculator.getStatTotals(baseStats, evInfo, tempIvInfo, level, nature);
+		this.updateTotalStats(this.statCalculator.getStatTotals(baseStats, evInfo, tempIvInfo, level, nature));
 	}
 
+		//May have to change to George's CSV file with all pokemon later
+    readPokemonFromFile(fileName) {
+        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
+		//console.log("HERE");
+    }
+
+    getPokemonHelper(text) {
+        let pokemonNames = [];
+        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
+        //might need to remove below code when running on github
+		for (let i = 0; i < pokemonNames.length; i++) {
+			pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
+		}
+		//above snippet
+		this.setState({
+			pokemonList: pokemonNames
+		});
+        return pokemonNames;
+    }
+
     render() {
-		let tempList = ["Pikachu", "Squirtle", "Caterpie"];
+		//Will have to fix this for later
+		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
+		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
 		let hpAdvanced = this.props.isAdvanced ? <div className="advancedHP">
 							
-						</div>: null;
+						</div>: null;//TODO FINISH IMPLEMENTING THIS
 
         return (
             <div className = "pokemon">
                 		{/* Image will eventually replace the 7 br here, and styling needs to be done
 							for all of the stats below. Not sure if possible, but can try to shorten up
 							the level input bar?*/}
-						<Dropdown names={tempList}/>
+						{dropDownMenu}
 						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
+						{pkmnImg}
 						<div className="pkmnLevel">
 							<b>Level:</b>
-							<input type="number" />
+							<input type="number" onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
 						</div>
 						<div className="pkmnStat">
 							<b>HP: {this.state.totalStats.HP}</b>
