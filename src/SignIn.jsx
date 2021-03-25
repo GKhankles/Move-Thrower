@@ -70,13 +70,15 @@ export class SignIn extends React.Component {
                 // Signed in
                 var user = userCredential.user;
                 let userInfo;
+                console.log(this.state.signedIn);
+                console.log(user.uid);
                 firebase.database().ref('users/' + user.uid).once('value', (snap)=>{
                     userInfo = snap.val();
-                    this.setState({
-                        signedIn: true,
-                        uid: user.uid,
-                        preference: user.preference
-                    });
+                });
+                this.setState({
+                    signedIn: true,
+                    uid: user.uid,
+                    preference: ""
                 });
                 
             }).catch((error) => {
@@ -100,6 +102,7 @@ export class SignIn extends React.Component {
                 var database = firebase.database();
                 firebase.database().ref('users/' + user.uid).set({
                     username: this.state.username,
+
                 });
                 this.setState({
                     signedIn: true,
@@ -139,8 +142,8 @@ export class SignIn extends React.Component {
         let logInErrorMessage = this.state.logInError;
         const logInError = logInErrorMessage !== "" ? <p>{logInErrorMessage}</p> : null;
 
-        let signedIn = this.state.signedIn;
-        const signInRedirect = signedIn ? <Redirect push to={{ pathname: "/Homepage", state: { uid: this.state.uid, username: this.state.username, password: this.state.password, 
+        let signIn = this.state.signedIn;
+        const signInRedirect = signIn ? <Redirect push to={{ pathname: "/", state: { uid: this.state.uid, username: this.state.username, password: this.state.password, 
              fireBaseInitialized: this.state.fireBaseInitialized }}} /> : null;
 
         return (
