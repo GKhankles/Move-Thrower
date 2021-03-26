@@ -1,23 +1,28 @@
 {
   "files": {
-    "main.css": "/move-thrower/static/css/main.1635e87c.chunk.css",
-    "main.js": "/move-thrower/static/js/main.bc3f2840.chunk.js",
-    "main.js.map": "/move-thrower/static/js/main.bc3f2840.chunk.js.map",
-    "runtime-main.js": "/move-thrower/static/js/runtime-main.a9a8f6cd.js",
-    "runtime-main.js.map": "/move-thrower/static/js/runtime-main.a9a8f6cd.js.map",
-    "static/js/2.2e33a137.chunk.js": "/move-thrower/static/js/2.2e33a137.chunk.js",
-    "static/js/2.2e33a137.chunk.js.map": "/move-thrower/static/js/2.2e33a137.chunk.js.map",
-    "static/js/3.b340d5ad.chunk.js": "/move-thrower/static/js/3.b340d5ad.chunk.js",
-    "static/js/3.b340d5ad.chunk.js.map": "/move-thrower/static/js/3.b340d5ad.chunk.js.map",
+    "main.css": "/move-thrower/static/css/main.f465e427.chunk.css",
+    "main.js": "/move-thrower/static/js/main.21c598ec.chunk.js",
+    "main.js.map": "/move-thrower/static/js/main.21c598ec.chunk.js.map",
+    "runtime-main.js": "/move-thrower/static/js/runtime-main.736bee53.js",
+    "runtime-main.js.map": "/move-thrower/static/js/runtime-main.736bee53.js.map",
+    "static/js/2.4f5036b1.chunk.js": "/move-thrower/static/js/2.4f5036b1.chunk.js",
+    "static/js/2.4f5036b1.chunk.js.map": "/move-thrower/static/js/2.4f5036b1.chunk.js.map",
+    "static/js/3.480590d1.chunk.js": "/move-thrower/static/js/3.480590d1.chunk.js",
+    "static/js/3.480590d1.chunk.js.map": "/move-thrower/static/js/3.480590d1.chunk.js.map",
     "index.html": "/move-thrower/index.html",
-    "static/css/main.1635e87c.chunk.css.map": "/move-thrower/static/css/main.1635e87c.chunk.css.map",
-    "static/js/2.2e33a137.chunk.js.LICENSE.txt": "/move-thrower/static/js/2.2e33a137.chunk.js.LICENSE.txt",
-    "static/media/logo.6ce24c58.svg": "/move-thrower/static/media/logo.6ce24c58.svg"
+    "static/css/main.f465e427.chunk.css.map": "/move-thrower/static/css/main.f465e427.chunk.css.map",
+    "static/js/2.4f5036b1.chunk.js.LICENSE.txt": "/move-thrower/static/js/2.4f5036b1.chunk.js.LICENSE.txt",
+    "static/media/gen1pokemon.txt": "/move-thrower/static/media/gen1pokemon.1c2ec203.txt",
+    "static/media/gen2pokemon.txt": "/move-thrower/static/media/gen2pokemon.58a26446.txt",
+    "static/media/gen3pokemon.txt": "/move-thrower/static/media/gen3pokemon.7050a959.txt",
+    "static/media/gen4pokemon.txt": "/move-thrower/static/media/gen4pokemon.3d7f8072.txt",
+    "static/media/gen5pokemon.txt": "/move-thrower/static/media/gen5pokemon.fad19f53.txt",
+    "static/media/gen6pokemon.txt": "/move-thrower/static/media/gen6pokemon.4e3d98d5.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.a9a8f6cd.js",
-    "static/js/2.2e33a137.chunk.js",
-    "static/css/main.1635e87c.chunk.css",
-    "static/js/main.bc3f2840.chunk.js"
+    "static/js/runtime-main.736bee53.js",
+    "static/js/2.4f5036b1.chunk.js",
+    "static/css/main.f465e427.chunk.css",
+    "static/js/main.21c598ec.chunk.js"
   ]
 }
