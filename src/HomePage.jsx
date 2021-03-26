@@ -3,14 +3,23 @@ import './App.css';
 import { Redirect } from 'react-router-dom';
 import SignIn from './SignIn.jsx';
 import Pokemon from './Pokemon.jsx';
+import moveCalculator from './moveCalculator.js';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
 export class HomePage extends React.Component {
     constructor (props) {
         super(props);
+		this.retrieveAtkPokemonInfo = this.retrieveAtkPokemonInfo.bind(this);
+		this.retrieveDefPokemonInfo = this.retrieveDefPokemonInfo.bind(this);
+		this.calculateMoves = this.calculateMoves.bind(this);
+
+		this.moveCalculator = new moveCalculator();
 
 		this.state = {
+			atkPkmnInfo: {},
+			defPkmnInfo: {},
+			isAdvanced: false,
 		};
     }
     
@@ -44,19 +53,42 @@ export class HomePage extends React.Component {
         });*/
     }
 
+	//Callback function sent to the Attacking Pokemon component to retrieve pokemon info
+	retrieveAtkPokemonInfo(pkmnInfo) {
+		this.setState({
+			atkPkmnInfo: {...pkmnInfo}
+		});
+	}
+
+	//Callback function sent to Defending Pokemon component to retrieve pokemon info
+	retrieveDefPokemonInfo(pkmnInfo) {
+		this.setState({
+			defPkmnInfo: {...pkmnInfo}
+		});
+	}
+	
+	//Returns a list of the best possible moves that can be used
+	calculateMoves(event) {
+		
+	}
+
     render () {
-		console.log("Pokemon List: ", this.state.pokemonList);
         return (
 			<div className = "App" style={{fontSize: 25}}>
-				<header className="App-header">
-					<h1>Pokemon Move Thrower!</h1>
-					{/*We also need a way to make this horizontal instead of vertical*/}
-					<SignIn />
-				</header>
+				<div className="App-hcontainer">
+					<header className="App-header">
+						<h1>Pokemon Move Thrower!</h1>
+						{/*We also need a way to make this horizontal instead of vertical
+							Reset Settings and Switch Roles Buttons will be implemented in Iteration 2*/}
+					</header>
+					<div className="App-login">
+						<SignIn />
+					</div>
+				</div>
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
-						<Pokemon />
+						<Pokemon getPkmnInfo={this.retrieveAtkPokemonInfo}/>
 					</div>
 					<div className="App-body">
 						<br/>
@@ -65,7 +97,7 @@ export class HomePage extends React.Component {
 						<br/>
 						<br/>
 						<br/>
-						<button className="button">CALCULATE</button>
+						<button className="button" onClick={this.calculateMoves} >CALCULATE</button>
 						<br/>
 						<br/>
 						<b>Advanced Options</b>
@@ -85,10 +117,10 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon pokemonList={this.state.pokemonList}/>
+						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
-				<div className="App-body" style={{display:"flex"}}>
+				<div className="App-body" style={{display:"flex", minWidth: "100%"}}>
 					<b>final listings</b>
 				</div>
 			</div>

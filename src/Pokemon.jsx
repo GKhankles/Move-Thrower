@@ -69,8 +69,8 @@ export class Pokemon extends React.Component {
 				SpDef: 0,
 				Spd: 0
 			},
-			level: 0,
-			nature: "Hardy", //Should probably set to a neutral nature for now,
+			level: 1,
+			nature: "Hardy",
 			moves: [],
 			types: [],
 			pkmnImg: "",
@@ -82,11 +82,12 @@ export class Pokemon extends React.Component {
 		this.readPokemonFromFile(Gen3Pokemon);
 	}
 
-
+	//Retrieve the nature from the nature list
 	retrieveNatureFromList(selectedNature) {
 		this.setState({
 			nature: selectedNature
 		});
+		this.updateTotalStats(this.statCalculator.getStatTotals(this.state.baseStats, this.state.evInfo, this.state.ivInfo, this.state.level, selectedNature));
 	}
 
 	//Callback function passed to Dropdown to retrieve pokemon selected from the list
@@ -113,6 +114,8 @@ export class Pokemon extends React.Component {
 		this.setState({
 			totalStats: newTotalStats
 		});
+
+		this.props.getPkmnInfo(this.state);
 	}
 
 	updatePkmnInfo(pkmnInfo) {
@@ -128,7 +131,29 @@ export class Pokemon extends React.Component {
 
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
-		let newTypes = pkmnInfo.types;
+		let newTypes = [];
+        let genNumber = 3; //make this not hardcoded for iteration 2+
+
+        if (pkmnInfo.past_types.length === 1) {
+            if (genNumber === 1) {
+                for (let i = 0; i < pkmnInfo.past_types[0].types.length; i++) {
+                    newTypes.push(pkmnInfo.past_types[0].types[i].type.name);
+                }
+            } else if (genNumber >= 2 && genNumber <= 5 && pkmnInfo.past_types[0].generation.name === "generation-v") {
+                for (let i = 0; i < pkmnInfo.past_types[0].types.length; i++) {
+                    newTypes.push(pkmnInfo.past_types[0].types[i].type.name)
+                }
+            } else {
+                for (let i = 0; i < pkmnInfo.types.length; i++) {
+                    newTypes.push(pkmnInfo.types[i].type.name);
+                }
+            }
+        } else {
+            for (let i = 0; i < pkmnInfo.types.length; i++) {
+                newTypes.push(pkmnInfo.types[i].type.name);
+            }
+        }
+
 		this.setState({
 			baseStats: newBaseStats,
 			moves: newMoves,
@@ -265,36 +290,40 @@ export class Pokemon extends React.Component {
 
     render() {
 		//Will have to fix this for later
+		let IVEV = <div className="advancedStat">
+							<b className="statText">IV</b>
+							<b className="statText">EV</b>
+						</div>;
 		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
 		let hpAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
 						</div>: null;
 
 		let atkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Atk")} onBlur={(e) => this.updatePkmnIV(e, "Atk")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Atk")} onBlur={(e) => this.updatePkmnEV(e, "Atk")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.Atk} onChange={(e) => this.updatePkmnIV(e, "Atk")} onBlur={(e) => this.updatePkmnIV(e, "Atk")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.Atk} onChange={(e) => this.updatePkmnEV(e, "Atk")} onBlur={(e) => this.updatePkmnEV(e, "Atk")} />
 						</div>: null;
 
 		let defAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Def")} onBlur={(e) => this.updatePkmnIV(e, "Def")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Def")} onBlur={(e) => this.updatePkmnEV(e, "Def")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.Def} onChange={(e) => this.updatePkmnIV(e, "Def")} onBlur={(e) => this.updatePkmnIV(e, "Def")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.Def} onChange={(e) => this.updatePkmnEV(e, "Def")} onBlur={(e) => this.updatePkmnEV(e, "Def")} />
 						</div>: null;
 
 		let SpAtkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "SpAtk")} onBlur={(e) => this.updatePkmnIV(e, "SpAtk")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "SpAtk")} onBlur={(e) => this.updatePkmnEV(e, "SpAtk")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.SpAtk} onChange={(e) => this.updatePkmnIV(e, "SpAtk")} onBlur={(e) => this.updatePkmnIV(e, "SpAtk")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.SpAtk} onChange={(e) => this.updatePkmnEV(e, "SpAtk")} onBlur={(e) => this.updatePkmnEV(e, "SpAtk")} />
 						</div>: null;
 
 		let SpDefAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "SpDef")} onBlur={(e) => this.updatePkmnIV(e, "SpDef")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "SpDef")} onBlur={(e) => this.updatePkmnEV(e, "SpDef")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.SpDef} onChange={(e) => this.updatePkmnIV(e, "SpDef")} onBlur={(e) => this.updatePkmnIV(e, "SpDef")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.SpDef} onChange={(e) => this.updatePkmnEV(e, "SpDef")} onBlur={(e) => this.updatePkmnEV(e, "SpDef")} />
 						</div>: null;
 
 		let SpdAdvanced = this.state.isAdvanced ? <div className="advancedStat">
-							<input type="number" onChange={(e) => this.updatePkmnIV(e, "Spd")} onBlur={(e) => this.updatePkmnIV(e, "Spd")} />
-							<input type="number" onChange={(e) => this.updatePkmnEV(e, "Spd")} onBlur={(e) => this.updatePkmnEV(e, "Spd")} />
+							<input className="App-textBox" type="number" value={this.state.ivInfo.Spd} onChange={(e) => this.updatePkmnIV(e, "Spd")} onBlur={(e) => this.updatePkmnIV(e, "Spd")} />
+							<input className="App-textBox" type="number" value={this.state.evInfo.Spd} onChange={(e) => this.updatePkmnEV(e, "Spd")} onBlur={(e) => this.updatePkmnEV(e, "Spd")} />
 						</div>: null;
 
         return (
@@ -307,35 +336,37 @@ export class Pokemon extends React.Component {
 						{pkmnImg}
 						<div className="pkmnLevel">
 							<b>Level:</b>
-							<input type="number" onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
+							<input type="number" value={this.state.level} onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
 						</div>
 						<div className="nature">
 							<b>Nature: </b>
 							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
 						</div>
-						<div className="pkmnStat">
-							<b>HP: {this.state.totalStats.HP}</b>
-							{hpAdvanced}
-						</div>
-						<div className="pkmnStat">
-							<b>ATK: {this.state.totalStats.Atk}</b>
-							{atkAdvanced}
-						</div>
-						<div className="pkmnStat">
-							<b>DEF: {this.state.totalStats.Def}</b>
-							{defAdvanced}
-						</div>
-						<div className="pkmnStat">
-							<b>SP ATK: {this.state.totalStats.SpAtk}</b>
-							{SpAtkAdvanced}
-						</div>
-						<div className="pkmnStat">
-							<b>SP DEF: {this.state.totalStats.SpDef}</b>
-							{SpDefAdvanced}
-						</div>
-						<div className="pkmnStat">
-							<b>SPD: {this.state.totalStats.Spd}</b>
-							{SpdAdvanced}
+						<div className="statRow">
+							<div className="statCol">
+								<b className="statText">Stats</b>
+								<br/>
+								<b className="statText">HP: {this.state.totalStats.HP}</b>
+								<br/>
+								<b className="statText">ATK: {this.state.totalStats.Atk}</b>
+								<br/>
+								<b className="statText">DEF: {this.state.totalStats.Def}</b>
+								<br/>
+								<b className="statText">SP ATK: {this.state.totalStats.SpAtk}</b>
+								<br/>
+								<b className="statText">SP DEF: {this.state.totalStats.SpDef}</b>
+								<br/>
+								<b className="statText">SPD: {this.state.totalStats.Spd}</b>
+							</div>
+							<div className="statCol">
+								{IVEV}
+								{hpAdvanced}
+								{atkAdvanced}
+								{defAdvanced}
+								{SpAtkAdvanced}
+								{SpDefAdvanced}
+								{SpdAdvanced}
+							</div>
 						</div>
             </div>
         );
