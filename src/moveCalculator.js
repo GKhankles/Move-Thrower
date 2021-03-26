@@ -112,7 +112,10 @@ export class moveCalculator {
 
 
 moveCalculator(Moves, AtkPokemon, DefPokemon, generation, weather){
-
+    Moves.forEach(move => {
+        let damage = calculateDamage(move, AtkPokemon, DefPokemon, generation, weather);
+        move_Damage.push(damage);
+    });
     /*TODO Will have to change the for(move in Moves) loop to a for each loop, not sure how else to do it
     //Array of the damage of every move. Retains the same index as the passed in Moves object
     let move_Damage = []
