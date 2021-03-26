@@ -323,7 +323,7 @@ export class Pokemon extends React.Component {
         pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
         //might need to remove below code when running on github
 		for (let i = 0; i < pokemonNames.length; i++) {
-			if (pokemonNames[i][pokemonNames[i].length - 1] < 48 || pokemonNames[i][pokemonNames[i].length - 1] > 122) {
+			if (pokemonNames[i].length > 0 && (pokemonNames[i][pokemonNames[i].length - 1] < 48 || pokemonNames[i][pokemonNames[i].length - 1] > 122)) {
 				pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
 			}
 		}
