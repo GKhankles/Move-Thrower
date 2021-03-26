@@ -3,28 +3,23 @@
 //This function calls all auxiliary functions and returns an ordered list of all moves ranked 
 //by most damage to least damage
 //TODO: Test out with array of numbers or something like that
-function moveCalculator(Moves, AtkPokemon, DefPokemon, generation, weather){
+function moveCalculator(AtkPokemon, DefPokemon, generation, weather){
     //Array of the damage of every move. Retains the same index as the passed in Moves object
     let move_Damage = []
-    for (move in Moves){
-        //Calculate Move power
+    AtkPokemon.Moves.forEach(move => {
         let damage = calculateDamage(move, AtkPokemon, DefPokemon, generation, weather)
-        move_Damage.push(damage)
-    }
+        move_Damage.push({move: move, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
+    });
 
-    //Sorted list of moves to be returned
-    let optimalMoveList = []
-    for (val in move_Damage){
-        //get index of max damage
-        let i = move_Damage.indexOf(Math.max(...move_Damage))
-        //put move with max damage into sorted list
-        optimalMoveList.push(Moves[i])
-        //remove that max damage val from move_Damage array
-        move_Damage.splice(i, 1)
-    }
+    //Sort list of moves by max_dmg key in descending order
+    let optimalMoveList = move_Damage.sort((a,b) =>  b.max_dmg-a.max_dmg)
     return optimalMoveList
 }
 
+/*
+ * Would be a good idea to make a constants file that contains the below variables, this would allow for these
+ * Constants to be accessed in other files, if we find that is needed later on
+*/
 const gen1matchups = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1],
                      [1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5],
                      [1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5],
@@ -234,7 +229,7 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
     }
 
     if (generation == 3){
-        let level = AtkPokemon.level
+        let level = AtkPokemon.baseStats.level
         let power = move.power
         
         //Chooses correct a and d based on type of move
@@ -242,25 +237,25 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         let d = 0
 
         if (physical_types.indexOf(move.type) > -1) {
-            a = AtkPokemon.attack
-            d = DefPokemon.defense
+            a = AtkPokemon.baseStats.attack
+            d = DefPokemon.baseStats.defense
         } else {
-            a = AtkPokemon.special_attack
-            d = DefPokemon.special_defense
+            a = AtkPokemon.baseStats.SpAtk
+            d = DefPokemon.baseStats.SpDef
         }
     
         //Calculating Modifier Components
         // Weather
-        if (stage_cond.weather == weather_types.Harsh_Sunlight && move.type == elemental_types.Fire){
+        if (stage_cond.weather == weather_types.Harsh_Sunlight && move.type.name == elemental_types.Fire){
             Weather_mod = 1.5
         }
-        if (stage_cond.weather == weather_types.Rain && move.type == elemental_types.Water){
+        if (stage_cond.weather == weather_types.Rain && move.type.name == elemental_types.Water){
             Weather_mod = 1.5
         }
-        if (stage_cond.weather == weather_types.Harsh_Sunlight && move.type == elemental_types.Water){
+        if (stage_cond.weather == weather_types.Harsh_Sunlight && move.type.name == elemental_types.Water){
             Weather_mod = 0.5
         }
-        if (stage_cond.weather == weather_types.Rain && move.type == elemental_types.Fire){
+        if (stage_cond.weather == weather_types.Rain && move.type.name == elemental_types.Fire){
             Weather_mod = 0.5
         }
 
@@ -268,13 +263,13 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         let max_rand_mod = 1
         let min_rand_mod = 0.85
         //STAB
-        if (move.type.in(AtkPokemon.type)){
+        if (move.type.name.in(AtkPokemon.types)){
             Stab_mod = 1.5
         }
         //Type effects (fix later) (check if second type is actual a thing)
         //This assumes move array has two vals, and second is null if pokemon only has one type
-        Type_mod = gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[0]]
-        Type_mod *= DefPokemon.type[1] == null ? 1 : gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[1]]
+        Type_mod = gen2to5matchups[move.type.name][DefPokemon.types[0]]
+        Type_mod *= DefPokemon.types[1] == null ? 1 : gen2to5matchups[move.type.name][DefPokemon.types[1]]
         
         let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
         let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
@@ -423,5 +418,5 @@ function calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stag
         }
     } 
 
-    return {min_damage, max_damage}
+    return {min_dmg:min_damage, max_dmg:max_damage}
 }
