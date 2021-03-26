@@ -1,5 +1,7 @@
 import StatCalculator from './StatCalculator.js';
+import MoveCalculator from './moveCalculator.js';
 
+let moveCalculator = new MoveCalculator();
 let statCalculator = new StatCalculator();
 
 let baseStats = {
@@ -63,9 +65,40 @@ test('Speed Calculation Test', () => {
     expect(statCalculator.getStatTotals(baseStats, EVs, IVs, level, nature).Spd).toBe(202);
 });
 
+let pokemon1 = {
+    types: ["Dragon", "Flying"],
+    totalStats: {
+        Atk: 300,
+        Def: 195,
+        SpAtk: 267,
+        SpDef: 205,
+        Spd: 202
+    }
+};
+
+let pokemon2 = {
+    types: ["Dragon", "Flying"],
+    attack: 300,
+    defense: 195,
+    special_attack: 267,
+    special_defense: 205,
+    speed: 202
+};
+
+let flamethrower = {
+    type: "Fire",
+    power: 95
+};
+
+let stage_cond = {
+    weather: 1
+};
+
+
+
 //Test Resisted Move Damage
 test('Resisted Move Damage Test', () => {
-    //do expect statement here
+    expect(moveCalculator.calculateDamage(flamethrower, pokemon1, pokemon1, 3, stage_cond)).toBe(1);
 });
 
 //Test Regularly-Effective Move Damage
@@ -76,4 +109,4 @@ test("Regularly-Effective Move Damage Test", () => {
 //Test Super Effective Move Damage
 test("Super Effective Move Damage Test", () => {
     //do expect statement here
-})
+});

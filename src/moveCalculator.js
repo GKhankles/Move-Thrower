@@ -5,6 +5,7 @@
 */
 export class moveCalculator {
     constructor () {
+        console.log("TEST!");
         this.moveCalculator = this.moveCalculator.bind(this);
 
         this.gen1matchups = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1],
@@ -62,24 +63,24 @@ export class moveCalculator {
 
         ////Currently set up so 1-9 are physical, 10+ are special ()
         this.elemental_types = {
-            Normal: 1,
-            Fire: 2,
-            Water: 3,
-            Electric: 4,
-            Grass: 5,
-            Ice: 6,
-            Fight: 7,
-            Poison: 8,
-            Ground: 9,
-            Flying: 10,
-            Psychic: 11,
-            Bug: 12,
-            Rock: 13,
-            Ghost: 14,
-            Dragon: 15,
-            Dark: 16,
-            Steel: 17,
-            Fairy: 18
+            "Normal": 0,
+            "Fire": 1,
+            "Water": 2,
+            "Electric": 3,
+            "Grass": 4,
+            "Ice": 5,
+            "Fight": 6,
+            "Poison": 7,
+            "Ground": 8,
+            "Flying": 9,
+            "Psychic": 10,
+            "Bug": 11,
+            "Rock": 12,
+            "Ghost": 13,
+            "Dragon": 14,
+            "Dark": 15,
+            "Steel": 16,
+            "Fairy": 17
 	    };
         
         this.physical_types = [this.elemental_types.Normal, this.elemental_types.Fighting, 
@@ -140,6 +141,14 @@ export class moveCalculator {
         let max_damage = 0;
         let min_damage = 0;
 
+        let typeIndex;
+        //add each type to this later
+        /*switch (move.type) {
+            case "Fire":
+                typeIndex = 1;
+                break;
+        }*/
+
         //Ready to be tested
         if (generation == 1){
             let max_level = 2*AtkPokemon.level;
@@ -154,15 +163,15 @@ export class moveCalculator {
             let a = 0;
             let d = 0;
             if (this.physical_types.indexOf(move.type) > -1) {
-                a = AtkPokemon.attack;
-                d = DefPokemon.defense;
+                a = AtkPokemon.statTotals.Atk;
+                d = DefPokemon.statTotals.Def;
             } else {
-                a = AtkPokemon.special_attack;
-                d = DefPokemon.special_defense;
+                a = AtkPokemon.statTotals.SpAtk;
+                d = DefPokemon.statTotals.SpDef;
             }
 
             //Assumes type is an arrray
-            if(move.type.in(AtkPokemon.type)){
+            if(move.type.in(AtkPokemon.types)){
                 Stab_mod = 1.5;
             }
 
@@ -216,11 +225,11 @@ export class moveCalculator {
             let d = 0
 
             if (this.physical_types.indexOf(move.type) > -1) {
-                a = AtkPokemon.baseStats.attack
-                d = DefPokemon.baseStats.defense
+                a = AtkPokemon.totalStats.attack;
+                d = DefPokemon.totalStats.defense;
             } else {
-                a = AtkPokemon.baseStats.SpAtk
-                d = DefPokemon.baseStats.SpDef
+                a = AtkPokemon.totalStats.SpAtk;
+                d = DefPokemon.totalStats.SpDef;
             }
         
             //Calculating Modifier Components
@@ -244,19 +253,24 @@ export class moveCalculator {
             //STAB
             console.log("move inside of moveCalculator", move);
             console.log("AtkPokemon.type", AtkPokemon.types);
-            if (move.type.name.in(AtkPokemon.types)){
+            if (move.type in AtkPokemon.types){ //fix this later
                 Stab_mod = 1.5
             }
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
-            Type_mod = this.gen2to5matchups[AtkPokemon.move.type.name][DefPokemon.types[0]]
-            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[AtkPokemon.move.type.name][DefPokemon.types[1]]
-            
+            Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            console.log(DefPokemon.types[0], "--first")
+            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            console.log(Type_mod, "--second")
+
             let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
             let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
+            console.log(max_modifer, "--third")
             
             max_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*max_modifier
             min_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*min_modifier
+            console.log(Type_mod);
+            console.log("max ", max_damage, " min ", min_damage)
         }
 
         if (generation == 4){
