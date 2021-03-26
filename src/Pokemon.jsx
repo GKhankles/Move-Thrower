@@ -7,6 +7,7 @@ import Gen3Pokemon from './gen3pokemon.txt';
 import Gen4Pokemon from './gen4pokemon.txt';
 import Gen5Pokemon from './gen5pokemon.txt';
 import Gen6Pokemon from './gen6pokemon.txt';
+import './global.js';
 
 export class Pokemon extends React.Component {
     constructor(props) {
@@ -297,36 +298,47 @@ export class Pokemon extends React.Component {
 						</div>;
 		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
-		let hpAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let hpAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
-						</div>: null;
+						</div>;
 
-		let atkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let atkAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.Atk} onChange={(e) => this.updatePkmnIV(e, "Atk")} onBlur={(e) => this.updatePkmnIV(e, "Atk")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.Atk} onChange={(e) => this.updatePkmnEV(e, "Atk")} onBlur={(e) => this.updatePkmnEV(e, "Atk")} />
-						</div>: null;
+						</div>;
 
-		let defAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let defAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.Def} onChange={(e) => this.updatePkmnIV(e, "Def")} onBlur={(e) => this.updatePkmnIV(e, "Def")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.Def} onChange={(e) => this.updatePkmnEV(e, "Def")} onBlur={(e) => this.updatePkmnEV(e, "Def")} />
-						</div>: null;
+						</div>;
 
-		let SpAtkAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let SpAtkAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.SpAtk} onChange={(e) => this.updatePkmnIV(e, "SpAtk")} onBlur={(e) => this.updatePkmnIV(e, "SpAtk")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.SpAtk} onChange={(e) => this.updatePkmnEV(e, "SpAtk")} onBlur={(e) => this.updatePkmnEV(e, "SpAtk")} />
-						</div>: null;
+						</div>;
 
-		let SpDefAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let SpDefAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.SpDef} onChange={(e) => this.updatePkmnIV(e, "SpDef")} onBlur={(e) => this.updatePkmnIV(e, "SpDef")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.SpDef} onChange={(e) => this.updatePkmnEV(e, "SpDef")} onBlur={(e) => this.updatePkmnEV(e, "SpDef")} />
-						</div>: null;
+						</div>;
 
-		let SpdAdvanced = this.state.isAdvanced ? <div className="advancedStat">
+		let SpdAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.Spd} onChange={(e) => this.updatePkmnIV(e, "Spd")} onBlur={(e) => this.updatePkmnIV(e, "Spd")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.Spd} onChange={(e) => this.updatePkmnEV(e, "Spd")} onBlur={(e) => this.updatePkmnEV(e, "Spd")} />
-						</div>: null;
+						</div>;
 
+		let advancedStuff = global.advancedToggle ? <div className="statCol">
+								{IVEV}
+								{hpAdvanced}
+								{atkAdvanced}
+								{defAdvanced}
+								{SpAtkAdvanced}
+								{SpDefAdvanced}
+								{SpdAdvanced}
+							</div> : null;
+
+		var styleWidth = global.advancedToggle ? "repeat(2, 1fr)" : "repeat(1, 1fr)";
         return (
             <div className = "pokemon">
                 		{/* Image will eventually replace the 7 br here, and styling needs to be done
@@ -343,7 +355,7 @@ export class Pokemon extends React.Component {
 							<b>Nature: </b>
 							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
 						</div>
-						<div className="statRow">
+						<div className="statRow" style={{gridTemplateColumns: styleWidth}}>
 							<div className="statCol">
 								<b className="statText">Stats</b>
 								<br/>
@@ -359,15 +371,7 @@ export class Pokemon extends React.Component {
 								<br/>
 								<b className="statText">SPD: {this.state.totalStats.Spd}</b>
 							</div>
-							<div className="statCol">
-								{IVEV}
-								{hpAdvanced}
-								{atkAdvanced}
-								{defAdvanced}
-								{SpAtkAdvanced}
-								{SpDefAdvanced}
-								{SpdAdvanced}
-							</div>
+							{advancedStuff}
 						</div>
             </div>
         );
