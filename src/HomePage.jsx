@@ -75,12 +75,16 @@ export class HomePage extends React.Component {
     render () {
         return (
 			<div className = "App" style={{fontSize: 25}}>
-				<header className="App-header">
-					<h1>Pokemon Move Thrower!</h1>
-					{/*We also need a way to make this horizontal instead of vertical
-						Reset Settings and Switch Roles Buttons will be implemented in Iteration 2*/}
-					<SignIn />
-				</header>
+				<div className="App-hcontainer">
+					<header className="App-header">
+						<h1>Pokemon Move Thrower!</h1>
+						{/*We also need a way to make this horizontal instead of vertical
+							Reset Settings and Switch Roles Buttons will be implemented in Iteration 2*/}
+					</header>
+					<div className="App-login">
+						<SignIn />
+					</div>
+				</div>
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
@@ -116,7 +120,7 @@ export class HomePage extends React.Component {
 						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
-				<div className="App-body" style={{display:"flex"}}>
+				<div className="App-body" style={{display:"flex", minWidth: "100%"}}>
 					<b>final listings</b>
 				</div>
 			</div>

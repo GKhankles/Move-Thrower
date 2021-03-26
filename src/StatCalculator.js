@@ -30,12 +30,12 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     Attack = Math.floor(Attack / 100);
     Attack = Attack + 5;
     let multiplier = 1;
-    if (nature == "lonely" || nature == "brave" ||
-        nature == "adamant" || nature == "naughty") {
+    if (nature === "lonely" || nature === "brave" ||
+        nature === "adamant" || nature === "naughty") {
         multiplier = 1.1;
     }
-    if (nature == "bold" || nature == "timid" ||
-        nature == "modest" || nature == "calm") {
+    if (nature === "bold" || nature === "timid" ||
+        nature === "modest" || nature === "calm") {
         multiplier = .9;
     }
     Attack = Math.floor(Attack * multiplier);
@@ -47,12 +47,12 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     Defense = Math.floor(Defense / 100);
     Defense = Defense + 5;
     let multiplier = 1;
-    if (nature == "bold" || nature == "relaxed" ||
-        nature == "impish" || nature == "lax") {
+    if (nature === "bold" || nature === "relaxed" ||
+        nature === "impish" || nature === "lax") {
         multiplier = 1.1;
     }
-    if (nature == "lonely" || nature == "hasty" ||
-        nature == "mild" || nature == "gentle") {
+    if (nature === "lonely" || nature === "hasty" ||
+        nature === "mild" || nature === "gentle") {
         multiplier = .9;
     }
     Defense = Math.floor(Defense * multiplier);
@@ -64,12 +64,12 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     SpAttack = Math.floor(SpAttack / 100);
     SpAttack = SpAttack + 5;
     let multiplier = 1;
-    if (nature == "modest" || nature == "mild" ||
-        nature == "quiet" || nature == "rash") {
+    if (nature === "modest" || nature === "mild" ||
+        nature === "quiet" || nature === "rash") {
         multiplier = 1.1;
     }
-    if (nature == "adamant" || nature == "impish" ||
-        nature == "jolly" || nature == "careful") {
+    if (nature === "adamant" || nature === "impish" ||
+        nature === "jolly" || nature === "careful") {
         multiplier = .9;
     }
     SpAttack = Math.floor(SpAttack * multiplier);
@@ -81,12 +81,12 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     SpDefense = Math.floor(SpDefense / 100);
     SpDefense = SpDefense + 5;
     let multiplier = 1;
-    if (nature == "calm" || nature == "gentle" ||
-        nature == "sassy" || nature == "careful") {
+    if (nature === "calm" || nature === "gentle" ||
+        nature === "sassy" || nature === "careful") {
         multiplier = 1.1;
     }
-    if (nature == "naughty" || nature == "lax" ||
-        nature == "naive" || nature == "rash") {
+    if (nature === "naughty" || nature === "lax" ||
+        nature === "naive" || nature === "rash") {
         multiplier = .9;
     }
     SpDefense = Math.floor(SpDefense * multiplier);
@@ -98,12 +98,12 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     Speed = Math.floor(Speed / 100);
     Speed = Speed + 5;
     let multiplier = 1;
-    if (nature == "timid" || nature == "hasty" ||
-        nature == "jolly" || nature == "naive") {
+    if (nature === "timid" || nature === "hasty" ||
+        nature === "jolly" || nature === "naive") {
         multiplier = 1.1;
     }
-    if (nature == "brave" || nature == "relaxed" ||
-        nature == "quiet" || nature == "sassy") {
+    if (nature === "brave" || nature === "relaxed" ||
+        nature === "quiet" || nature === "sassy") {
         multiplier = .9;
     }
     Speed = Math.floor(Speed * multiplier);

@@ -148,15 +148,16 @@ export class SignIn extends React.Component {
 
         return (
             <div classname="signInDisplay">
-                <p>Email: </p>
+                <b>Email: </b>
                 <input type="text" onChange={this.updateEmail} onBlur={this.updateEmail} />
-                <p>Password: </p>
+				<br/>
+                <b>Password: </b>
                 <input type="password" onChange={this.updatePassword} onBlur={this.updatePassword}/>
                 <div className="signInButtons">
                     <button onClick={this.sendLogIn} disabled={this.state.isButtonDisabled}>Log In</button>
                     <button onClick={this.sendSignUp} disabled={this.state.isButtonDisabled}>Sign Up</button>
                 </div>
-                <div>
+                <div style={{fontSize: 15}}>
                     {logInError}
                     {signUpError}
                     {signInRedirect}
