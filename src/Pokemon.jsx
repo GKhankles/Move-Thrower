@@ -129,6 +129,7 @@ export class Pokemon extends React.Component {
 			Spd: stats[5].base_stat,
 		}
 
+		console.log(pkmnInfo.moves);
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
 		let newTypes = [];
