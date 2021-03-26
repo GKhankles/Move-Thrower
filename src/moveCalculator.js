@@ -265,10 +265,11 @@ export class moveCalculator {
 
             let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
             let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
-            console.log(max_modifer, "--third")
+            console.log(max_modifier, "--third")
+            console.log(level);
             
-            max_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*max_modifier
-            min_damage = (((2*level/5 + 2)*power*a/d)/50 + 2)*min_modifier
+            max_damage = (((2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*max_modifier
+            min_damage = (((2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*min_modifier
             console.log(Type_mod);
             console.log("max ", max_damage, " min ", min_damage)
         }
