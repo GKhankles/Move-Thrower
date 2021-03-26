@@ -327,7 +327,7 @@ export class Pokemon extends React.Component {
 				pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
 			}
 		}
-		if (pokemonNames[pokemonNames.length - 1] == null || pokemonNames[pokemonNames.length - 1].length < 2) {
+		if (pokemonNames[pokemonNames.length - 1] === null || pokemonNames[pokemonNames.length - 1].length < 2) {
 			pokemonNames = pokemonNames.slice(0, pokemonNames.length - 1);
 		}
 		//above snippet
