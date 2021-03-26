@@ -130,7 +130,10 @@ export class SignIn extends React.Component {
                 this.setState({
                     signedIn: false,
                     uid: "",
-                    preference: ""
+                    username: "",
+                    password: "",
+                    preference: "",
+                    isButtonDisabled: false,
                 });
                 
             }).catch((error) => {
