@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import SignIn from './SignIn.jsx';
 import Pokemon from './Pokemon.jsx';
 import moveCalculator from './moveCalculator.js';
+import MoveList from './MoveList.jsx';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
@@ -20,6 +21,7 @@ export class HomePage extends React.Component {
 			atkPkmnInfo: {},
 			defPkmnInfo: {},
 			isAdvanced: false,
+			calculatedMoves: null
 		};
     }
     
@@ -69,17 +71,25 @@ export class HomePage extends React.Component {
 	
 	//Returns a list of the best possible moves that can be used
 	calculateMoves(event) {
-		
+		console.log("Hello there, inside of calculateMoves");
+		/*this.setState({
+			calculatedMoves: undefined
+		});*/
+		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, 3, 1);
+		console.log("calcMoves", calcMoves);
+		this.setState({
+			calculatedMoves: calcMoves
+		});
 	}
 
     render () {
+		console.log(this.state.calculatedMoves);
+		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
         return (
 			<div className = "App" style={{fontSize: 25}}>
 				<div className="App-hcontainer">
 					<header className="App-header">
 						<h1>Pokemon Move Thrower!</h1>
-						{/*We also need a way to make this horizontal instead of vertical
-							Reset Settings and Switch Roles Buttons will be implemented in Iteration 2*/}
 					</header>
 					<div className="App-login">
 						<SignIn />
@@ -121,7 +131,7 @@ export class HomePage extends React.Component {
 					</div>
 				</div>
 				<div className="App-body" style={{display:"flex", minWidth: "100%"}}>
-					<b>final listings</b>
+					{moveList}
 				</div>
 			</div>
         );
