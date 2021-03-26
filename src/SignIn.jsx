@@ -9,8 +9,9 @@ export class SignIn extends React.Component {
         super(props);
         this.sendLogIn = this.sendLogIn.bind(this);
         this.sendSignUp = this.sendSignUp.bind(this);
+        this.sendSignOut = this.sendSignOut.bind(this);
         this.signInDisplay = this.signInDisplay.bind(this);
-        //this.loggedInDisplay = this.loggedInDisplay.bind(this);
+        this.loggedInDisplay = this.loggedInDisplay.bind(this);
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
         this.resetErrors = this.resetErrors.bind(this);
@@ -70,8 +71,6 @@ export class SignIn extends React.Component {
                 // Signed in
                 var user = userCredential.user;
                 let userInfo;
-                console.log(this.state.signedIn);
-                console.log(user.uid);
                 firebase.database().ref('users/' + user.uid).once('value', (snap)=>{
                     userInfo = snap.val();
                 });
@@ -123,6 +122,28 @@ export class SignIn extends React.Component {
             });
     }
 
+    sendSignOut(){
+        this.resetErrors();
+        //TODO Redirect user to user page, where they can change account info.
+        firebase.auth().signOut()
+            .then(() => {
+                this.setState({
+                    signedIn: false,
+                    uid: "",
+                    preference: ""
+                });
+                
+            }).catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(errorMessage);
+                this.setState({
+                    logInError: errorMessage,
+                    isButtonDisabled: true
+                });
+            });
+    }
+
     componentDidMount() {
         if (this.state.fireBaseInitialized === false) {
             createFirebase();
@@ -167,27 +188,25 @@ export class SignIn extends React.Component {
     }
 
     //function returning the display for the logged in display
-    /*
+    
     loggedInDisplay() {
         let displayUsername = this.state.username;
         return (
             <div classname="loggedInDisplay">
                 <p>Hello, {displayUsername}!</p>
                 <div className="loggedInButtons">
-                    <button>Log Out</button>
+                    <button onClick = {this.sendSignOut} disabled={this.state.isButtonDisabled}>Log Out</button>
                 </div>      
             </div> 
         );
     }
-    */
 
     render() {
-        //let curUID = this.state.uid;
-        //let accountDisplay = curUID === "" ? this.signInDisplay() : this.loggedInDisplay();
+        let curUID = this.state.uid;
+        let accountDisplay = curUID === "" ? this.signInDisplay() : this.loggedInDisplay();
         return (
             <div className = "signIn">
-				{/*Will probably have to change the formatting here too*/}
-                {this.signInDisplay()}
+                {accountDisplay}
             </div>
         );
     }
