@@ -19,6 +19,7 @@ export class Pokemon extends React.Component {
 		this.updatePkmnIV = this.updatePkmnIV.bind(this);
 		this.updatePkmnLevel = this.updatePkmnLevel.bind(this);
 		this.retrieveNatureFromList = this.retrieveNatureFromList.bind(this);
+		this.getTypeColor = this.getTypeColor.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -78,6 +79,47 @@ export class Pokemon extends React.Component {
 			isAdvanced: true
         };
     }
+
+	getTypeColor(type) {
+		switch (type) {
+			case "fire":
+				return "#EE8130";
+			case "water":
+				return "#6390F0";
+			case "electric":
+				return "#F7D02C";
+			case "grass":
+				return "#7AC74C";
+			case "ice":
+				return "#96D9D6";
+			case "fighting":
+				return "#C22E28";
+			case "poison":
+				return "#A33EA1";
+			case "ground":
+				return "#E2BF65";
+			case "flying":
+				return "#A98FF3";
+			case "psychic":
+				return "#F95587";
+			case "bug":
+				return "#A6B91A";
+			case "rock":
+				return "#B6A136";
+			case "ghost":
+				return "#735797";
+			case "dragon":
+				return "#6F35FC";
+			case "dark":
+				return "#705746";
+			case "steel":
+				return "#B7B7CE";
+			case "fairy":
+				return "#D685AD";
+			default: //normal type
+				return "#A8A77A";
+		}
+	}
 
 	componentDidMount() {
 		this.readPokemonFromFile(Gen3Pokemon);
@@ -337,8 +379,21 @@ export class Pokemon extends React.Component {
 								{SpDefAdvanced}
 								{SpdAdvanced}
 							</div> : null;
-
+							
 		var styleWidth = global.advancedToggle ? "repeat(2, 1fr)" : "repeat(1, 1fr)";
+
+		var styleTypeWidth = "repeat(" + this.state.types.length + ", 1fr)";
+		
+		var capFirst = this.state.types.length > 0 ? this.state.types[0].charAt(0).toUpperCase() + this.state.types[0].slice(1) : null;
+		var capSecond = this.state.types.length > 1 ? this.state.types[1].charAt(0).toUpperCase() + this.state.types[1].slice(1) : null;
+
+		let type2 = this.state.types.length > 1 ? <b className="type" style={{backgroundColor: this.getTypeColor(this.state.types[1])}}>{capSecond}</b> : null;
+
+		let typeDisplay = this.state.types.length > 0 ? <div className="typeRow" style={{gridTemplateColumns: styleTypeWidth}}>
+								<b className="type" style={{backgroundColor: this.getTypeColor(this.state.types[0])}}>{capFirst}</b>
+								{type2}
+							</div> : null;
+
         return (
             <div className = "pokemon">
                 		{/* Image will eventually replace the 7 br here, and styling needs to be done
@@ -347,6 +402,8 @@ export class Pokemon extends React.Component {
 						{dropDownMenu}
 						<br/>
 						{pkmnImg}
+						<br/>
+						{typeDisplay}
 						<div className="pkmnLevel">
 							<b>Level:</b>
 							<input type="number" value={this.state.level} onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
