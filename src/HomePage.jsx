@@ -75,7 +75,7 @@ export class HomePage extends React.Component {
 		/*this.setState({
 			calculatedMoves: undefined
 		});*/
-		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, 3, 1);
+		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, 3, {weather: 1});
 		console.log("calcMoves", calcMoves);
 		this.setState({
 			calculatedMoves: calcMoves

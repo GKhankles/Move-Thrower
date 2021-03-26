@@ -108,11 +108,11 @@ export class moveCalculator {
     }
 
     //TODO: Test out with array of numbers or something like that
-    moveCalculator(AtkPokemon, DefPokemon, generation, weather){
+    moveCalculator(AtkPokemon, DefPokemon, generation, stage_cond){
         //Array of the damage of every move. Retains the same index as the passed in Moves object
         let move_Damage = []
-        AtkPokemon.Moves.forEach(move => {
-            let damage = calculateDamage(move, AtkPokemon, DefPokemon, generation, weather)
+        AtkPokemon.moves.forEach(move => {
+            let damage = this.calculateDamage(move, AtkPokemon, DefPokemon, generation, stage_cond)
             move_Damage.push({move: move, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
         });
 
@@ -122,7 +122,7 @@ export class moveCalculator {
     }
 
 //This function calculates the damage for each move (stage_cond is an object we havent made yet)
-    calculateDamage(move, AtkPokemon, DefPokemon, generation, weather, stage_cond){
+    calculateDamage(move, AtkPokemon, DefPokemon, generation, stage_cond){
 
         // Modifier Variables (1 by default)
         let Targets_mod = 1;
@@ -215,7 +215,7 @@ export class moveCalculator {
             let a = 0
             let d = 0
 
-            if (physical_types.indexOf(move.type) > -1) {
+            if (this.physical_types.indexOf(move.type) > -1) {
                 a = AtkPokemon.baseStats.attack
                 d = DefPokemon.baseStats.defense
             } else {
@@ -242,13 +242,15 @@ export class moveCalculator {
             let max_rand_mod = 1
             let min_rand_mod = 0.85
             //STAB
-            if (move.type.in(AtkPokemon.type)){
+            console.log("move inside of moveCalculator", move);
+            console.log("AtkPokemon.type", AtkPokemon.types);
+            if (move.type.name.in(AtkPokemon.types)){
                 Stab_mod = 1.5
             }
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
-            Type_mod = this.gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[0]]
-            Type_mod *= DefPokemon.type[1] == null ? 1 : this.gen2to5matchups[AtkPokemon.move.type][DefPokemon.type[1]]
+            Type_mod = this.gen2to5matchups[AtkPokemon.move.type.name][DefPokemon.types[0]]
+            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[AtkPokemon.move.type.name][DefPokemon.types[1]]
             
             let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
             let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
