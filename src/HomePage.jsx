@@ -103,7 +103,7 @@ export class HomePage extends React.Component {
     render () {
 		console.log(this.state.calculatedMoves);
 		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
-		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button">Calculating...</button>;
+		let calculateButton = !this.state.calculating ? <button className="button" /*onClick={this.calculateMoves} */>CALCULATE</button> : <button className="button">Calculating...</button>;
         return (
 			<div className = "App" style={{fontSize: 25}}>
 				<div className="App-hcontainer">
