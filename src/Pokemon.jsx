@@ -19,6 +19,7 @@ export class Pokemon extends React.Component {
 		this.updatePkmnIV = this.updatePkmnIV.bind(this);
 		this.updatePkmnLevel = this.updatePkmnLevel.bind(this);
 		this.retrieveNatureFromList = this.retrieveNatureFromList.bind(this);
+		this.retrieveStatusFromList = this.retrieveStatusFromList.bind(this);
 		this.getTypeColor = this.getTypeColor.bind(this);
 
 		let emptyStats = {
@@ -33,6 +34,8 @@ export class Pokemon extends React.Component {
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
 			"Mild", "Quiet", "Bashful", "Rash", "Calm", "Gentle", "Sassy", "Careful", "Quirky"];
+		
+		this.statusList = ["Healthy","Badly Poisoned","Burn","Freeze","Paralysis","Poisoned","Sleep"];
 
 		this.statCalculator = new StatCalculator();
 
@@ -73,6 +76,7 @@ export class Pokemon extends React.Component {
 			},
 			level: 1,
 			nature: "Hardy",
+			status: "Healthy",
 			moves: [],
 			types: [],
 			pkmnImg: "",
@@ -131,6 +135,13 @@ export class Pokemon extends React.Component {
 			nature: selectedNature
 		});
 		this.updateTotalStats(this.statCalculator.getStatTotals(this.state.baseStats, this.state.evInfo, this.state.ivInfo, this.state.level, selectedNature));
+	}
+
+	//Retrieve the status from the status list
+	retrieveStatusFromList(selectedStatus) {
+		this.setState({
+			status: selectedStatus
+		});
 	}
 
 	//Callback function passed to Dropdown to retrieve pokemon selected from the list
@@ -338,6 +349,7 @@ export class Pokemon extends React.Component {
     }
 
     render() {
+		console.log(this.state.status)
 		//Will have to fix this for later
 		let IVEV = <div className="advancedStat">
 							<b className="statText">IV</b>
@@ -375,7 +387,10 @@ export class Pokemon extends React.Component {
 							<input className="App-textBox" type="number" value={this.state.evInfo.Spd} onChange={(e) => this.updatePkmnEV(e, "Spd")} onBlur={(e) => this.updatePkmnEV(e, "Spd")} />
 						</div>;
 
-		let advancedStuff = global.advancedToggle ? <div className="statCol">
+		let status = global.advancedToggle ? <div className="status">
+		<b>Status: </b><Dropdown initial={this.state.status} names={this.statusList} getOption={this.retrieveStatusFromList}/> </div>: null; 	
+
+		let advancedStats = global.advancedToggle ? <div className="statCol">
 								{IVEV}
 								{hpAdvanced}
 								{atkAdvanced}
@@ -417,6 +432,7 @@ export class Pokemon extends React.Component {
 							<b>Nature: </b>
 							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
 						</div>
+						{status}
 						<div className="statRow" style={{gridTemplateColumns: styleWidth}}>
 							<div className="statCol">
 								<b className="statText">Stats</b>
@@ -433,7 +449,7 @@ export class Pokemon extends React.Component {
 								<br/>
 								<b className="statText">SPD: {this.state.totalStats.Spd}</b>
 							</div>
-							{advancedStuff}
+							{advancedStats}
 						</div>
             </div>
         );
