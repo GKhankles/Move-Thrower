@@ -3,6 +3,7 @@ import './App.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import createFirebase from './firebase.js';
+import {HomePage} from './HomePage.jsx';
 
 export class SignIn extends React.Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export class SignIn extends React.Component {
         this.updatePassword = this.updatePassword.bind(this);
         this.resetErrors = this.resetErrors.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
-
+        this.savePokemon = this.savePokemon.bind(this);
         let fbInitialized = false;
 
 		if (this.props.state) {
@@ -31,6 +32,7 @@ export class SignIn extends React.Component {
             loginError: "",
             signUpError: "",
             preference: "",
+            current:"",
             fireBaseInitialized: fbInitialized,
             isButtonDisabled: false,
         };
@@ -99,10 +101,7 @@ export class SignIn extends React.Component {
                 // Signed in 
                 var user = userCredential.user;
                 var database = firebase.database();
-                firebase.database().ref('users/' + user.uid).set({
-                    username: this.state.username,
-
-                });
+                firebase.database().ref('users/' + user.uid).set(this.state);
                 this.setState({
                     signedIn: true,
                     uid: user.uid,
@@ -156,6 +155,14 @@ export class SignIn extends React.Component {
         }
     }
 
+    savePokemon(){
+        this.setState({
+            preference: this.props.preference
+        })
+        if(this.state.signedIn){
+            firebase.database().ref('users/' + this.state.uid).set(this.state)
+        }
+    }
 
     //function returning display for the sign in display
     signInDisplay() {
@@ -199,7 +206,10 @@ export class SignIn extends React.Component {
                 <p>Hello, {displayUsername}!</p>
                 <div className="loggedInButtons">
                     <button onClick = {this.sendSignOut} disabled={this.state.isButtonDisabled}>Log Out</button>
-                </div>      
+                </div>
+                <div className="loggedInButtons">
+                    <button onClick = {this.savePokemon} disabled={this.state.isButtonDisabled}>Save</button>
+                </div>       
             </div> 
         );
     }

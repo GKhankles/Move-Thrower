@@ -18,7 +18,7 @@ export class HomePage extends React.Component {
 		this.switchPokemon = this.switchPokemon.bind(this);
 		this.advancedOptions = this.advancedOptions.bind(this);
 		this.changeGeneration = this.changeGeneration.bind(this);
-
+		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.moveCalculator = new moveCalculator();
 
 		this.state = {
@@ -79,6 +79,11 @@ export class HomePage extends React.Component {
 		console.log("Placeholder for next iteration.");
 	}
 	
+	getAtkPokemon(){
+		console.log(this.state.atkPkmnInfo);
+		return this.state.atkPkmnInfo;
+	}
+
 	//Returns a list of the best possible moves that can be used
 	calculateMoves(event) {
 		console.log("Hello there, inside of calculateMoves");
@@ -108,7 +113,7 @@ export class HomePage extends React.Component {
 	}
 
     render () {
-		console.log(this.state.calculatedMoves);
+		console.log(this.state.atkPkmnInfo);
 		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
 		let generationSelection = global.advancedToggle ? <div className="App-body">
@@ -129,7 +134,7 @@ export class HomePage extends React.Component {
 						<h1>Pokemon Move Thrower!</h1>
 					</header>
 					<div className="App-login">
-						<SignIn />
+						<SignIn preference = {this.state.atkPkmnInfo}/>
 					</div>
 				</div>
 				<div className="App-mid">
