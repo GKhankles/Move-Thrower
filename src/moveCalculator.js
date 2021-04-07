@@ -160,7 +160,7 @@ export class moveCalculator {
         }*/
 
         //Ready to be tested
-        if (generation == 1){
+        if (generation === 1){
             let max_level = 2*AtkPokemon.level;
             let min_level = AtkPokemon.level;
 
@@ -192,7 +192,7 @@ export class moveCalculator {
             min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier;
         }
 
-        if (generation == 2){
+        if (generation === 2){
             let crit_level = 2*AtkPokemon.level
             let min_level = AtkPokemon.level
 
@@ -212,21 +212,21 @@ export class moveCalculator {
             }
 
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         }
 
-        if (generation == 3){
+        if (generation === 3){
             let level = AtkPokemon.level
             let power = move.power
             
@@ -244,16 +244,16 @@ export class moveCalculator {
         
             //Calculating Modifier Components
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
 
@@ -275,7 +275,7 @@ export class moveCalculator {
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
-            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            Type_mod *= DefPokemon.types[1] === null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             //console.log(Type_mod, "--second")
 
             let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
@@ -305,7 +305,7 @@ export class moveCalculator {
             min_damage = Math.floor(min_damage)
         }
 
-        if (generation == 4){
+        if (generation === 4){
 
             let level = AtkPokemon.level
             let power = move.power
@@ -321,32 +321,35 @@ export class moveCalculator {
             }
 
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
-            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            Type_mod *= DefPokemon.types[1] === null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+
+            let a = 0
+            let d = 0
 
             if (move.category <= this.move_category.Physical) {
-                let a = AtkPokemon.attack
-                let d = DefPokemon.defense
+                a = AtkPokemon.attack
+                d = DefPokemon.defense
             } else if (move.category <= this.move_category.Special) {
-                let a = AtkPokemon.special_attack
-                let d = DefPokemon.special_defense
+                a = AtkPokemon.special_attack
+                d = DefPokemon.special_defense
             }
             
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         }
 
-        if (generation == 5){
+        if (generation === 5){
 
             let max_rand_mod = 1
             let min_rand_mod = 0.85
@@ -360,21 +363,21 @@ export class moveCalculator {
             }
             
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         }
 
-        if (generation == 6){
+        if (generation === 6){
 
             let max_rand_mod = 1
             let min_rand_mod = 0.85
@@ -388,21 +391,21 @@ export class moveCalculator {
             }
             
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         } 
 
-        if (generation == 7){
+        if (generation === 7){
 
             let max_rand_mod = 1
             let min_rand_mod = 0.85
@@ -416,21 +419,21 @@ export class moveCalculator {
             }
             
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         } 
 
-        if (generation == 8){
+        if (generation === 8){
 
             let max_rand_mod = 1
             let min_rand_mod = 0.85
@@ -444,16 +447,16 @@ export class moveCalculator {
             }
             
             // Weather
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather == this.weather_types.Harsh_Sunlight && move.type == this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather == this.weather_types.Rain && move.type == this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
         } 

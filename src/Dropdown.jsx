@@ -7,7 +7,8 @@ export class Dropdown extends React.Component {
 		this.getOptionList = this.getOptionList.bind(this);
 
         this.state = {
-            uid: ""
+            uid: "",
+            option: (props.initial || "")
         };
     }
 

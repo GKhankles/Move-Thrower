@@ -17,7 +17,8 @@ export class HomePage extends React.Component {
 		this.calculateMoves = this.calculateMoves.bind(this);
 		this.switchPokemon = this.switchPokemon.bind(this);
 		this.advancedOptions = this.advancedOptions.bind(this);
-
+		this.changeGeneration = this.changeGeneration.bind(this);
+		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.moveCalculator = new moveCalculator();
 
 		this.state = {
@@ -78,6 +79,11 @@ export class HomePage extends React.Component {
 		console.log("Placeholder for next iteration.");
 	}
 	
+	getAtkPokemon(){
+		console.log(this.state.atkPkmnInfo);
+		return this.state.atkPkmnInfo;
+	}
+
 	//Returns a list of the best possible moves that can be used
 	calculateMoves(event) {
 		console.log("Hello there, inside of calculateMoves");
@@ -87,7 +93,7 @@ export class HomePage extends React.Component {
 		this.setState({
 			calculating: true
 		});
-		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, 3, {weather: 1});
+		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: 1});
 		console.log("calcMoves", calcMoves);
 		this.setState({
 			calculatedMoves: calcMoves,
@@ -100,10 +106,27 @@ export class HomePage extends React.Component {
 		this.forceUpdate();
 	}
 
+	changeGeneration(event) {
+		global.curGeneration = event.target.value;
+		console.log("cur generation", global.curGeneration);
+		this.forceUpdate();
+	}
+
     render () {
-		console.log(this.state.calculatedMoves);
+		console.log(this.state.atkPkmnInfo);
 		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
-		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button">Calculating...</button>;
+		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
+		let generationSelection = global.advancedToggle ? <div className="App-body">
+						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
+							<h4>Current Generation</h4>
+							<input type="radio" value={3} name="generation"/> 3
+							<input type="radio" value={4} name="generation"/> 4
+							<input type="radio" value={5} name="generation"/> 5
+							<input type="radio" value={6} name="generation"/> 6
+							<input type="radio" value={7} name="generation"/> 7
+						</div>
+					</div>: null;
+
         return (
 			<div className = "App" style={{fontSize: 25}}>
 				<div className="App-hcontainer">
@@ -111,7 +134,7 @@ export class HomePage extends React.Component {
 						<h1>Pokemon Move Thrower!</h1>
 					</header>
 					<div className="App-login">
-						<SignIn />
+						<SignIn preference = {this.state.atkPkmnInfo}/>
 					</div>
 				</div>
 				<div className="App-mid">
@@ -132,7 +155,9 @@ export class HomePage extends React.Component {
 						<b>Advanced Options</b>
 						<input type="checkbox" style={{height: 20, width: 20, backgroundColor:"white"}} onChange={this.advancedOptions} />
 						<br/>
-						<br/>
+						<div> 
+							{generationSelection}
+						</div>
 						<br/>
 						<br/>
 						<br/>
