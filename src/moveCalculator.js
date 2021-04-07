@@ -5,7 +5,6 @@
 */
 export class moveCalculator {
     constructor () {
-        console.log("TEST!");
         this.moveCalculator = this.moveCalculator.bind(this);
 
         this.gen1matchups = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1],
@@ -87,7 +86,7 @@ export class moveCalculator {
             this.elemental_types.Flying, this.elemental_types.Poison, this.elemental_types.Ground, 
             this.elemental_types.Rock, this.elemental_types.Bug, this.elemental_types.Ghost, this.elemental_types.Steel];
 
-        this.speical_types = [this.elemental_types.Fire, this.elemental_types.Water, 
+        this.special_types = [this.elemental_types.Fire, this.elemental_types.Water, 
             this.elemental_types.Grass, this.elemental_types.Electric, this.elemental_types.Psychic, 
             this.elemental_types.Ice, this.elemental_types.Dragon, this.elemental_types.Dark, this.elemental_types.Fairy];
 
@@ -120,6 +119,17 @@ export class moveCalculator {
         //Sort list of moves by max_dmg key in descending order
         let optimalMoveList = move_Damage.sort((a,b) =>  b.max_dmg-a.max_dmg)
         return optimalMoveList
+    }
+
+    //This function performs a poke round, rounds up if the decimal is > .5 and down otherwise
+    pokeRound(value) {
+        let leftover = value - Math.floor(value)
+        if (leftover > .5) {
+            value = Math.ceil(value)
+        } else {
+            value = Math.floor(value)
+        }
+        return value
     }
 
 //This function calculates the damage for each move (stage_cond is an object we havent made yet)
@@ -251,33 +261,67 @@ export class moveCalculator {
             let max_rand_mod = 1
             let min_rand_mod = 0.85
             //STAB
-            console.log("move inside of moveCalculator", move);
-            console.log("AtkPokemon.type", AtkPokemon.types);
-            if (move.type in AtkPokemon.types){ //fix this later
+            //console.log("move inside of moveCalculator", move);
+            //console.log("AtkPokemon.type", AtkPokemon.types);
+            /*if (move.type in AtkPokemon.types){ //fix this later
                 Stab_mod = 1.5
+            }*/
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type == AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
             }
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
-            console.log(DefPokemon.types[0], "--first")
             Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
-            console.log(Type_mod, "--second")
+            //console.log(Type_mod, "--second")
 
             let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
             let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
-            console.log(max_modifier, "--third")
-            console.log(level);
+            //console.log(max_modifier, "--third")
+            //console.log(level);
             
-            max_damage = (((2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*max_modifier
+            max_damage = (Math.floor(Math.floor(2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*max_modifier
             min_damage = (((2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*min_modifier
-            console.log(Type_mod);
-            console.log("max ", max_damage, " min ", min_damage)
+
+            let baseDamage = Math.floor(Math.floor((Math.floor(2 * level / 5 + 2) * power * a) / d) / 50) + 2
+            baseDamage *= Weather_mod
+            baseDamage = this.pokeRound(baseDamage)
+            min_damage = baseDamage * min_rand_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage = baseDamage
+            min_damage *= Stab_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Stab_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Type_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Type_mod
+            max_damage = this.pokeRound(max_damage)
+
+            max_damage = Math.floor(max_damage)
+            min_damage = Math.floor(min_damage)
         }
 
         if (generation == 4){
 
+            let level = AtkPokemon.level
+            let power = move.power
+
             let max_rand_mod = 1
             let min_rand_mod = 0.85
+
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type == AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
+            }
+
+            Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            Type_mod *= DefPokemon.types[1] == null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
             if (move.category <= this.move_category.Physical) {
                 let a = AtkPokemon.attack

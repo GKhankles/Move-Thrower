@@ -69,7 +69,7 @@ let pokemon1 = {
     types: ["Dragon", "Flying"],
     level: 95,
     totalStats: {
-        Atk: 300,
+        Atk: 267,
         Def: 195,
         SpAtk: 267,
         SpDef: 205,
@@ -78,7 +78,7 @@ let pokemon1 = {
 };
 
 let pokemon2 = {
-    types: ["Dragon", "Flying"],
+    types: ["Flying"],
     attack: 300,
     defense: 195,
     special_attack: 267,
@@ -95,14 +95,28 @@ let stage_cond = {
     weather: 1
 };
 
+let damageCalc1 = moveCalculator.calculateDamage(flamethrower, pokemon1, pokemon1, 3, stage_cond);
 
-/*
 //Test Resisted Move Damage
 test('Resisted Move Damage Test', () => {
-    expect(moveCalculator.calculateDamage(flamethrower, pokemon1, pokemon1, 3, stage_cond)).toBe(1);
+    expect(damageCalc1.min_damage).toBe(42) &&
+    expect(damageCalc1.max_damage).toBe(50);
 });
 
-//Test Regularly-Effective Move Damage
+let dragonbreath = {
+    type: "Dragon",
+    power: 60
+};
+
+let damageCalc2 = moveCalculator.calculateDamage(dragonbreath, pokemon1, pokemon1, 3, stage_cond);
+
+//Test Super Effective Move Damage
+test('Super Effective Move Damage Test', () => {
+    expect(damageCalc2.min_damage).toBe(162) &&
+    expect(damageCalc2.max_damage).toBe(192);
+});
+
+/*Test Regularly-Effective Move Damage
 test("Regularly-Effective Move Damage Test", () => {
     //do expect statement here
 });
