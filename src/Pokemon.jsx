@@ -194,7 +194,7 @@ export class Pokemon extends React.Component {
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
 		let newTypes = [];
-        let genNumber = 3; //make this not hardcoded for iteration 2+
+        let genNumber = global.curGeneration; //make this not hardcoded for iteration 2+
 
         if (pkmnInfo.past_types.length === 1) {
             if (genNumber === 1) {
@@ -437,7 +437,7 @@ export class Pokemon extends React.Component {
 						</div>
 						<div className="nature">
 							<b>Nature: </b>
-							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
+							<Dropdown names={this.natureList} initial={this.state.nature} getOption={this.retrieveNatureFromList}/>
 						</div>
 						{status}
 						<div className="statRow" style={{gridTemplateColumns: styleWidth}}>
