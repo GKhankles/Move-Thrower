@@ -41,7 +41,7 @@ export class Pokemon extends React.Component {
 
         this.state = {
             uid: "",
-			curPkmn: "",
+			curPkmn: "Abra",
 			baseStats: {			
 				HP: 0,
 				Atk: 0,
@@ -80,7 +80,8 @@ export class Pokemon extends React.Component {
 			moves: [],
 			types: [],
 			pkmnImg: "",
-			isAdvanced: true
+			isAdvanced: true,
+			readySwap: false
         };
     }
 
@@ -127,6 +128,12 @@ export class Pokemon extends React.Component {
 
 	componentDidMount() {
 		this.readPokemonFromFile(Gen3Pokemon);
+		this.retrievePkmnInfo("Abra");
+		if (typeof(global.pkmn1) === 'undefined') {
+			global.pkmn1 = this;
+		} else {
+			global.pkmn2 = this;
+		}
 	}
 
 	//Retrieve the nature from the nature list

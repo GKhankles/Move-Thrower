@@ -59,6 +59,7 @@ export class HomePage extends React.Component {
 				hasUpdated: true
 			});
         });*/
+		global.curGeneration = 3;
     }
 
 	//Callback function sent to the Attacking Pokemon component to retrieve pokemon info
@@ -77,6 +78,41 @@ export class HomePage extends React.Component {
 
 	switchPokemon() {
 		console.log("Placeholder for next iteration.");
+		console.log(global.pkmn1);
+		console.log(global.pkmn2);
+		var tempState = global.pkmn1.state;
+		global.pkmn1.setState({
+		    uid: global.pkmn2.state.uid,
+			curPkmn: global.pkmn2.state.curPkmn,
+			baseStats: global.pkmn2.state.baseStats,
+			ivInfo: global.pkmn2.state.ivInfo,
+			evInfo: global.pkmn2.state.evInfo,
+			totalStats: global.pkmn2.state.totalStats,
+			level: global.pkmn2.state.level,
+			nature: global.pkmn2.state.nature,
+			status: global.pkmn2.state.status,
+			moves: global.pkmn2.state.moves,
+			types: global.pkmn2.state.types,
+			pkmnImg: global.pkmn2.state.pkmnInfo,
+			isAdvanced: global.pkmn2.state.isAdvanced,
+			readySwap: global.pkmn2.state.readySwap
+		});
+		global.pkmn2.setState({
+			uid: tempState.uid,
+			curPkmn: tempState.curPkmn,
+			baseStats: tempState.baseStats,
+			ivInfo: tempState.ivInfo,
+			evInfo: tempState.evInfo,
+			totalStats: tempState.totalStats,
+			level: tempState.level,
+			nature: tempState.nature,
+			status: tempState.status,
+			moves: tempState.moves,
+			types: tempState.types,
+			pkmnImg: tempState.pkmnImg,
+			isAdvanced: tempState.isAdvanced,
+			readySwap: tempState.readySwap
+		});
 	}
 	
 	getAtkPokemon(){
@@ -118,8 +154,8 @@ export class HomePage extends React.Component {
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
 		let generationSelection = global.advancedToggle ? <div className="App-body">
 						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
-							<h4>Current Generation</h4>
-							<input type="radio" value={3} name="generation"/> 3
+							<h4>Current Generation {global.curGeneration}</h4>
+							<input defaultChecked type="radio" value={3} name="generation"/> 3
 							<input type="radio" value={4} name="generation"/> 4
 							<input type="radio" value={5} name="generation"/> 5
 							<input type="radio" value={6} name="generation"/> 6

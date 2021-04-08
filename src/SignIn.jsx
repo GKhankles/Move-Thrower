@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import createFirebase from './firebase.js';
 import {HomePage} from './HomePage.jsx';
+import Dropdown from './Dropdown.jsx';
 
 export class SignIn extends React.Component {
     constructor(props) {
@@ -18,6 +19,9 @@ export class SignIn extends React.Component {
         this.resetErrors = this.resetErrors.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
         this.savePokemon = this.savePokemon.bind(this);
+        this.loadPokemon = this.loadPokemon.bind(this);
+        this.setSavedPokemon = this.setSavedPokemon.bind(this);
+        this.getSavedPokemon = this.getSavedPokemon.bind(this);
         let fbInitialized = false;
 
 		if (this.props.state) {
@@ -29,10 +33,10 @@ export class SignIn extends React.Component {
             uid: "",
             username: "",
             password: "",
-            loginError: "",
+            logInError: "",
             signUpError: "",
             preference: "",
-            current:"",
+            current:{},
             fireBaseInitialized: fbInitialized,
             isButtonDisabled: false,
         };
@@ -75,11 +79,11 @@ export class SignIn extends React.Component {
                 let userInfo;
                 firebase.database().ref('users/' + user.uid).once('value', (snap)=>{
                     userInfo = snap.val();
-                });
-                this.setState({
-                    signedIn: true,
-                    uid: user.uid,
-                    preference: ""
+                    this.setState({
+                        signedIn: true,
+                        uid: user.uid,
+                        preference: userInfo.preference
+                    });
                 });
                 
             }).catch((error) => {
@@ -101,11 +105,21 @@ export class SignIn extends React.Component {
                 // Signed in 
                 var user = userCredential.user;
                 var database = firebase.database();
-                firebase.database().ref('users/' + user.uid).set(this.state);
+                console.log(this.state);
+                firebase.database().ref('users/' + user.uid).set({
+                    signedIn: true,
+                    uid: user.uid,
+                    username: this.state.username,
+                    password: this.state.password,
+                    logInError: false,
+                    signUpError: false,
+                    preference: "",
+                    current:"",
+                    isButtonDisabled: false,
+                });
                 this.setState({
                     signedIn: true,
                     uid: user.uid,
-                    preference: ""
                 });
 
                 //TODO Redirect user to finish signing up here
@@ -126,6 +140,9 @@ export class SignIn extends React.Component {
         //TODO Redirect user to user page, where they can change account info.
         firebase.auth().signOut()
             .then(() => {
+                firebase.database().ref('users/' + this.state.uid).set({
+                    signedIn : false,
+                });
                 this.setState({
                     signedIn: false,
                     uid: "",
@@ -134,8 +151,8 @@ export class SignIn extends React.Component {
                     preference: "",
                     isButtonDisabled: false,
                 });
-                
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log(errorMessage);
@@ -156,12 +173,46 @@ export class SignIn extends React.Component {
     }
 
     savePokemon(){
-        this.setState({
-            preference: this.props.preference
-        })
         if(this.state.signedIn){
-            firebase.database().ref('users/' + this.state.uid).set(this.state)
-        }
+                firebase.database().ref('users/' + this.state.uid + '/preference').push(this.props.preference)
+                return true;
+            }else{
+                return false;
+            }
+    }
+
+    //need to style.
+    loadPokemon(){
+        
+        let names = this.getSavedPokemon();
+        let defaultOption = "--";
+        return(
+        <div>
+            <b>Saved Pokemon </b>
+            <Dropdown names={this.getSavedPokemon()}/>
+        </div>
+        );
+    }
+    
+
+    getSavedPokemon(){
+        let nameList=[];
+            firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot =>{
+                    console.log(snapshot.val())
+                    let data = snapshot.val() ? snapshot.val() : {};
+                    let prefList = {...data}
+                    console.log(prefList)
+                    let pkmnKeys = Object.keys(prefList);
+                    pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
+                    console.log(nameList)
+            });
+            return nameList;
+    }
+
+    setSavedPokemon(selectedPokemon){
+        this.setState({
+            current: selectedPokemon
+        })
     }
 
     //function returning display for the sign in display
@@ -201,6 +252,10 @@ export class SignIn extends React.Component {
     
     loggedInDisplay() {
         let displayUsername = this.state.username;
+        //console.log(this.state.signedIn);
+        //console.log(this.getSavedPokemon());
+        let name = this.getSavedPokemon()
+        
         return (
             <div classname="loggedInDisplay">
                 <p>Hello, {displayUsername}!</p>
@@ -209,10 +264,23 @@ export class SignIn extends React.Component {
                 </div>
                 <div className="loggedInButtons">
                     <button onClick = {this.savePokemon} disabled={this.state.isButtonDisabled}>Save</button>
-                </div>       
+                </div>
+                <div>
+                    <b>Saved Pokemon </b>
+                    <Dropdown names={name}/>
+                </div>
+                <div className="loggedInButtons">
+                    <button onClick = {this.loadPokemon} disabled={this.state.isButtonDisabled}>load</button>
+                </div>         
             </div> 
         );
     }
+
+   /*<div className="nature">
+							<b>Saved Pokemon </b>
+							<Dropdown names={this.getSavedPokemon()} getOption={this.getSavedPokemon()}/>
+				</div>
+    */
 
     render() {
         let curUID = this.state.uid;
