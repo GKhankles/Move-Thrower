@@ -254,6 +254,8 @@ export class SignIn extends React.Component {
         let displayUsername = this.state.username;
         //console.log(this.state.signedIn);
         //console.log(this.getSavedPokemon());
+        let name = this.getSavedPokemon()
+        
         return (
             <div classname="loggedInDisplay">
                 <p>Hello, {displayUsername}!</p>
@@ -265,7 +267,7 @@ export class SignIn extends React.Component {
                 </div>
                 <div>
                     <b>Saved Pokemon </b>
-                    <Dropdown names={this.getSavedPokemon()}/>
+                    <Dropdown names={name}/>
                 </div>
                 <div className="loggedInButtons">
                     <button onClick = {this.loadPokemon} disabled={this.state.isButtonDisabled}>load</button>
