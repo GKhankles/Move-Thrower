@@ -502,6 +502,20 @@ export class moveCalculator {
             let level = AtkPokemon.level
             let power = move.power
 
+            if (stage_cond.terrain === 2 && move.type === "Electric") {
+                power *= 1.5
+                power = this.pokeRound(power)
+            } else if (stage_cond.terrain === 3 && move.type === "Grass") {
+                power *= 1.5
+                power = this.pokeRound(power)
+            } else if (stage_cond.terrain === 4 && move.type === "Dragon") {
+                power *= .5
+                power = this.pokeRound(power)
+            } else if (stage_cond.terrain === 5 && move.type === "Psychic") {
+                power *= 1.5
+                power = this.pokeRound(power)
+            }
+
             for (let i = 0; i < AtkPokemon.types.length; i++) {
                 if (move.type == AtkPokemon.types[i]) {
                     Stab_mod = 1.5

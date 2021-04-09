@@ -87,13 +87,14 @@ export class Pokemon extends React.Component {
 			pkmnImg: "",
 			isAdvanced: true,
 			readySwap: false,
-			savedName: "Insert Name"
+			savedName: "Insert Name",
+			display : false,
         };
 	}
 
 	savePokemon() {
 		if (this.state.uid !== "") {
-			firebase.database().ref('users/' + this.state.uid + '/preference').push(this.props.preference)
+			firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state)
 			return true;
 		} else {
 			return false;
@@ -103,31 +104,23 @@ export class Pokemon extends React.Component {
 	//need to style.
 	loadPokemon() {
 
-		let names = this.getSavedPokemon();
-		let defaultOption = "--";
-		return (
-			<div>
-				<b>Saved Pokemon </b>
-				<Dropdown names={this.getSavedPokemon()} />
-			</div>
-		);
 	}
 
 
 	getSavedPokemon() {
-		let nameList = [];
 		if (this.state.uid !== "") {
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
 				console.log(snapshot.val())
 				let data = snapshot.val() ? snapshot.val() : {};
 				let prefList = { ...data }
+				let nameList = [];
 				console.log(prefList)
 				let pkmnKeys = Object.keys(prefList);
 				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
 				console.log(nameList)
+				return nameList;
 			});
 		}
-		return nameList;
 	}
 
 	setSavedPokemon(selectedPokemon) {
@@ -408,7 +401,6 @@ export class Pokemon extends React.Component {
 
 	render() {
 		//console.log(this.getSavedPokemon());
-		let pkName = this.getSavedPokemon()
 		console.log(this.state.status)
 		//Will have to fix this for later
 		let IVEV = <div className="advancedStat">
@@ -473,12 +465,14 @@ export class Pokemon extends React.Component {
 								<b className="type" style={{backgroundColor: this.getTypeColor(this.state.types[0])}}>{capFirst}</b>
 								{type2}
 							</div> : null;
-
+		
+		
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer">
-				<Dropdown names={pkName} />
+				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>load</button>
+				{<Dropdown onChange={this.getSavedPokemon() ? this.getSavedPokemon(): ["Abra"]} />}
 			</div>
 			<div classname="App-hcontainer">
 				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>

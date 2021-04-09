@@ -128,6 +128,20 @@
   grid-template-columns: repeat(1, 1fr);
 }
 
+.advancedBody {
+	max-width: 100%;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.advancedBody2 {
+	max-width: 100%;
+	display: grid;
+	grid-template-columns: repeat(3, 10fr);
+	grid-column-gap: 100px;
+	grid-row-gap: 10px;
+}
+
 .pkmnStat {
   color: #282c34;
   display: flex;
