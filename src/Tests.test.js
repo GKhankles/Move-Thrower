@@ -489,3 +489,89 @@ test("Gen 7 Burn Damage Test", () => {
     expect(damageCalc27.min_damage).toBe(23) &&
     expect(damageCalc27.max_damage).toBe(27);
 });
+
+let stage_cond_electric = {
+    terrain: 2
+}
+
+let pokemon12 = {
+    types: ["Electric"],
+    level: 99,
+    totalStats: {
+        Atk: 279,
+        SpAtk: 223
+    },
+    status: "Healthy"
+}
+
+let pokemon13 = {
+    types: ["Normal"],
+    totalStats: {
+        Def: 273,
+        SpDef: 273
+    }
+}
+
+let thunderbolt = {
+    type: "Electric",
+    power: 90,
+    isPhysical: false
+}
+
+let damageCalc28 = moveCalculator.calculateDamage(thunderbolt, pokemon12, pokemon13, 7, stage_cond_electric)
+
+test("Gen 7 Electric Terrain Damage Test", () => {
+    expect(damageCalc28.min_damage).toBe(117) &&
+    expect(damageCalc28.max_damage).toBe(138);
+});
+
+let woodhammer = {
+    type: "Grass",
+    power: 120,
+    isPhysical: true
+}
+
+let stage_cond_grassy = {
+    terrain: 3
+}
+
+let damageCalc29 = moveCalculator.calculateDamage(woodhammer, pokemon12, pokemon13, 7, stage_cond_grassy)
+
+test("Gen 7 Grassy Terrain Damage Test", () => {
+    expect(damageCalc29.min_damage).toBe(129) &&
+    expect(damageCalc29.max_damage).toBe(152);
+});
+
+let outrage = {
+    type: "Dragon",
+    power: 120,
+    isPhysical: true
+}
+
+let stage_cond_misty = {
+    terrain: 4
+}
+
+let damageCalc30 = moveCalculator.calculateDamage(outrage, pokemon12, pokemon13, 7, stage_cond_misty)
+
+test("Gen 7 Grassy Terrain Damage Test", () => {
+    expect(damageCalc30.min_damage).toBe(44) &&
+    expect(damageCalc30.max_damage).toBe(52);
+});
+
+let psychic = {
+    type: "Psychic",
+    power: 90,
+    isPhysical: false
+}
+
+let stage_cond_psychic = {
+    terrain: 5
+}
+
+let damageCalc31 = moveCalculator.calculateDamage(psychic, pokemon12, pokemon13, 7, stage_cond_psychic)
+
+test("Gen 7 Grassy Terrain Damage Test", () => {
+    expect(damageCalc31.min_damage).toBe(78) &&
+    expect(damageCalc31.max_damage).toBe(92);
+});
