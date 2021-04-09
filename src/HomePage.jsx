@@ -21,6 +21,7 @@ export class HomePage extends React.Component {
 		this.changeGeneration = this.changeGeneration.bind(this);
 		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
+		this.retrieveTerrainFromList = this.retrieveTerrainFromList.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 		
@@ -37,6 +38,14 @@ export class HomePage extends React.Component {
 			"Heavy Rain": 10
 		};
 
+		this.terrain_types = {
+            "Normal" : 1,
+            "Electric" : 2,
+            "Grassy" : 3,
+            "Misty" : 4,
+            "Psychic" : 5
+        };
+
 		this.weatherList1 = ["Clear"];
 		this.weatherList2 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm"];
 		this.weatherList3 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm", "Hail", "Shadowy Aura"];
@@ -45,6 +54,7 @@ export class HomePage extends React.Component {
 
 		this.weatherList = null;
 
+		this.terrainList = ["Normal","Electric","Grassy","Misty","Psychic"]
 
 		this.state = {
 			atkPkmnInfo: {},
@@ -110,6 +120,12 @@ export class HomePage extends React.Component {
 			weather: selectedWeather
 		});
 	}
+	
+	retrieveTerrainFromList(selectedTerrain){
+		this.setState({
+			terrain: selectedTerrain
+		});
+	}
 
 	switchPokemon() {
 		console.log("Placeholder for next iteration.");
@@ -164,7 +180,7 @@ export class HomePage extends React.Component {
 		this.setState({
 			calculating: true
 		});
-		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather]});
+		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
 		console.log("calcMoves", calcMoves);
 		this.setState({
 			calculatedMoves: calcMoves,
@@ -240,6 +256,14 @@ export class HomePage extends React.Component {
 							<Dropdown initial={this.state.weather} names={this.weatherList678} getOption={this.retrieveWeatherFromList}/>
 						</div>
 					</div>: null;
+		
+		let terrainSelection = global.advancedToggle ? 
+		<div className="App-body">
+			<div className="terrainDropDown" onChange={this.changeTerrain}>
+				<h4>Terrain</h4>
+				<Dropdown initial={this.state.terrain} names={this.terrainList} getOption={this.retrieveTerrainFromList}/>
+			</div>
+		</div>: null;
 
         return (
 			<div className = "App" style={{fontSize: 25}}>
@@ -276,6 +300,7 @@ export class HomePage extends React.Component {
 							{weatherSelection3}
 							{weatherSelection45}
 							{weatherSelection678}
+							{terrainSelection}
 						</div>
 						<br/>
 						<br/>
