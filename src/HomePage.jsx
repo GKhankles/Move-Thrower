@@ -6,6 +6,7 @@ import Pokemon from './Pokemon.jsx';
 import moveCalculator from './moveCalculator.js';
 import MoveList from './MoveList.jsx';
 import './global.js';
+import Dropdown from './Dropdown';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
@@ -19,18 +20,30 @@ export class HomePage extends React.Component {
 		this.advancedOptions = this.advancedOptions.bind(this);
 		this.changeGeneration = this.changeGeneration.bind(this);
 		this.getAtkPokemon = this.getAtkPokemon.bind(this);
+		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
 		this.moveCalculator = new moveCalculator();
-
+		this.weather_types = {
+			"Clear": 1,
+            "Harsh Sunlight": 2,
+            "Rain": 3,
+            "Sandstorm": 4,
+            "Hail": 5,
+            "Shadowy Aura": 6,
+            "Fog": 7,
+            "Strong Winds": 8
+		};
 		this.state = {
 			atkPkmnInfo: {},
 			defPkmnInfo: {},
 			isAdvanced: false,
 			calculatedMoves: null,
-			calculating: false
+			calculating: false,
+			weather: 1
 		};
 		global.advancedToggle = false;
     }
     
+	weatherList = ["Clear","Harsh Sunlight","Rain","Sandstorm","Hail","Shadowy Aura","Fog","Strong Winds"]
     /*The Idea here is that since our website is technically only one page, there is nearly 
 	* no way that we can encounter the error that we were getting with Badger-Bytes. I think
 	* the only situation that could cause us to call more than once would be when the user needs
@@ -76,6 +89,12 @@ export class HomePage extends React.Component {
 		});
 	}
 
+	retrieveWeatherFromList(selectedWeather){
+		this.setState({
+			weather: selectedWeather
+		});
+	}
+
 	switchPokemon() {
 		console.log("Placeholder for next iteration.");
 		console.log(global.pkmn1);
@@ -93,7 +112,7 @@ export class HomePage extends React.Component {
 			status: global.pkmn2.state.status,
 			moves: global.pkmn2.state.moves,
 			types: global.pkmn2.state.types,
-			pkmnImg: global.pkmn2.state.pkmnInfo,
+			pkmnImg: global.pkmn2.state.pkmnImg,
 			isAdvanced: global.pkmn2.state.isAdvanced,
 			readySwap: global.pkmn2.state.readySwap
 		});
@@ -129,7 +148,7 @@ export class HomePage extends React.Component {
 		this.setState({
 			calculating: true
 		});
-		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: 1});
+		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather]});
 		console.log("calcMoves", calcMoves);
 		this.setState({
 			calculatedMoves: calcMoves,
@@ -160,6 +179,12 @@ export class HomePage extends React.Component {
 							<input type="radio" value={5} name="generation"/> 5
 							<input type="radio" value={6} name="generation"/> 6
 							<input type="radio" value={7} name="generation"/> 7
+						</div>
+					</div>: null;
+		let weatherSelection = global.advancedToggle ? <div className="App-body">
+						<div className="weatherDropDown" onChange={this.changeWeather}>
+							<h4>Weather</h4>
+							<Dropdown initial={this.state.Weather} names={this.weatherList} getOption={this.retrieveWeatherFromList}/>
 						</div>
 					</div>: null;
 
@@ -193,6 +218,7 @@ export class HomePage extends React.Component {
 						<br/>
 						<div> 
 							{generationSelection}
+							{weatherSelection}
 						</div>
 						<br/>
 						<br/>
