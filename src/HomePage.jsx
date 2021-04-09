@@ -21,6 +21,7 @@ export class HomePage extends React.Component {
 		this.changeGeneration = this.changeGeneration.bind(this);
 		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
+		this.resetSettings = this.resetSettings.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 		
@@ -57,6 +58,57 @@ export class HomePage extends React.Component {
 		};
 		global.advancedToggle = false;
 		global.curGeneration = 3;
+	}
+
+	resetSettings() {
+		var base1 = global.pkmn1.state.baseStats;
+		var nature1 = global.pkmn1.state.nature;
+		var base2 = global.pkmn2.state.baseStats;
+		var nature2 = global.pkmn2.state.nature;
+		var clr1 = {
+			HP: 0,
+			Atk: 0,
+			SpAtk: 0,
+			Def: 0,
+			SpDef: 0,
+			Spd: 0
+		};
+		var clr2 = {
+			HP: 0,
+			Atk: 0,
+			SpAtk: 0,
+			Def: 0,
+			SpDef: 0,
+			Spd: 0
+		};
+		var clr3 = {
+			HP: 0,
+			Atk: 0,
+			SpAtk: 0,
+			Def: 0,
+			SpDef: 0,
+			Spd: 0
+		};
+		var clr4 = {
+			HP: 0,
+			Atk: 0,
+			SpAtk: 0,
+			Def: 0,
+			SpDef: 0,
+			Spd: 0
+		};
+		global.pkmn1.setState({
+			ivInfo: clr1,
+			evInfo: clr2,
+			level: 1
+		});
+		global.pkmn2.setState({
+			ivInfo: clr3,
+			evInfo: clr4,
+			level: 1
+		});
+		global.pkmn1.updateTotalStats(global.pkmn1.statCalculator.getStatTotals(base1, clr1, clr2, 1, nature1));
+		global.pkmn2.updateTotalStats(global.pkmn2.statCalculator.getStatTotals(base2, clr3, clr4, 1, nature2));
     }
     
 	
@@ -190,7 +242,7 @@ export class HomePage extends React.Component {
 		console.log(this.state.atkPkmnInfo);
 		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
-		let generationSelection = global.advancedToggle ? <div className="App-body">
+		let generationSelection = global.advancedToggle ? <div>
 						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
 							<h4>Current Generation {global.curGeneration}</h4>
 							<input defaultChecked type="radio" value={3} name="generation"/> 3
@@ -199,10 +251,10 @@ export class HomePage extends React.Component {
 							<input type="radio" value={6} name="generation"/> 6
 							<input type="radio" value={7} name="generation"/> 7
 						</div>
-					</div>: null;
+					</div> : null;
 
 		let weatherSelection1 = global.advancedToggle && global.curGeneration == 1? 
-					<div className="App-body">
+					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
 							<Dropdown initial={this.state.weather} names={this.weatherList1} getOption={this.retrieveWeatherFromList}/>
@@ -210,7 +262,7 @@ export class HomePage extends React.Component {
 					</div>: null;
 
 		let weatherSelection2 = global.advancedToggle && global.curGeneration == 2? 
-					<div className="App-body">
+					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
 							<Dropdown initial={this.state.weather} names={this.weatherList2} getOption={this.retrieveWeatherFromList}/>
@@ -218,7 +270,7 @@ export class HomePage extends React.Component {
 					</div>: null;
 
 		let weatherSelection3 = global.advancedToggle && global.curGeneration == 3? 
-					<div className="App-body">
+					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
 							<Dropdown initial={this.state.weather} names={this.weatherList3} getOption={this.retrieveWeatherFromList}/>
@@ -226,7 +278,7 @@ export class HomePage extends React.Component {
 					</div>: null;
 
 		let weatherSelection45 = global.advancedToggle && global.curGeneration == 4 || global.curGeneration == 5? 
-					<div className="App-body">
+					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
 							<Dropdown initial={this.state.weather} names={this.weatherList45} getOption={this.retrieveWeatherFromList}/>
@@ -234,7 +286,7 @@ export class HomePage extends React.Component {
 					</div>: null;
 
 		let weatherSelection678 = global.advancedToggle && global.curGeneration == 6 || global.curGeneration == 7 || global.curGeneration == 8? 
-					<div className="App-body">
+					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
 							<Dropdown initial={this.state.weather} names={this.weatherList678} getOption={this.retrieveWeatherFromList}/>
@@ -257,19 +309,19 @@ export class HomePage extends React.Component {
 						<Pokemon getPkmnInfo={this.retrieveAtkPokemonInfo}/>
 					</div>
 					<div className="App-body">
-						<br/>
-						<br/>
 						<button className="button" style={{fontSize: 18, backgroundColor:"white"}} onClick={this.switchPokemon}>Switch Roles</button>
 						<br/>
 						<br/>
 						<br/>
 						{calculateButton}
 						<br/>
-						<br/>
 						<b>Advanced Options</b>
 						<input type="checkbox" style={{height: 20, width: 20, backgroundColor:"white"}} onChange={this.advancedOptions} />
 						<br/>
-						<div> 
+						<br />
+						<br />
+						<button className="button" style={{ fontSize: 18, backgroundColor: "white" }} onClick={this.resetSettings}>Reset Settings</button>
+						<div className="advancedBody">
 							{generationSelection}
 							{weatherSelection1}
 							{weatherSelection2}
@@ -279,22 +331,25 @@ export class HomePage extends React.Component {
 						</div>
 						<br/>
 						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<br/>
-						<button className="button" style={{fontSize: 18, backgroundColor:"white"}}>Reset Settings</button>
-						<br/>
-						<br/>
-						<b style={{textDecoration: "underline"}}>Recommended Moves</b>
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
 						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
-				<div className="App-body" style={{display:"flex", minWidth: "100%"}}>
+				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
+					<div className="advancedBody2">
+						<b>example 1</b>
+						<b>example 2</b>
+						<b>example 3</b>
+						<b>example 4</b>
+						<b>example 5</b>
+						<b>example 6</b>
+						<b>example 7</b>
+						<b>example 8</b>
+						<b>example 9</b>
+					</div>
+					<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
 					{moveList}
 				</div>
 			</div>
