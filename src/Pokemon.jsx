@@ -571,7 +571,6 @@ export class Pokemon extends React.Component {
 				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>load</button>
 				{disCont}
-				{<Dropdown onChange={this.getSavedPokemon() ? this.getSavedPokemon(): ["Bulbasaur"]} />}
 			</div>
 			<div classname="App-hcontainer">
 				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
