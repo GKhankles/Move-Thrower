@@ -267,7 +267,7 @@ for gen in range(1, 9):
         data = new_cols
         entry = {}
 
-        for i in range(len(data)):
+        for i in range(4):
             entry[columns[i]] = data[i]
 
         pokemoves.append(entry)
