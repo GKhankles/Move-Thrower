@@ -106,6 +106,8 @@ export class Pokemon extends React.Component {
 			readySwap: false,
 			savedName: "Insert Name",
 			display : false,
+			nameList: [],
+			pkmnList: [],
         };
 	}
 
@@ -118,13 +120,9 @@ export class Pokemon extends React.Component {
 		}
 	}
 
-	//need to style.
-	loadPokemon() {
-
-	}
-
-
 	getSavedPokemon() {
+		console.log("get saved")
+		console.log(this.state.uid)
 		if (this.state.uid !== "") {
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
 				console.log(snapshot.val())
@@ -135,15 +133,30 @@ export class Pokemon extends React.Component {
 				let pkmnKeys = Object.keys(prefList);
 				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
 				console.log(nameList)
+				this.setState({
+					nameList: nameList,
+					pkmnList: prefList
+				})
 				return nameList;
 			});
 		}
+		return ["Abra"];
+	}
+
+	//need to style.
+	loadPokemon() {
+		console.log("load")
+		this.getSavedPokemon()
+		this.setState({
+			display:true,
+			nameList: this.getSavedPokemon()
+		})
+		console.log(this.getSavedPokemon())
+		console.log(this.state.nameList)
 	}
 
 	setSavedPokemon(selectedPokemon) {
-		this.setState({
-			current: selectedPokemon
-		})
+		//global.pkmn1 = this;
 	}
 
 	getTypeColor(type) {
@@ -195,6 +208,7 @@ export class Pokemon extends React.Component {
 		} else {
 			global.pkmn2 = this;
 		}
+		//this.getSavedPokemon();
 	}
 
 	//Retrieve the nature from the nature list
@@ -511,13 +525,14 @@ export class Pokemon extends React.Component {
 								{type2}
 							</div> : null;
 		
+		let disCont = this.state.display ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
 		
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer">
 				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>load</button>
-				{<Dropdown onChange={this.getSavedPokemon() ? this.getSavedPokemon(): ["Abra"]} />}
+				{disCont}
 			</div>
 			<div classname="App-hcontainer">
 				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
