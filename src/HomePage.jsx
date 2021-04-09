@@ -330,7 +330,7 @@ export class HomePage extends React.Component {
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
-						<Pokemon getPkmnInfo={this.retrieveAtkPokemonInfo}/>
+						<Pokemon loc = {0} getPkmnInfo={this.retrieveAtkPokemonInfo}/>
 					</div>
 					<div className="App-body">
 						<button className="button" style={{fontSize: 18, backgroundColor:"white"}} onClick={this.switchPokemon}>Switch Roles</button>
@@ -359,7 +359,7 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
+						<Pokemon loc = {1} getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
 				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
