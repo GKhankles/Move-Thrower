@@ -16,12 +16,12 @@ import pokedexGen6 from './pokedex_gen_6.csv';
 import pokedexGen7 from './pokedex_gen_7.csv';
 import pokedexGen8 from './pokedex_gen_8.csv';
 //import csv from 'jquery-csv';
-import $ from "jquery";
+//import $ from "jquery";
 import './global.js';
 import firebase from 'firebase';
 //var csvReader = require('./jquery.csv.js');
 import * as fs from 'fs';
-import * as csv from 'fast-csv';
+//import * as csv from 'fast-csv';
 
 
 export class Pokemon extends React.Component {
@@ -438,6 +438,7 @@ export class Pokemon extends React.Component {
 				}).on('end', function(data){
 			console.log('Read finished');
 		});*/
+	}
 
 	csvCallback(err, data) {
 		console.log("Inside of callback", data);
