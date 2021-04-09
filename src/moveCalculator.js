@@ -250,16 +250,16 @@ export class moveCalculator {
         
             //Calculating Modifier Components
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
 
@@ -333,16 +333,16 @@ export class moveCalculator {
             }
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
 
@@ -391,16 +391,16 @@ export class moveCalculator {
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Water"){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Fire"){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
 
@@ -457,16 +457,20 @@ export class moveCalculator {
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Fire"){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Fire")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Water"){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Water")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Water"){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Water")){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Fire"){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
                 Weather_mod = 0.5
             }
 
@@ -523,16 +527,20 @@ export class moveCalculator {
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Fire"){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Fire")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Water"){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Water")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === "Water"){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Water")){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === "Fire"){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
                 Weather_mod = 0.5
             }
 
