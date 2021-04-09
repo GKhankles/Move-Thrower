@@ -1,27 +1,16 @@
 import React from 'react';
 import Dropdown from './Dropdown.jsx';
 import StatCalculator from './StatCalculator.js';
-import Gen1Pokemon from './gen1pokemon.txt';
-import Gen2Pokemon from './gen2pokemon.txt';
-import Gen3Pokemon from './gen3pokemon.txt';
-import Gen4Pokemon from './gen4pokemon.txt';
-import Gen5Pokemon from './gen5pokemon.txt';
-import Gen6Pokemon from './gen6pokemon.txt';
-import pokedexGen1 from './pokedex_gen_1.csv';
-import pokedexGen2 from './pokedex_gen_2.csv';
-import pokedexGen3 from './pokedex_gen_3.csv';
-import pokedexGen4 from './pokedex_gen_4.csv';
-import pokedexGen5 from './pokedex_gen_5.csv';
-import pokedexGen6 from './pokedex_gen_6.csv';
-import pokedexGen7 from './pokedex_gen_7.csv';
-import pokedexGen8 from './pokedex_gen_8.csv';
-//import csv from 'jquery-csv';
-//import $ from "jquery";
+import pokedexGen1 from './pokedex_gen_1.txt';
+import pokedexGen2 from './pokedex_gen_2.txt';
+import pokedexGen3 from './pokedex_gen_3.txt';
+import pokedexGen4 from './pokedex_gen_4.txt';
+import pokedexGen5 from './pokedex_gen_5.txt';
+import pokedexGen6 from './pokedex_gen_6.txt';
+import pokedexGen7 from './pokedex_gen_7.txt';
+import pokedexGen8 from './pokedex_gen_8.txt';
 import './global.js';
 import firebase from 'firebase';
-//var csvReader = require('./jquery.csv.js');
-import * as fs from 'fs';
-//import * as csv from 'fast-csv';
 
 
 export class Pokemon extends React.Component {
@@ -40,17 +29,6 @@ export class Pokemon extends React.Component {
 		this.loadPokemon = this.loadPokemon.bind(this);
 		this.setSavedPokemon = this.setSavedPokemon.bind(this);
 		this.getSavedPokemon = this.getSavedPokemon.bind(this);
-		this.readPkmnFromCSVFile = this.readPkmnFromCSVFile.bind(this);
-		this.csvCallback = this.csvCallback.bind(this);
-
-		let emptyStats = {
-			HP: 0,
-			Atk: 0,
-			SpAtk: 0,
-			Def: 0,
-			SpDef: 0,
-			Spd: 0
-		}
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -60,10 +38,9 @@ export class Pokemon extends React.Component {
 
 		this.statCalculator = new StatCalculator();
 
-
         this.state = {
             uid: "",
-			curPkmn: "Abra",
+			curPkmn: "Bulbasaur",
 			baseStats: {			
 				HP: 0,
 				Atk: 0,
@@ -102,6 +79,7 @@ export class Pokemon extends React.Component {
 			moves: [],
 			types: [],
 			pkmnImg: "",
+			pokemonList: [],
 			isAdvanced: true,
 			readySwap: false,
 			savedName: "Insert Name",
@@ -201,8 +179,8 @@ export class Pokemon extends React.Component {
 	}
 
 	componentDidMount() {
-		this.readPokemonFromFile(Gen3Pokemon);
-		this.retrievePkmnInfo("Abra");
+		this.readPokemonFromFile();
+		this.retrievePkmnInfo("Bulbasaur");
 		if (typeof(global.pkmn1) === 'undefined') {
 			global.pkmn1 = this;
 		} else {
@@ -269,7 +247,7 @@ export class Pokemon extends React.Component {
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
 		let newTypes = [];
-        let genNumber = global.curGeneration; //make this not hardcoded for iteration 2+
+        let genNumber = global.curGeneration;
 
         if (pkmnInfo.past_types.length === 1) {
             if (genNumber === 1) {
@@ -410,66 +388,71 @@ export class Pokemon extends React.Component {
 	}
 
 		//May have to change to George's CSV file with all pokemon later
-    readPokemonFromFile(fileName) {
-        fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
-		this.readPkmnFromCSVFile(pokedexGen3);
-		//console.log("HERE");
+    readPokemonFromFile() {
+        fetch(pokedexGen1).then(response => response.text()).then(text => this.getPokemonHelper(text, 1));
+		fetch(pokedexGen2).then(response => response.text()).then(text => this.getPokemonHelper(text, 2));
+		fetch(pokedexGen3).then(response => response.text()).then(text => this.getPokemonHelper(text, 3));
+		fetch(pokedexGen4).then(response => response.text()).then(text => this.getPokemonHelper(text, 4));
+		fetch(pokedexGen5).then(response => response.text()).then(text => this.getPokemonHelper(text, 5));
+		fetch(pokedexGen6).then(response => response.text()).then(text => this.getPokemonHelper(text, 6));
+		fetch(pokedexGen7).then(response => response.text()).then(text => this.getPokemonHelper(text, 7));
+		fetch(pokedexGen8).then(response => response.text()).then(text => this.getPokemonHelper(text, 8));
     }
 
-    getPokemonHelper(text) {
+	//Build pokemonList to be displayed
+	generatePkmnList() {
+		let tempPkmnList = this.state.pokemonList[global.curGeneration - 1];
+		let displayList = [];
+		if (tempPkmnList && tempPkmnList[0] !== undefined) {
+			tempPkmnList.forEach(element => {
+				displayList.push(
+					<option name={element} key={element}>{element}</option>
+				);
+			});
+		}
+
+		return <div className="pokemonList">
+				<select value={"Bulbasaur"} onChange={this.retrievePkmnFromList}>
+					{displayList}
+				</select>
+			</div>;
+	}
+
+    getPokemonHelper(text, generation) {
         let pokemonNames = [];
         pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
         //might need to remove below code when running on github
-		for (let i = 0; i < pokemonNames.length; i++) {
-			if (pokemonNames[i].length > 0 && (pokemonNames[i][pokemonNames[i].length - 1] < 48 || pokemonNames[i][pokemonNames[i].length - 1] > 122)) {
-				pokemonNames[i] = pokemonNames[i].substring(0, pokemonNames[i].length - 1);
+		//TODO Known issue with form pokemon, such as Deoxys, Rotom, etc.
+		//Currently removing all regional forms and mega evolutions because we need to format them properly for PokeAPI
+		//TODO Another known issue with pokemon with spaces in their names, need to format them correctly for PokeAPI
+		let newPokemonList = [];
+		let tempID = 0;
+		for (let i = 1; i < pokemonNames.length - 1; i++) {
+			let tempList = pokemonNames[i].split("\t");
+			if (tempList[0] === tempID) {
+				continue;
+			} else {
+				tempID = tempList[0];
+				newPokemonList.push(tempList[1]);
 			}
 		}
-		if (pokemonNames[pokemonNames.length - 1] === null || pokemonNames[pokemonNames.length - 1].length < 2) {
-			pokemonNames = pokemonNames.slice(0, pokemonNames.length - 1);
-		}
-		//above snippet
+
+		let tempPkmnList = [];
+		tempPkmnList = this.state.pokemonList;
+		tempPkmnList[generation - 1] = newPokemonList;
 		this.setState({
-			pokemonList: pokemonNames
+			pokemonList: tempPkmnList
 		});
-        return pokemonNames;
+        return newPokemonList;
     }
 
-	readPkmnFromCSVFile(file) {
-		/*const { JSDOM } = require( "jsdom" );
-		const { window } = new JSDOM( "" );
-		const $ = require( "jquery" )( window );
-		console.log("What is this", csv);
-		let pkmnFile = csv.toArrays("pokedex_gen_3.csv");
-		console.log("Here is the parsed CSV file", pkmnFile);
-		let data;*/
-		/*var list = [];
-		let myData;
-
-		var read = fs.createReadStream('pokedex_gen_3.csv').pipe(csv.parse({ headers: true }))
-			.on('data',function(data){  // this function executes once the data has been retrieved
-				console.log(data);  // see, data is already an array
-				list = data; // so you might not need to do this
-					for(let i = 0; i < list.length; i++){
-						console.log(list[i]);
-					}
-				}).on('end', function(data){
-			console.log('Read finished');
-		});*/
-	}
-
-	csvCallback(err, data) {
-		console.log("Inside of callback", data);
-	}
 
 	render() {
-		//console.log(this.getSavedPokemon());
-		//Will have to fix this for later
 		let IVEV = <div className="advancedStat">
 							<b className="statText">IV</b>
 							<b className="statText">EV</b>
 						</div>;
-		let dropDownMenu = this.state.pokemonList ? <Dropdown names={this.state.pokemonList} getOption={this.retrievePkmnFromList}/> : null;
+
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
 		let hpAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
@@ -502,7 +485,9 @@ export class Pokemon extends React.Component {
 						</div>;
 
 		let status = global.advancedToggle ? <div className="status">
-		<b>Status: </b><Dropdown initial={this.state.status} names={this.statusList} getOption={this.retrieveStatusFromList}/> </div>: null; 	
+		<b>Status: </b><Dropdown initial={this.state.status} names={this.statusList} getOption={this.retrieveStatusFromList}/> </div>: null;
+		
+		let pkmnDropDown = this.generatePkmnList();
 
 		let advancedStats = global.advancedToggle ? <div className="statCol">
 								{IVEV}
@@ -536,6 +521,7 @@ export class Pokemon extends React.Component {
 				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>load</button>
 				{disCont}
+				{<Dropdown onChange={this.getSavedPokemon() ? this.getSavedPokemon(): ["Bulbasaur"]} />}
 			</div>
 			<div classname="App-hcontainer">
 				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
@@ -545,10 +531,7 @@ export class Pokemon extends React.Component {
 
         return (
             <div className = "pokemon">
-				{/* Image will eventually replace the 7 br here, and styling needs to be done
-				for all of the stats below. Not sure if possible, but can try to shorten up
-				the level input bar?*/}
-				{dropDownMenu}
+				{pkmnDropDown}
 				<br/>
 				{pkmnImg}
 				<br/>
