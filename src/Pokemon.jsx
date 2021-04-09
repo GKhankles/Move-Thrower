@@ -21,6 +21,7 @@ import './global.js';
 import firebase from 'firebase';
 //var csvReader = require('./jquery.csv.js');
 import * as fs from 'fs';
+//import { timeStamp } from 'console';
 //import * as csv from 'fast-csv';
 
 
@@ -123,23 +124,26 @@ export class Pokemon extends React.Component {
 	getSavedPokemon() {
 		console.log("get saved")
 		console.log(this.state.uid)
+		let nameList = [];
+		let prefList = {};
 		if (this.state.uid !== "") {
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
 				console.log(snapshot.val())
 				let data = snapshot.val() ? snapshot.val() : {};
-				let prefList = { ...data }
-				let nameList = [];
+				prefList = { ...data }
 				console.log(prefList)
 				let pkmnKeys = Object.keys(prefList);
 				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
 				console.log(nameList)
-				this.setState({
-					nameList: nameList,
-					pkmnList: prefList
-				})
-				return nameList;
 			});
-		}
+			this.setState({
+				nameList: nameList,
+				pkmnList: prefList
+			});
+			console.log("pkm")
+			console.log(this.state.pkmnList)
+			return nameList;
+		};
 		return ["Abra"];
 	}
 
@@ -148,7 +152,7 @@ export class Pokemon extends React.Component {
 		console.log("load")
 		this.getSavedPokemon()
 		this.setState({
-			display:true,
+			display: true,
 			nameList: this.getSavedPokemon()
 		})
 		console.log(this.getSavedPokemon())
@@ -156,7 +160,54 @@ export class Pokemon extends React.Component {
 	}
 
 	setSavedPokemon(selectedPokemon) {
-		//global.pkmn1 = this;
+		console.log("loadpkm")
+		console.log(this.state.pkmnList)
+		let pkm = null;
+		let pkmnKeys = Object.keys(this.state.pkmnList);
+		pkmnKeys.map((key) => 
+		{
+			if(this.state.pkmnList[key].curPkmn === selectedPokemon){
+				pkm = this.state.pkmnList[key];
+			}
+		}
+		)
+		console.log("pkm1")
+		console.log(pkm.uid)
+		if(this.props.loc === 0){
+			global.pkmn1.setState({
+				uid: pkm.uid,
+				curPkmn: pkm.curPkmn,
+				baseStats: pkm.baseStats,
+				ivInfo: pkm.ivInfo,
+				evInfo: pkm.evInfo,
+				totalStats: pkm.totalStats,
+				level: pkm.level,
+				nature: pkm.nature,
+				status: pkm.status,
+				moves: pkm.moves,
+				types: pkm.types,
+				pkmnImg: pkm.pkmnImg,
+				isAdvanced: pkm.isAdvanced,
+				readySwap: pkm.readySwap
+			});
+		}else{
+			global.pkmn2.setState({
+				uid: pkm.uid,
+				curPkmn: pkm.curPkmn,
+				baseStats: pkm.baseStats,
+				ivInfo: pkm.ivInfo,
+				evInfo: pkm.evInfo,
+				totalStats: pkm.totalStats,
+				level: pkm.level,
+				nature: pkm.nature,
+				status: pkm.status,
+				moves: pkm.moves,
+				types: pkm.types,
+				pkmnImg: pkm.pkmnImg,
+				isAdvanced: pkm.isAdvanced,
+				readySwap: pkm.readySwap
+			});
+		}
 	}
 
 	getTypeColor(type) {
@@ -528,7 +579,7 @@ export class Pokemon extends React.Component {
 								{type2}
 							</div> : null;
 		
-		let disCont = this.state.display ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
+		let disCont = (this.state.display && (this.props.loc == 1)) ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
 		
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
