@@ -91,14 +91,16 @@ export class moveCalculator {
             this.elemental_types.Ice, this.elemental_types.Dragon, this.elemental_types.Dark, this.elemental_types.Fairy];
 
         this.weather_types = {
-            "Clear": 1,
-            "Harsh_Sunlight": 2,
+			"Clear": 1,
+            "Harsh Sunlight": 2,
             "Rain": 3,
             "Sandstorm": 4,
             "Hail": 5,
-            "Shadowy_Aura": 6,
+            "Shadowy Aura": 6,
             "Fog": 7,
-            "Strong_Winds": 8
+            "Strong Winds": 8,
+			"Extremely Harsh Sunlight": 9,
+			"Heavy Rain": 10
         };
 
         this.move_category = {

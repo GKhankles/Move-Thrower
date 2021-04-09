@@ -21,7 +21,9 @@ export class HomePage extends React.Component {
 		this.changeGeneration = this.changeGeneration.bind(this);
 		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
+
 		this.moveCalculator = new moveCalculator();
+		
 		this.weather_types = {
 			"Clear": 1,
             "Harsh Sunlight": 2,
@@ -30,20 +32,34 @@ export class HomePage extends React.Component {
             "Hail": 5,
             "Shadowy Aura": 6,
             "Fog": 7,
-            "Strong Winds": 8
+            "Strong Winds": 8,
+			"Extremely Harsh Sunlight": 9,
+			"Heavy Rain": 10
 		};
+
+		this.weatherList1 = ["Clear"];
+		this.weatherList2 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm"];
+		this.weatherList3 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm", "Hail", "Shadowy Aura"];
+		this.weatherList45 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm", "Hail", "Fog"];
+		this.weatherList678 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm", "Hail", "Fog", "Heavy Rain", "Extremely Harsh Sunlight", "Strong Winds"];
+
+		this.weatherList = null;
+
+
 		this.state = {
 			atkPkmnInfo: {},
 			defPkmnInfo: {},
 			isAdvanced: false,
 			calculatedMoves: null,
 			calculating: false,
-			weather: 1
+			weather: "Clear",
+			weatherList: null
 		};
 		global.advancedToggle = false;
+		global.curGeneration = 3;
     }
     
-	weatherList = ["Clear","Harsh Sunlight","Rain","Sandstorm","Hail","Shadowy Aura","Fog","Strong Winds"]
+	
     /*The Idea here is that since our website is technically only one page, there is nearly 
 	* no way that we can encounter the error that we were getting with Badger-Bytes. I think
 	* the only situation that could cause us to call more than once would be when the user needs
@@ -164,6 +180,9 @@ export class HomePage extends React.Component {
 	changeGeneration(event) {
 		global.curGeneration = event.target.value;
 		console.log("cur generation", global.curGeneration);
+		this.setState({
+			weather: "Clear"
+		});
 		this.forceUpdate();
 	}
 
@@ -181,10 +200,44 @@ export class HomePage extends React.Component {
 							<input type="radio" value={7} name="generation"/> 7
 						</div>
 					</div>: null;
-		let weatherSelection = global.advancedToggle ? <div className="App-body">
+
+		let weatherSelection1 = global.advancedToggle && global.curGeneration == 1? 
+					<div className="App-body">
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
-							<Dropdown initial={this.state.Weather} names={this.weatherList} getOption={this.retrieveWeatherFromList}/>
+							<Dropdown initial={this.state.weather} names={this.weatherList1} getOption={this.retrieveWeatherFromList}/>
+						</div>
+					</div>: null;
+
+		let weatherSelection2 = global.advancedToggle && global.curGeneration == 2? 
+					<div className="App-body">
+						<div className="weatherDropDown" onChange={this.changeWeather}>
+							<h4>Weather</h4>
+							<Dropdown initial={this.state.weather} names={this.weatherList2} getOption={this.retrieveWeatherFromList}/>
+						</div>
+					</div>: null;
+
+		let weatherSelection3 = global.advancedToggle && global.curGeneration == 3? 
+					<div className="App-body">
+						<div className="weatherDropDown" onChange={this.changeWeather}>
+							<h4>Weather</h4>
+							<Dropdown initial={this.state.weather} names={this.weatherList3} getOption={this.retrieveWeatherFromList}/>
+						</div>
+					</div>: null;
+
+		let weatherSelection45 = global.advancedToggle && global.curGeneration == 4 || global.curGeneration == 5? 
+					<div className="App-body">
+						<div className="weatherDropDown" onChange={this.changeWeather}>
+							<h4>Weather</h4>
+							<Dropdown initial={this.state.weather} names={this.weatherList45} getOption={this.retrieveWeatherFromList}/>
+						</div>
+					</div>: null;
+
+		let weatherSelection678 = global.advancedToggle && global.curGeneration == 6 || global.curGeneration == 7 || global.curGeneration == 8? 
+					<div className="App-body">
+						<div className="weatherDropDown" onChange={this.changeWeather}>
+							<h4>Weather</h4>
+							<Dropdown initial={this.state.weather} names={this.weatherList678} getOption={this.retrieveWeatherFromList}/>
 						</div>
 					</div>: null;
 
@@ -218,7 +271,11 @@ export class HomePage extends React.Component {
 						<br/>
 						<div> 
 							{generationSelection}
-							{weatherSelection}
+							{weatherSelection1}
+							{weatherSelection2}
+							{weatherSelection3}
+							{weatherSelection45}
+							{weatherSelection678}
 						</div>
 						<br/>
 						<br/>
