@@ -1,6 +1,6 @@
 Name,Type,Category,Power,Acc,PP,Effect
 "10,000,000 Volt Thunderbolt",Electric,special,195,0,1,Pikachu-exclusive Z-Move. High critical hit ratio.
-Absorb,Grass,special,20,100,25,User recovers half the HP inflicted on opponent.
+Absorb,Grass,special,40,100,25,User recovers half the HP inflicted on opponent.
 Accelerock,Rock,physical,40,100,20,User attacks first.
 Acid,Poison,special,40,100,30,May lower opponent's Special Defense.
 Acid Armor,Poison,status,0,0,20,Sharply raises user's Defense.
@@ -371,7 +371,7 @@ Mat Block,Fighting,status,0,0,10,Protects teammates from damaging moves.
 Me First,Normal,status,0,0,20,User copies the opponent's attack with 1.5× power.
 Mean Look,Normal,status,0,0,5,Opponent cannot flee or switch.
 Meditate,Psychic,status,0,0,40,Raises user's Attack.
-Mega Drain,Grass,special,40,100,15,User recovers half the HP inflicted on opponent.
+Mega Drain,Grass,special,75,100,15,User recovers half the HP inflicted on opponent.
 Mega Kick,Normal,physical,120,75,5,
 Mega Punch,Normal,physical,80,85,20,
 Megahorn,Bug,physical,120,85,10,
@@ -403,7 +403,7 @@ Mud Shot,Ground,special,55,95,15,Lowers opponent's Speed.
 Mud Sport,Ground,status,0,0,15,Weakens the power of Electric-type moves.
 Mud-Slap,Ground,special,20,100,10,Lowers opponent's Accuracy.
 Muddy Water,Water,special,90,85,10,May lower opponent's Accuracy.
-Multi-Attack,Normal,physical,120,100,10,Type matches Memory item held.
+Multi-Attack,Normal,physical,90,100,10,Type matches Memory item held.
 Mystical Fire,Fire,special,75,100,10,Lowers opponent's Special Attack.
 Nasty Plot,Dark,status,0,0,20,Sharply raises user's Special Attack.
 Natural Gift,Normal,physical,0,100,15,Power and type depend on the user's held berry.
@@ -485,7 +485,7 @@ Quiver Dance,Bug,status,0,0,20,"Raises user's Special Attack, Special Defense an
 Rage,Normal,physical,20,100,20,Raises user's Attack when hit.
 Rage Powder,Bug,status,0,0,20,"Forces attacks to hit user, not team-mates."
 Rain Dance,Water,status,0,0,5,Makes it rain for 5 turns.
-Rapid Spin,Normal,physical,50,100,40,Raises user's Speed and removes entry hazards and trap move effects.
+Rapid Spin,Normal,physical,20,100,40,Raises user's Speed and removes entry hazards and trap move effects.
 Razor Leaf,Grass,physical,55,95,25,High critical hit ratio.
 Razor Shell,Water,physical,75,95,10,May lower opponent's Defense.
 Razor Wind,Normal,special,80,100,10,"Charges on first turn, attacks on second. High critical hit ratio."
@@ -560,7 +560,7 @@ Sizzly Slide,Fire,physical,90,100,15,Burns the opponent.
 Sketch,Normal,status,0,0,1,Permanently copies the opponent's last move.
 Skill Swap,Psychic,status,0,0,10,The user swaps Abilities with the opponent.
 Skull Bash,Normal,physical,130,100,10,"Raises Defense on first turn, attacks on second."
-Sky Attack,Flying,physical,140,90,5,"Charges on first turn, attacks on second. May cause flinching. High critical hit ratio."
+Sky Attack,Flying,physical,200,90,5,"Charges on first turn, attacks on second. May cause flinching. High critical hit ratio."
 Sky Drop,Flying,physical,60,100,10,"Takes opponent into the air on first turn, drops them on second turn."
 Sky Uppercut,Fighting,physical,85,90,15,"Hits the opponent, even during Fly."
 Slack Off,Normal,status,0,0,10,User recovers half its max HP.
@@ -581,7 +581,7 @@ Snatch,Dark,status,0,0,10,Steals the effects of the opponent's next move.
 Snore,Normal,special,50,100,15,Can only be used if asleep. May cause flinching.
 Soak,Water,status,0,100,20,Changes the target's type to water.
 Soft-Boiled,Normal,status,0,0,10,User recovers half its max HP.
-Solar Beam,Grass,special,120,100,10,"Charges on first turn, attacks on second."
+Solar Beam,Grass,special,200,100,10,"Charges on first turn, attacks on second."
 Solar Blade,Grass,physical,125,100,10,"Charges on first turn, attacks on second."
 Sonic Boom,Normal,special,0,90,20,Always inflicts 20 HP.
 Soul-Stealing 7-Star Strike,Ghost,physical,195,0,1,Marshadow-exclusive Z-Move.

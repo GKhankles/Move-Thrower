@@ -1,5 +1,5 @@
 Name,Type,Category,Power,Acc,PP,Effect
-Absorb,Grass,special,20,100,25,User recovers half the HP inflicted on opponent.
+Absorb,Grass,special,40,100,25,User recovers half the HP inflicted on opponent.
 Acid,Poison,special,40,100,30,May lower opponent's Special Defense.
 Acid Armor,Poison,status,0,0,20,Sharply raises user's Defense.
 Acid Spray,Poison,special,40,100,20,Sharply lowers opponent's Special Defense.
@@ -165,7 +165,7 @@ False Swipe,Normal,physical,40,100,40,Always leaves opponent with at least 1 HP.
 Feather Dance,Flying,status,0,100,15,Sharply lowers opponent's Attack.
 Feint,Normal,physical,30,100,10,Only hits if opponent uses Protect or Detect in the same turn.
 Feint Attack,Dark,physical,60,0,20,Ignores Accuracy and Evasiveness.
-Fell Stinger,Bug,physical,50,100,25,Drastically raises user's Attack if target is KO'd.
+Fell Stinger,Bug,physical,30,100,25,Drastically raises user's Attack if target is KO'd.
 Fiery Dance,Fire,special,80,100,10,May raise user's Special Attack.
 Final Gambit,Fighting,special,0,100,5,Inflicts damage equal to the user's remaining HP. User faints.
 Fire Blast,Fire,special,110,85,5,May burn opponent.
@@ -186,7 +186,7 @@ Flatter,Dark,status,0,100,15,"Confuses opponent, but raises its Special Attack b
 Fling,Dark,physical,0,100,10,Power depends on held item.
 Flower Shield,Fairy,status,0,0,10,Sharply raises Defense of all Grass-type Pokémon on the field.
 Fly,Flying,physical,90,95,15,"Flies up on first turn, attacks on second turn."
-Flying Press,Fighting,physical,100,95,10,Deals Fighting and Flying type damage.
+Flying Press,Fighting,physical,80,95,10,Deals Fighting and Flying type damage.
 Focus Blast,Fighting,special,120,70,5,May lower opponent's Special Defense.
 Focus Energy,Normal,status,0,0,30,Increases critical hit ratio.
 Focus Punch,Fighting,physical,150,100,20,"If the user is hit before attacking, it flinches instead."
@@ -295,7 +295,7 @@ Lava Plume,Fire,special,80,100,15,May burn opponent.
 Leaf Blade,Grass,physical,90,100,15,High critical hit ratio.
 Leaf Storm,Grass,special,130,90,5,Sharply lowers user's Special Attack.
 Leaf Tornado,Grass,special,65,90,10,May lower opponent's Accuracy.
-Leech Life,Bug,physical,80,100,10,User recovers half the HP inflicted on opponent.
+Leech Life,Bug,physical,20,100,10,User recovers half the HP inflicted on opponent.
 Leech Seed,Grass,status,0,90,10,Drains HP from opponent each turn.
 Leer,Normal,status,0,100,30,Lowers opponent's Defense.
 Lick,Ghost,physical,30,100,30,May paralyze opponent.
@@ -321,7 +321,7 @@ Mat Block,Fighting,status,0,0,10,Protects teammates from damaging moves.
 Me First,Normal,status,0,0,20,User copies the opponent's attack with 1.5× power.
 Mean Look,Normal,status,0,0,5,Opponent cannot flee or switch.
 Meditate,Psychic,status,0,0,40,Raises user's Attack.
-Mega Drain,Grass,special,40,100,15,User recovers half the HP inflicted on opponent.
+Mega Drain,Grass,special,75,100,15,User recovers half the HP inflicted on opponent.
 Mega Kick,Normal,physical,120,75,5,
 Mega Punch,Normal,physical,80,85,20,
 Megahorn,Bug,physical,120,85,10,
@@ -350,7 +350,7 @@ Mud Shot,Ground,special,55,95,15,Lowers opponent's Speed.
 Mud Sport,Ground,status,0,0,15,Weakens the power of Electric-type moves.
 Mud-Slap,Ground,special,20,100,10,Lowers opponent's Accuracy.
 Muddy Water,Water,special,90,85,10,May lower opponent's Accuracy.
-Mystical Fire,Fire,special,75,100,10,Lowers opponent's Special Attack.
+Mystical Fire,Fire,special,65,100,10,Lowers opponent's Special Attack.
 Nasty Plot,Dark,status,0,0,20,Sharply raises user's Special Attack.
 Natural Gift,Normal,physical,0,100,15,Power and type depend on the user's held berry.
 Nature Power,Normal,status,0,0,20,Uses a certain move based on the current terrain.
@@ -369,7 +369,7 @@ Origin Pulse,Water,special,110,85,10,Hits all adjacent opponents.
 Outrage,Dragon,physical,120,100,10,User attacks for 2-3 turns but then becomes confused.
 Overheat,Fire,special,130,90,5,Sharply lowers user's Special Attack.
 Pain Split,Normal,status,0,0,20,The user's and opponent's HP becomes the average of both.
-Parabolic Charge,Electric,special,65,100,20,User recovers half the HP inflicted on opponent.
+Parabolic Charge,Electric,special,50,100,20,User recovers half the HP inflicted on opponent.
 Parting Shot,Dark,status,0,100,20,Lowers opponent's Attack and Special Attack then switches out.
 Pay Day,Normal,physical,40,100,20,A small amount of money is gained after the battle resolves.
 Payback,Dark,physical,50,100,10,Power doubles if the user was attacked first.
@@ -418,7 +418,7 @@ Quiver Dance,Bug,status,0,0,20,"Raises user's Special Attack, Special Defense an
 Rage,Normal,physical,20,100,20,Raises user's Attack when hit.
 Rage Powder,Bug,status,0,0,20,"Forces attacks to hit user, not team-mates."
 Rain Dance,Water,status,0,0,5,Makes it rain for 5 turns.
-Rapid Spin,Normal,physical,50,100,40,Raises user's Speed and removes entry hazards and trap move effects.
+Rapid Spin,Normal,physical,20,100,40,Raises user's Speed and removes entry hazards and trap move effects.
 Razor Leaf,Grass,physical,55,95,25,High critical hit ratio.
 Razor Shell,Water,physical,75,95,10,May lower opponent's Defense.
 Razor Wind,Normal,special,80,100,10,"Charges on first turn, attacks on second. High critical hit ratio."
@@ -483,7 +483,7 @@ Sing,Normal,status,0,55,15,Puts opponent to sleep.
 Sketch,Normal,status,0,0,1,Permanently copies the opponent's last move.
 Skill Swap,Psychic,status,0,0,10,The user swaps Abilities with the opponent.
 Skull Bash,Normal,physical,130,100,10,"Raises Defense on first turn, attacks on second."
-Sky Attack,Flying,physical,140,90,5,"Charges on first turn, attacks on second. May cause flinching. High critical hit ratio."
+Sky Attack,Flying,physical,200,90,5,"Charges on first turn, attacks on second. May cause flinching. High critical hit ratio."
 Sky Drop,Flying,physical,60,100,10,"Takes opponent into the air on first turn, drops them on second turn."
 Sky Uppercut,Fighting,physical,85,90,15,"Hits the opponent, even during Fly."
 Slack Off,Normal,status,0,0,10,User recovers half its max HP.
@@ -503,7 +503,7 @@ Snatch,Dark,status,0,0,10,Steals the effects of the opponent's next move.
 Snore,Normal,special,50,100,15,Can only be used if asleep. May cause flinching.
 Soak,Water,status,0,100,20,Changes the target's type to water.
 Soft-Boiled,Normal,status,0,0,10,User recovers half its max HP.
-Solar Beam,Grass,special,120,100,10,"Charges on first turn, attacks on second."
+Solar Beam,Grass,special,200,100,10,"Charges on first turn, attacks on second."
 Sonic Boom,Normal,special,0,90,20,Always inflicts 20 HP.
 Spacial Rend,Dragon,special,100,95,5,High critical hit ratio.
 Spark,Electric,physical,65,100,20,May paralyze opponent.
@@ -532,7 +532,7 @@ Struggle Bug,Bug,special,50,100,20,Lowers opponent's Special Attack.
 Stun Spore,Grass,status,0,75,30,Paralyzes opponent.
 Submission,Fighting,physical,80,80,20,User receives recoil damage.
 Substitute,Normal,status,0,0,10,Uses HP to creates a decoy that takes hits.
-Sucker Punch,Dark,physical,70,100,5,"User attacks first, but only works if opponent is readying an attack."
+Sucker Punch,Dark,physical,80,100,5,"User attacks first, but only works if opponent is readying an attack."
 Sunny Day,Fire,status,0,0,5,Makes it sunny for 5 turns.
 Super Fang,Normal,physical,0,90,10,Always takes off half of the opponent's HP.
 Superpower,Fighting,physical,120,100,5,Lowers user's Attack and Defense.
@@ -547,7 +547,7 @@ Switcheroo,Dark,status,0,100,10,Swaps held items with the opponent.
 Swords Dance,Normal,status,0,0,20,Sharply raises user's Attack.
 Synchronoise,Psychic,special,120,100,10,Hits any Pokémon that shares a type with the user.
 Synthesis,Grass,status,0,0,5,User recovers HP. Amount varies with the weather.
-Tackle,Normal,physical,40,100,35,
+Tackle,Normal,physical,50,100,35,
 Tail Glow,Bug,status,0,0,20,Drastically raises user's Special Attack.
 Tail Slap,Normal,physical,25,85,10,Hits 2-5 times in one turn.
 Tail Whip,Normal,status,0,100,30,Lowers opponent's Defense.

@@ -139,7 +139,7 @@ export class SignIn extends React.Component {
         //TODO Redirect user to user page, where they can change account info.
         firebase.auth().signOut()
             .then(() => {
-                firebase.database().ref('users/' + this.state.uid).set({
+                firebase.database().ref('users/' + this.state.uid).update({
                     signedIn : false,
                 });
                 this.setState({
