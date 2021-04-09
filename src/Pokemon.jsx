@@ -161,39 +161,39 @@ export class Pokemon extends React.Component {
 
 	getTypeColor(type) {
 		switch (type) {
-			case "fire":
+			case "Fire":
 				return "#EE8130";
-			case "water":
+			case "Water":
 				return "#6390F0";
-			case "electric":
+			case "Electric":
 				return "#F7D02C";
-			case "grass":
+			case "Grass":
 				return "#7AC74C";
-			case "ice":
+			case "Ice":
 				return "#96D9D6";
-			case "fighting":
+			case "Fighting":
 				return "#C22E28";
-			case "poison":
+			case "Poison":
 				return "#A33EA1";
-			case "ground":
+			case "Ground":
 				return "#E2BF65";
-			case "flying":
+			case "Flying":
 				return "#A98FF3";
-			case "psychic":
+			case "Psychic":
 				return "#F95587";
-			case "bug":
+			case "Bug":
 				return "#A6B91A";
-			case "rock":
+			case "Rock":
 				return "#B6A136";
-			case "ghost":
+			case "Ghost":
 				return "#735797";
-			case "dragon":
+			case "Dragon":
 				return "#6F35FC";
-			case "dark":
+			case "Dark":
 				return "#705746";
-			case "steel":
+			case "Steel":
 				return "#B7B7CE";
-			case "fairy":
+			case "Fairy":
 				return "#D685AD";
 			default: //normal type
 				return "#A8A77A";
@@ -290,6 +290,10 @@ export class Pokemon extends React.Component {
                 newTypes.push(pkmnInfo.types[i].type.name);
             }
         }
+
+		for (let i = 0; i < newTypes.length; i++) {
+			newTypes[i] = newTypes[i].charAt(0).toUpperCase() + newTypes[i].slice(1)
+		}
 
 		this.setState({
 			baseStats: newBaseStats,
@@ -460,7 +464,6 @@ export class Pokemon extends React.Component {
 
 	render() {
 		//console.log(this.getSavedPokemon());
-		console.log(this.state.status)
 		//Will have to fix this for later
 		let IVEV = <div className="advancedStat">
 							<b className="statText">IV</b>
