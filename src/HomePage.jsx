@@ -112,7 +112,7 @@ export class HomePage extends React.Component {
 			status: global.pkmn2.state.status,
 			moves: global.pkmn2.state.moves,
 			types: global.pkmn2.state.types,
-			pkmnImg: global.pkmn2.state.pkmnInfo,
+			pkmnImg: global.pkmn2.state.pkmnImg,
 			isAdvanced: global.pkmn2.state.isAdvanced,
 			readySwap: global.pkmn2.state.readySwap
 		});
