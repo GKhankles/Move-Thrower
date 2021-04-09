@@ -446,3 +446,46 @@ test("Gen 6 Burn Damage Test", () => {
     expect(damageCalc22.min_damage).toBe(34) &&
     expect(damageCalc22.max_damage).toBe(40);
 });
+
+//GENERATION VII TESTS
+
+let damageCalc23 = moveCalculator.calculateDamage(waterfall, pokemon6, pokemon8, 7, stage_cond)
+
+test("Gen 7 Resisted Move Damage Test", () => {
+    expect(damageCalc23.min_damage).toBe(46) &&
+    expect(damageCalc23.max_damage).toBe(54);
+});
+
+let updatedIcebeam = {
+    type: "Ice",
+    power: 90,
+    isPhysical: false
+}
+
+let damageCalc24 = moveCalculator.calculateDamage(updatedIcebeam, pokemon6, pokemon8, 7, stage_cond)
+
+test("Gen 7 Super Effective Move Damage Test", () => {
+    expect(damageCalc24.min_damage).toBe(180) &&
+    expect(damageCalc24.max_damage).toBe(214);
+});
+
+let damageCalc25 = moveCalculator.calculateDamage(waterfall, pokemon6, pokemon8, 7, stage_cond_sun)
+
+test("Gen 7 Sunlight Modifier Test", () => {
+    expect(damageCalc25.min_damage).toBe(22) &&
+    expect(damageCalc25.max_damage).toBe(27);
+});
+
+let damageCalc26 = moveCalculator.calculateDamage(waterfall, pokemon6, pokemon8, 7, stage_cond_rain)
+
+test("Gen 7 Rain Modifier Test", () => {
+    expect(damageCalc26.min_damage).toBe(69) &&
+    expect(damageCalc26.max_damage).toBe(81);
+});
+
+let damageCalc27 = moveCalculator.calculateDamage(waterfall, pokemon7, pokemon8, 7, stage_cond)
+
+test("Gen 7 Burn Damage Test", () => {
+    expect(damageCalc27.min_damage).toBe(23) &&
+    expect(damageCalc27.max_damage).toBe(27);
+});
