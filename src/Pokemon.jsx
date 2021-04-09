@@ -7,8 +7,22 @@ import Gen3Pokemon from './gen3pokemon.txt';
 import Gen4Pokemon from './gen4pokemon.txt';
 import Gen5Pokemon from './gen5pokemon.txt';
 import Gen6Pokemon from './gen6pokemon.txt';
+import pokedexGen1 from './pokedex_gen_1.csv';
+import pokedexGen2 from './pokedex_gen_2.csv';
+import pokedexGen3 from './pokedex_gen_3.csv';
+import pokedexGen4 from './pokedex_gen_4.csv';
+import pokedexGen5 from './pokedex_gen_5.csv';
+import pokedexGen6 from './pokedex_gen_6.csv';
+import pokedexGen7 from './pokedex_gen_7.csv';
+import pokedexGen8 from './pokedex_gen_8.csv';
+//import csv from 'jquery-csv';
+import $ from "jquery";
 import './global.js';
 import firebase from 'firebase';
+//var csvReader = require('./jquery.csv.js');
+import * as fs from 'fs';
+import * as csv from 'fast-csv';
+
 
 export class Pokemon extends React.Component {
     constructor(props) {
@@ -26,6 +40,8 @@ export class Pokemon extends React.Component {
 		this.loadPokemon = this.loadPokemon.bind(this);
 		this.setSavedPokemon = this.setSavedPokemon.bind(this);
 		this.getSavedPokemon = this.getSavedPokemon.bind(this);
+		this.readPkmnFromCSVFile = this.readPkmnFromCSVFile.bind(this);
+		this.csvCallback = this.csvCallback.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -43,6 +59,7 @@ export class Pokemon extends React.Component {
 		this.statusList = ["Healthy","Badly Poisoned","Burn","Freeze","Paralysis","Poisoned","Sleep"];
 
 		this.statCalculator = new StatCalculator();
+
 
         this.state = {
             uid: "",
@@ -377,6 +394,7 @@ export class Pokemon extends React.Component {
 		//May have to change to George's CSV file with all pokemon later
     readPokemonFromFile(fileName) {
         fetch(fileName).then(response => response.text()).then(text => this.getPokemonHelper(text));
+		this.readPkmnFromCSVFile(pokedexGen3);
 		//console.log("HERE");
     }
 
@@ -398,6 +416,32 @@ export class Pokemon extends React.Component {
 		});
         return pokemonNames;
     }
+
+	readPkmnFromCSVFile(file) {
+		/*const { JSDOM } = require( "jsdom" );
+		const { window } = new JSDOM( "" );
+		const $ = require( "jquery" )( window );
+		console.log("What is this", csv);
+		let pkmnFile = csv.toArrays("pokedex_gen_3.csv");
+		console.log("Here is the parsed CSV file", pkmnFile);
+		let data;*/
+		/*var list = [];
+		let myData;
+
+		var read = fs.createReadStream('pokedex_gen_3.csv').pipe(csv.parse({ headers: true }))
+			.on('data',function(data){  // this function executes once the data has been retrieved
+				console.log(data);  // see, data is already an array
+				list = data; // so you might not need to do this
+					for(let i = 0; i < list.length; i++){
+						console.log(list[i]);
+					}
+				}).on('end', function(data){
+			console.log('Read finished');
+		});*/
+
+	csvCallback(err, data) {
+		console.log("Inside of callback", data);
+	}
 
 	render() {
 		//console.log(this.getSavedPokemon());
