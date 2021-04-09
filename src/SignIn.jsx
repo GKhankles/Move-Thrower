@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import createFirebase from './firebase.js';
 import {HomePage} from './HomePage.jsx';
 import Dropdown from './Dropdown.jsx';
+import './global.js';
 
 export class SignIn extends React.Component {
     constructor(props) {
@@ -18,10 +19,6 @@ export class SignIn extends React.Component {
         this.updatePassword = this.updatePassword.bind(this);
         this.resetErrors = this.resetErrors.bind(this);
 		this.updateUserInfo = this.updateUserInfo.bind(this);
-        this.savePokemon = this.savePokemon.bind(this);
-        this.loadPokemon = this.loadPokemon.bind(this);
-        this.setSavedPokemon = this.setSavedPokemon.bind(this);
-        this.getSavedPokemon = this.getSavedPokemon.bind(this);
         let fbInitialized = false;
 
 		if (this.props.state) {
@@ -85,6 +82,8 @@ export class SignIn extends React.Component {
                         preference: userInfo.preference
                     });
                 });
+                global.pkmn1.setState({ uid: user.uid });
+                global.pkmn2.setState({ uid: user.uid });
                 
             }).catch((error) => {
                 var errorCode = error.code;
@@ -151,6 +150,8 @@ export class SignIn extends React.Component {
                     preference: "",
                     isButtonDisabled: false,
                 });
+                global.pkmn1.setState({ uid: "" });
+                global.pkmn2.setState({ uid: "" });
             })
             .catch((error) => {
                 var errorCode = error.code;
@@ -170,49 +171,6 @@ export class SignIn extends React.Component {
                 fireBaseInitialized: true
             });
         }
-    }
-
-    savePokemon(){
-        if(this.state.signedIn){
-                firebase.database().ref('users/' + this.state.uid + '/preference').push(this.props.preference)
-                return true;
-            }else{
-                return false;
-            }
-    }
-
-    //need to style.
-    loadPokemon(){
-        
-        let names = this.getSavedPokemon();
-        let defaultOption = "--";
-        return(
-        <div>
-            <b>Saved Pokemon </b>
-            <Dropdown names={this.getSavedPokemon()}/>
-        </div>
-        );
-    }
-    
-
-    getSavedPokemon(){
-        let nameList=[];
-            firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot =>{
-                    console.log(snapshot.val())
-                    let data = snapshot.val() ? snapshot.val() : {};
-                    let prefList = {...data}
-                    console.log(prefList)
-                    let pkmnKeys = Object.keys(prefList);
-                    pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
-                    console.log(nameList)
-            });
-            return nameList;
-    }
-
-    setSavedPokemon(selectedPokemon){
-        this.setState({
-            current: selectedPokemon
-        })
     }
 
     //function returning display for the sign in display
@@ -253,8 +211,6 @@ export class SignIn extends React.Component {
     loggedInDisplay() {
         let displayUsername = this.state.username;
         //console.log(this.state.signedIn);
-        //console.log(this.getSavedPokemon());
-        let name = this.getSavedPokemon()
         
         return (
             <div classname="loggedInDisplay">
@@ -262,16 +218,6 @@ export class SignIn extends React.Component {
                 <div className="loggedInButtons">
                     <button onClick = {this.sendSignOut} disabled={this.state.isButtonDisabled}>Log Out</button>
                 </div>
-                <div className="loggedInButtons">
-                    <button onClick = {this.savePokemon} disabled={this.state.isButtonDisabled}>Save</button>
-                </div>
-                <div>
-                    <b>Saved Pokemon </b>
-                    <Dropdown names={name}/>
-                </div>
-                <div className="loggedInButtons">
-                    <button onClick = {this.loadPokemon} disabled={this.state.isButtonDisabled}>load</button>
-                </div>         
             </div> 
         );
     }

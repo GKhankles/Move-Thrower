@@ -8,6 +8,7 @@ import Gen4Pokemon from './gen4pokemon.txt';
 import Gen5Pokemon from './gen5pokemon.txt';
 import Gen6Pokemon from './gen6pokemon.txt';
 import './global.js';
+import firebase from 'firebase';
 
 export class Pokemon extends React.Component {
     constructor(props) {
@@ -21,6 +22,10 @@ export class Pokemon extends React.Component {
 		this.retrieveNatureFromList = this.retrieveNatureFromList.bind(this);
 		this.retrieveStatusFromList = this.retrieveStatusFromList.bind(this);
 		this.getTypeColor = this.getTypeColor.bind(this);
+		this.savePokemon = this.savePokemon.bind(this);
+		this.loadPokemon = this.loadPokemon.bind(this);
+		this.setSavedPokemon = this.setSavedPokemon.bind(this);
+		this.getSavedPokemon = this.getSavedPokemon.bind(this);
 
 		let emptyStats = {
 			HP: 0,
@@ -81,9 +86,55 @@ export class Pokemon extends React.Component {
 			types: [],
 			pkmnImg: "",
 			isAdvanced: true,
-			readySwap: false
+			readySwap: false,
+			savedName: "Insert Name"
         };
-    }
+	}
+
+	savePokemon() {
+		if (this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid + '/preference').push(this.props.preference)
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	//need to style.
+	loadPokemon() {
+
+		let names = this.getSavedPokemon();
+		let defaultOption = "--";
+		return (
+			<div>
+				<b>Saved Pokemon </b>
+				<Dropdown names={this.getSavedPokemon()} />
+			</div>
+		);
+	}
+
+
+	getSavedPokemon() {
+		let nameList = [];
+		if (this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				console.log(snapshot.val())
+				let data = snapshot.val() ? snapshot.val() : {};
+				let prefList = { ...data }
+				console.log(prefList)
+				let pkmnKeys = Object.keys(prefList);
+				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
+				console.log(nameList)
+			});
+		}
+		return nameList;
+	}
+
+	setSavedPokemon(selectedPokemon) {
+		this.setState({
+			current: selectedPokemon
+		})
+	}
 
 	getTypeColor(type) {
 		switch (type) {
@@ -194,7 +245,7 @@ export class Pokemon extends React.Component {
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
 		let newTypes = [];
-        let genNumber = 3; //make this not hardcoded for iteration 2+
+        let genNumber = global.curGeneration; //make this not hardcoded for iteration 2+
 
         if (pkmnInfo.past_types.length === 1) {
             if (genNumber === 1) {
@@ -355,7 +406,9 @@ export class Pokemon extends React.Component {
         return pokemonNames;
     }
 
-    render() {
+	render() {
+		//console.log(this.getSavedPokemon());
+		let pkName = this.getSavedPokemon()
 		console.log(this.state.status)
 		//Will have to fix this for later
 		let IVEV = <div className="advancedStat">
@@ -421,43 +474,56 @@ export class Pokemon extends React.Component {
 								{type2}
 							</div> : null;
 
+		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
+			<b>Saved Pokemon </b>
+			<div classname="App-hcontainer">
+				<Dropdown names={pkName} />
+				<button onClick={this.loadPokemon}>load</button>
+			</div>
+			<div classname="App-hcontainer">
+				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
+				<button onClick={this.savePokemon}>Save</button>
+			</div>
+		</div> : null;
+
         return (
             <div className = "pokemon">
-                		{/* Image will eventually replace the 7 br here, and styling needs to be done
-							for all of the stats below. Not sure if possible, but can try to shorten up
-							the level input bar?*/}
-						{dropDownMenu}
+				{/* Image will eventually replace the 7 br here, and styling needs to be done
+				for all of the stats below. Not sure if possible, but can try to shorten up
+				the level input bar?*/}
+				{dropDownMenu}
+				<br/>
+				{pkmnImg}
+				<br/>
+				{typeDisplay}
+				<div className="pkmnLevel">
+					<b>Level:</b>
+					<input type="number" value={this.state.level} onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
+				</div>
+				<div className="nature">
+					<b>Nature: </b>
+					<Dropdown names={this.natureList} initial={this.state.nature} getOption={this.retrieveNatureFromList}/>
+				</div>
+				{status}
+				<div className="statRow" style={{gridTemplateColumns: styleWidth}}>
+					<div className="statCol">
+						<b className="statText">Stats</b>
 						<br/>
-						{pkmnImg}
+						<b className="statText">HP: {this.state.totalStats.HP}</b>
 						<br/>
-						{typeDisplay}
-						<div className="pkmnLevel">
-							<b>Level:</b>
-							<input type="number" value={this.state.level} onChange={this.updatePkmnLevel} onBlur={this.updatePkmnLevel}/>
-						</div>
-						<div className="nature">
-							<b>Nature: </b>
-							<Dropdown names={this.natureList} getOption={this.retrieveNatureFromList}/>
-						</div>
-						{status}
-						<div className="statRow" style={{gridTemplateColumns: styleWidth}}>
-							<div className="statCol">
-								<b className="statText">Stats</b>
-								<br/>
-								<b className="statText">HP: {this.state.totalStats.HP}</b>
-								<br/>
-								<b className="statText">ATK: {this.state.totalStats.Atk}</b>
-								<br/>
-								<b className="statText">DEF: {this.state.totalStats.Def}</b>
-								<br/>
-								<b className="statText">SP ATK: {this.state.totalStats.SpAtk}</b>
-								<br/>
-								<b className="statText">SP DEF: {this.state.totalStats.SpDef}</b>
-								<br/>
-								<b className="statText">SPD: {this.state.totalStats.Spd}</b>
-							</div>
-							{advancedStats}
-						</div>
+						<b className="statText">ATK: {this.state.totalStats.Atk}</b>
+						<br/>
+						<b className="statText">DEF: {this.state.totalStats.Def}</b>
+						<br/>
+						<b className="statText">SP ATK: {this.state.totalStats.SpAtk}</b>
+						<br/>
+						<b className="statText">SP DEF: {this.state.totalStats.SpDef}</b>
+						<br/>
+						<b className="statText">SPD: {this.state.totalStats.Spd}</b>
+					</div>
+					{advancedStats}
+				</div>
+				{serverPokemon}
             </div>
         );
     }

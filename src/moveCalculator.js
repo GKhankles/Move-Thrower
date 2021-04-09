@@ -68,7 +68,7 @@ export class moveCalculator {
             "Electric": 3,
             "Grass": 4,
             "Ice": 5,
-            "Fight": 6,
+            "Fighting": 6,
             "Poison": 7,
             "Ground": 8,
             "Flying": 9,
@@ -91,14 +91,16 @@ export class moveCalculator {
             this.elemental_types.Ice, this.elemental_types.Dragon, this.elemental_types.Dark, this.elemental_types.Fairy];
 
         this.weather_types = {
-            Clear: 1,
-            Harsh_Sunlight: 2,
-            Rain: 3,
-            Sandstorm: 4,
-            Hail: 5,
-            Shadowy_Aura: 6,
-            Fog: 7,
-            Strong_Winds: 8
+			"Clear": 1,
+            "Harsh Sunlight": 2,
+            "Rain": 3,
+            "Sandstorm": 4,
+            "Hail": 5,
+            "Shadowy Aura": 6,
+            "Fog": 7,
+            "Strong Winds": 8,
+			"Extremely Harsh Sunlight": 9,
+			"Heavy Rain": 10
         };
 
         this.move_category = {
@@ -160,7 +162,7 @@ export class moveCalculator {
         }*/
 
         //Ready to be tested
-        if (generation === 1){
+        /*if (generation === 1){
             let max_level = 2*AtkPokemon.level;
             let min_level = AtkPokemon.level;
 
@@ -190,9 +192,9 @@ export class moveCalculator {
             let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod;
             max_damage = (((2*max_level/5 + 2)*power*a/d)/50 + 2)*max_modifier;
             min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier;
-        }
+        }*/
 
-        if (generation === 2){
+        /*if (generation === 2){
             let crit_level = 2*AtkPokemon.level
             let min_level = AtkPokemon.level
 
@@ -224,7 +226,7 @@ export class moveCalculator {
             if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
-        }
+        }*/
 
         if (generation === 3){
             let level = AtkPokemon.level
@@ -234,26 +236,30 @@ export class moveCalculator {
             let a = 0
             let d = 0
 
-            if (this.physical_types.indexOf(move.type) > -1) {
-                a = AtkPokemon.totalStats.attack;
-                d = DefPokemon.totalStats.defense;
+            let isPhysical
+
+            if (this.physical_types.indexOf(this.elemental_types[move.type]) > -1) {
+                a = AtkPokemon.totalStats.Atk;
+                d = DefPokemon.totalStats.Def;
+                isPhysical = true
             } else {
                 a = AtkPokemon.totalStats.SpAtk;
                 d = DefPokemon.totalStats.SpDef;
+                isPhysical = false
             }
         
             //Calculating Modifier Components
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
 
@@ -275,34 +281,22 @@ export class moveCalculator {
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
-            Type_mod *= DefPokemon.types[1] === null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
-            //console.log(Type_mod, "--second")
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
-            let max_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*max_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
-            let min_modifier = Targets_mod*Weather_mod*Badge_mod*Critical_mod*min_rand_mod*Stab_mod*Type_mod*Burn_mod*Move_mod*Ability_mod*Item_mod
-            //console.log(max_modifier, "--third")
-            //console.log(level);
-            
-            max_damage = (Math.floor(Math.floor(2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*max_modifier
-            min_damage = (((2*AtkPokemon.level/5 + 2)*power*a/d)/50 + 2)*min_modifier
+            if (AtkPokemon.status === "Burn") {
+                Burn_mod = .5
+            }
 
-            let baseDamage = Math.floor(Math.floor((Math.floor(2 * level / 5 + 2) * power * a) / d) / 50) + 2
-            baseDamage *= Weather_mod
-            baseDamage = this.pokeRound(baseDamage)
-            min_damage = baseDamage * min_rand_mod
-            min_damage = this.pokeRound(min_damage)
+            let baseDamage = Math.floor(Math.floor((Math.floor(2 * level / 5 + 2) * power * a) / d) / 50)
+            if (isPhysical) {
+                baseDamage = Math.floor(baseDamage * Burn_mod)
+            }
+            baseDamage = Math.floor(baseDamage * Weather_mod)
+            baseDamage += 2
+            baseDamage = Math.floor(baseDamage * Stab_mod)
+            baseDamage = Math.floor(baseDamage * Type_mod)
+            min_damage = Math.floor(baseDamage * .85)
             max_damage = baseDamage
-            min_damage *= Stab_mod
-            min_damage = this.pokeRound(min_damage)
-            max_damage *= Stab_mod
-            max_damage = this.pokeRound(max_damage)
-            min_damage *= Type_mod
-            min_damage = this.pokeRound(min_damage)
-            max_damage *= Type_mod
-            max_damage = this.pokeRound(max_damage)
-
-            max_damage = Math.floor(max_damage)
-            min_damage = Math.floor(min_damage)
         }
 
         if (generation === 4){
@@ -321,92 +315,260 @@ export class moveCalculator {
             }
 
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
-            Type_mod *= DefPokemon.types[1] === null ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
             let a = 0
             let d = 0
 
-            if (move.category <= this.move_category.Physical) {
-                a = AtkPokemon.attack
-                d = DefPokemon.defense
-            } else if (move.category <= this.move_category.Special) {
-                a = AtkPokemon.special_attack
-                d = DefPokemon.special_defense
+            let isPhysical
+
+            if (move.isPhysical) {
+                a = AtkPokemon.totalStats.Atk
+                d = DefPokemon.totalStats.Def
+                isPhysical = true
+            } else {
+                a = AtkPokemon.totalStats.SpAtk
+                d = DefPokemon.totalStats.SpDef
+                isPhysical = false
             }
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
+
+            if (AtkPokemon.status === "Burn" && isPhysical) {
+                Burn_mod = .5
+            }
+
+            let Mod1 = Burn_mod * Weather_mod
+
+            let baseDamage = (Math.floor(Math.floor(Math.floor(Math.floor((Math.floor(level*2/5) + 2) * power * a) / 50) / d) * Mod1) + 2)
+            min_damage = Math.floor(baseDamage * .85)
+            max_damage = baseDamage
+            min_damage = Math.floor(min_damage * Stab_mod)
+            max_damage = Math.floor(max_damage * Stab_mod)
+            min_damage = Math.floor(min_damage * Type_mod)
+            max_damage = Math.floor(max_damage * Type_mod)
         }
 
         if (generation === 5){
 
-            let max_rand_mod = 1
-            let min_rand_mod = 0.85
+            let level = AtkPokemon.level
+            let power = move.power
 
-            if (move.category <= this.move_category.Physical) {
-                let a = AtkPokemon.attack
-                let d = DefPokemon.defense
-            } else if (move.category <= this.move_category.Special) {
-                let a = AtkPokemon.special_attack
-                let d = DefPokemon.special_defense
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type == AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
             }
+
+            let a = 0
+            let d = 0
+
+            let isPhysical
+
+            if (move.isPhysical) {
+                a = AtkPokemon.totalStats.Atk
+                d = DefPokemon.totalStats.Def
+                isPhysical = true
+            } else {
+                a = AtkPokemon.totalStats.SpAtk
+                d = DefPokemon.totalStats.SpDef
+                isPhysical = false
+            }
+            Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
+
+            if (AtkPokemon.status === "Burn" && isPhysical) {
+                Burn_mod = .5
+            }
+
+            let baseDamage = Math.floor(Math.floor(Math.floor(2*level/5 + 2)*power*a/d)/50) + 2
+            baseDamage *= Weather_mod
+            baseDamage = this.pokeRound(baseDamage)
+            min_damage = Math.floor(baseDamage * .85)
+            max_damage = baseDamage
+            min_damage *= Stab_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Stab_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Type_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Type_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Burn_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Burn_mod
+            max_damage = this.pokeRound(max_damage)
         }
 
         if (generation === 6){
 
-            let max_rand_mod = 1
-            let min_rand_mod = 0.85
+            let level = AtkPokemon.level
+            let power = move.power
 
-            if (move.category <= this.move_category.Physical) {
-                let a = AtkPokemon.attack
-                let d = DefPokemon.defense
-            } else if (move.category <= this.move_category.Special) {
-                let a = AtkPokemon.special_attack
-                let d = DefPokemon.special_defense
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type == AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
             }
+
+            let a = 0
+            let d = 0
+
+            let isPhysical
+
+            if (move.isPhysical) {
+                a = AtkPokemon.totalStats.Atk
+                d = DefPokemon.totalStats.Def
+                isPhysical = true
+            } else {
+                a = AtkPokemon.totalStats.SpAtk
+                d = DefPokemon.totalStats.SpDef
+                isPhysical = false
+            }
+            Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
             
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Fire")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Water")){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Water")){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
                 Weather_mod = 0.5
             }
+
+            if (AtkPokemon.status === "Burn" && isPhysical) {
+                Burn_mod = .5
+            }
+
+            let baseDamage = Math.floor(Math.floor(Math.floor(2*level/5 + 2)*power*a/d)/50) + 2
+            baseDamage *= Weather_mod
+            baseDamage = this.pokeRound(baseDamage)
+            min_damage = Math.floor(baseDamage * .85)
+            max_damage = baseDamage
+            min_damage *= Stab_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Stab_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Type_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Type_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Burn_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Burn_mod
+            max_damage = this.pokeRound(max_damage)
         } 
 
         if (generation === 7){
 
+            let level = AtkPokemon.level
+            let power = move.power
+
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type == AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
+            }
+
+            let a = 0
+            let d = 0
+
+            let isPhysical
+
+            if (move.isPhysical) {
+                a = AtkPokemon.totalStats.Atk
+                d = DefPokemon.totalStats.Def
+                isPhysical = true
+            } else {
+                a = AtkPokemon.totalStats.SpAtk
+                d = DefPokemon.totalStats.SpDef
+                isPhysical = false
+            }
+            Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            
+            // Weather
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Fire")){
+                Weather_mod = 1.5
+            }
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Water")){
+                Weather_mod = 1.5
+            }
+            if ((stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water") ||
+                (stage_cond.weather === this.weather_types["Extremely Harsh Sunlight"] && move.type === "Water")){
+                Weather_mod = 0.5
+            }
+            if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire") ||
+                (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
+                Weather_mod = 0.5
+            }
+
+            if (AtkPokemon.status === "Burn" && isPhysical) {
+                Burn_mod = .5
+            }
+
+            let baseDamage = Math.floor(Math.floor(Math.floor(2*level/5 + 2)*power*a/d)/50) + 2
+            baseDamage *= Weather_mod
+            baseDamage = this.pokeRound(baseDamage)
+            min_damage = Math.floor(baseDamage * .85)
+            max_damage = baseDamage
+            min_damage *= Stab_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Stab_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Type_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Type_mod
+            max_damage = this.pokeRound(max_damage)
+            min_damage *= Burn_mod
+            min_damage = this.pokeRound(min_damage)
+            max_damage *= Burn_mod
+            max_damage = this.pokeRound(max_damage)
+        } 
+
+        /*if (generation === 8){
+
             let max_rand_mod = 1
             let min_rand_mod = 0.85
 
@@ -431,35 +593,7 @@ export class moveCalculator {
             if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
-        } 
-
-        if (generation === 8){
-
-            let max_rand_mod = 1
-            let min_rand_mod = 0.85
-
-            if (move.category <= this.move_category.Physical) {
-                let a = AtkPokemon.attack
-                let d = DefPokemon.defense
-            } else if (move.category <= this.move_category.Special) {
-                let a = AtkPokemon.special_attack
-                let d = DefPokemon.special_defense
-            }
-            
-            // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
-                Weather_mod = 1.5
-            }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
-                Weather_mod = 1.5
-            }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
-                Weather_mod = 0.5
-            }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
-                Weather_mod = 0.5
-            }
-        } 
+        }*/
 
         return {min_damage, max_damage}
     }
