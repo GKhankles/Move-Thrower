@@ -3,8 +3,6 @@ import './App.css';
 import firebase from 'firebase';
 import { Redirect } from 'react-router-dom';
 import createFirebase from './firebase.js';
-import {HomePage} from './HomePage.jsx';
-import Dropdown from './Dropdown.jsx';
 import './global.js';
 
 export class SignIn extends React.Component {
@@ -86,7 +84,7 @@ export class SignIn extends React.Component {
                 global.pkmn2.setState({ uid: user.uid });
                 
             }).catch((error) => {
-                var errorCode = error.code;
+                //var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log(errorMessage);
                 this.setState({
@@ -103,8 +101,7 @@ export class SignIn extends React.Component {
             .then((userCredential) => {
                 // Signed in 
                 var user = userCredential.user;
-                var database = firebase.database();
-                console.log(this.state);
+                //var database = firebase.database();
                 firebase.database().ref('users/' + user.uid).set({
                     signedIn: true,
                     uid: user.uid,
@@ -124,7 +121,7 @@ export class SignIn extends React.Component {
                 //TODO Redirect user to finish signing up here
             })
             .catch((error) => {
-                var errorCode = error.code;
+                //var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log(errorMessage);
                 this.setState({
@@ -154,7 +151,7 @@ export class SignIn extends React.Component {
                 global.pkmn2.setState({ uid: "" });
             })
             .catch((error) => {
-                var errorCode = error.code;
+                //var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log(errorMessage);
                 this.setState({

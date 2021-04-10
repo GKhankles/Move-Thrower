@@ -1,10 +1,8 @@
 import React from 'react';
 import './App.css';
-import { Redirect } from 'react-router-dom';
 import SignIn from './SignIn.jsx';
 import Pokemon from './Pokemon.jsx';
 import moveCalculator from './moveCalculator.js';
-import MoveList from './MoveList.jsx';
 import './global.js';
 import Dropdown from './Dropdown';
 //import firebase from 'firebase';
@@ -72,6 +70,9 @@ export class HomePage extends React.Component {
 	}
 
 	resetSettings() {
+		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
+			return;
+		}
 		var base1 = global.pkmn1.state.baseStats;
 		var nature1 = global.pkmn1.state.nature;
 		var base2 = global.pkmn2.state.baseStats;
@@ -181,6 +182,9 @@ export class HomePage extends React.Component {
 	}
 
 	switchPokemon() {
+		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
+			return;
+		}
 		var tempState = global.pkmn1.state;
 		global.pkmn1.setState({
 		    uid: global.pkmn2.state.uid,
@@ -217,22 +221,16 @@ export class HomePage extends React.Component {
 	}
 	
 	getAtkPokemon(){
-		console.log(this.state.atkPkmnInfo);
 		return this.state.atkPkmnInfo;
 	}
 
 	//Returns a list of the best possible moves that can be used
 	async calculateMoves(event) {
-		console.log("Hello there, inside of calculateMoves");
-		/*this.setState({
-			calculatedMoves: undefined
-		});*/
 
 		this.setState({
 			calculating: true
 		});
 		let calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
-		console.log("calcMoves", calcMoves);
 		calcMoves = calcMoves.slice(0, 4);
 		this.setState({
 			calculatedMoves: calcMoves,
@@ -247,7 +245,6 @@ export class HomePage extends React.Component {
 
 	changeGeneration(event) {
 		global.curGeneration = event.target.value;
-		console.log("cur generation", global.curGeneration);
 		this.setState({
 			weather: "Clear"
 		});
@@ -298,7 +295,6 @@ export class HomePage extends React.Component {
 	}
 
 	createMoveList() {
-		console.log("Inside of createMoveList");
 		let calcMoveList = this.state.calculatedMoves;
 		let displayList = [];
 		calcMoveList.forEach(element => {
@@ -306,14 +302,13 @@ export class HomePage extends React.Component {
 			let randomPlace = Math.floor(Math.random() * 3);
 			let finalColor = "linear-gradient(to right, " + color;
 			for (var i = 0; i < 3; i++) {
-				if (i == randomPlace) {
+				if (i === randomPlace) {
 					finalColor += ", white";
 				} else {
 					finalColor += ", " + color;
                 }
 			}
 			finalColor += ", " + color + ")";
-			console.log(color);
 			displayList.push(
 				<div className="moveItem" style={{ backgroundImage: finalColor }}>
 					<b>{element.move}</b>
@@ -326,7 +321,6 @@ export class HomePage extends React.Component {
 	}
 
     render () {
-		console.log(this.state.atkPkmnInfo);
 		let moveList = this.state.calculatedMoves ? this.createMoveList() : null;
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
 		let generationSelection = global.advancedToggle ? <div>
@@ -340,7 +334,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div> : null;
 
-		let weatherSelection1 = global.advancedToggle && global.curGeneration == 1? 
+		let weatherSelection1 = global.advancedToggle && global.curGeneration === 1? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
@@ -348,7 +342,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 
-		let weatherSelection2 = global.advancedToggle && global.curGeneration == 2? 
+		let weatherSelection2 = global.advancedToggle && global.curGeneration === 2? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
@@ -356,7 +350,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 
-		let weatherSelection3 = global.advancedToggle && global.curGeneration == 3? 
+		let weatherSelection3 = global.advancedToggle && global.curGeneration === 3? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
@@ -364,7 +358,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 
-		let weatherSelection45 = global.advancedToggle && global.curGeneration == 4 || global.curGeneration == 5? 
+		let weatherSelection45 = global.advancedToggle && (global.curGeneration === 4 || global.curGeneration === 5)? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
@@ -372,7 +366,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 
-		let weatherSelection678 = global.advancedToggle && global.curGeneration == 6 || global.curGeneration == 7 || global.curGeneration == 8? 
+		let weatherSelection678 = global.advancedToggle && (global.curGeneration === 6 || global.curGeneration === 7 || global.curGeneration === 8)? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
 							<h4>Weather</h4>
@@ -380,7 +374,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 		
-		let terrainSelection = global.advancedToggle && global.curGeneration == 7 || global.curGeneration == 8? 
+		let terrainSelection = global.advancedToggle && (global.curGeneration === 7 || global.curGeneration === 8)? 
 		<div className="App-body">
 			<div className="terrainDropDown" onChange={this.changeTerrain}>
 				<h4>Terrain</h4>
