@@ -55,7 +55,7 @@ Camouflage	Normal	status	0
 Captivate	Normal	status	0
 Charge	Electric	status	0
 Charge Beam	Electric	special	50
-Charm	Fairy	status	0
+Charm	Normal	status	0
 Chatter	Flying	special	60
 Clamp	Water	physical	35
 Close Combat	Fighting	physical	120
@@ -254,7 +254,7 @@ Mirror Move	Flying	status	0
 Mirror Shot	Steel	special	65
 Mist	Ice	status	0
 Mist Ball	Psychic	special	70
-Moonlight	Fairy	status	0
+Moonlight	Normal	status	0
 Morning Sun	Normal	status	0
 Mud Bomb	Ground	special	65
 Mud Shot	Ground	special	55
@@ -404,7 +404,7 @@ Supersonic	Normal	status	0
 Surf	Water	special	95
 Swagger	Normal	status	0
 Swallow	Normal	status	0
-Sweet Kiss	Fairy	status	0
+Sweet Kiss	Normal	status	0
 Sweet Scent	Normal	status	0
 Swift	Normal	special	60
 Switcheroo	Dark	status	0
