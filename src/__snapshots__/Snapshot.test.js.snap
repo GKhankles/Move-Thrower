@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PokemonJSX Snapshot Test 1`] = `
+<div
+  className="pokemon"
+>
+  <div
+    className="pokemonList"
+  >
+    <select
+      onChange={[Function]}
+      value="Bulbasaur"
+    />
+  </div>
+  <br />
+  <img
+    alt="pokemonImage"
+    className="pkmnImg"
+    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+  />
+  <br />
+  <div
+    className="typeRow"
+    style={
+      Object {
+        "gridTemplateColumns": "repeat(2, 1fr)",
+      }
+    }
+  >
+    <b
+      className="type"
+      style={
+        Object {
+          "backgroundColor": "#EE8130",
+        }
+      }
+    >
+      Fire
+    </b>
+    <b
+      className="type"
+      style={
+        Object {
+          "backgroundColor": "#A98FF3",
+        }
+      }
+    >
+      Flying
+    </b>
+  </div>
+  <div
+    className="pkmnLevel"
+  >
+    <b>
+      Level:
+    </b>
+    <input
+      onBlur={[Function]}
+      onChange={[Function]}
+      type="number"
+      value={95}
+    />
+  </div>
+  <div
+    className="nature"
+  >
+    <b>
+      Nature: 
+    </b>
+    <Dropdown
+      getOption={[Function]}
+      initial="Hardy"
+      names={
+        Array [
+          "Hardy",
+          "Lonely",
+          "Brave",
+          "Adamant",
+          "Naughty",
+          "Bold",
+          "Docile",
+          "Relaxed",
+          "Impish",
+          "Lax",
+          "Timid",
+          "Hasty",
+          "Serious",
+          "Jolly",
+          "Naive",
+          "Modest",
+          "Mild",
+          "Quiet",
+          "Bashful",
+          "Rash",
+          "Calm",
+          "Gentle",
+          "Sassy",
+          "Careful",
+          "Quirky",
+        ]
+      }
+    />
+  </div>
+  <div
+    className="statRow"
+    style={
+      Object {
+        "gridTemplateColumns": "repeat(1, 1fr)",
+      }
+    }
+  >
+    <div
+      className="statCol"
+    >
+      <b
+        className="statText"
+      >
+        Stats
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        HP: 
+        253
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        ATK: 
+        164
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        DEF: 
+        153
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        SP ATK: 
+        212
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        SP DEF: 
+        166
+      </b>
+      <br />
+      <b
+        className="statText"
+      >
+        SPD: 
+        195
+      </b>
+    </div>
+  </div>
+</div>
+`;
