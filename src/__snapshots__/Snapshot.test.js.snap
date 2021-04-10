@@ -9,7 +9,7 @@ exports[`PokemonJSX Snapshot Test 1`] = `
   >
     <select
       onChange={[Function]}
-      value="Bulbasaur"
+      value="Charizard"
     />
   </div>
   <br />

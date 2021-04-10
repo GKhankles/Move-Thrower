@@ -215,10 +215,10 @@ test('retrieveStatusFromList Test', () => {
   expect(wrapper.instance().state.status).toBe("Burn")
 })
 
-//retrieveStatusFromList Test
-test('retrieveStatusFromList1 Test', () => {
+//retrievePkmnFromList Test
+test('retrievePkmnFromList Test', () => {
   const wrapper = shallow(<Pokemon/>)
   wrapper.setState(stateToSet)
-  //wrapper.instance().retrieveStatusFromList("Burn")
-  expect(wrapper.instance().state.status).toBe("Healthy")
+  wrapper.instance().retrievePkmnFromList("Bulbasaur")
+  expect(wrapper.instance().state.curPkmn).toBe("Bulbasaur")
 })
