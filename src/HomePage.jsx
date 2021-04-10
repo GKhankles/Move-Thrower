@@ -257,10 +257,6 @@ export class HomePage extends React.Component {
 		global.pkmn2.forceUpdate();
 	}
 
-	darker(color, percent) {
-		return color;
-	};
-
 	getTypeColor(type) {
 		switch (type) {
 			case "Fire":
