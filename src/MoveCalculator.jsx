@@ -23,7 +23,6 @@ export class MoveCalculator extends React.Component {
     getPokemonHelper(text) {
         let pokemonNames = [];
         pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
-        console.log(pokemonNames);
 		// copy the getpokemonhelper from pokemon.jsx if we use this function.
         return pokemonNames;
     }

@@ -99,26 +99,19 @@ export class Pokemon extends React.Component {
 	}
 
 	getSavedPokemon() {
-		console.log("get saved")
-		console.log(this.state.uid)
 		let nameList = [];
 		let prefList = {};
 		if (this.state.uid !== "") {
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
-				console.log(snapshot.val())
 				let data = snapshot.val() ? snapshot.val() : {};
 				prefList = { ...data }
-				console.log(prefList)
 				let pkmnKeys = Object.keys(prefList);
 				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
-				console.log(nameList)
 			});
 			this.setState({
 				nameList: nameList,
 				pkmnList: prefList
 			});
-			console.log("pkm")
-			console.log(this.state.pkmnList)
 			return nameList;
 		};
 		return ["Abra"];
@@ -126,19 +119,14 @@ export class Pokemon extends React.Component {
 
 	//need to style.
 	loadPokemon() {
-		console.log("load")
 		this.getSavedPokemon()
 		this.setState({
 			display: true,
 			nameList: this.getSavedPokemon()
 		})
-		console.log(this.getSavedPokemon())
-		console.log(this.state.nameList)
 	}
 
 	setSavedPokemon(selectedPokemon) {
-		console.log("loadpkm")
-		console.log(this.state.pkmnList)
 		let pkm = null;
 		let pkmnKeys = Object.keys(this.state.pkmnList);
 		pkmnKeys.map((key) => 
@@ -148,8 +136,6 @@ export class Pokemon extends React.Component {
 			}
 		}
 		)
-		console.log("pkm1")
-		console.log(pkm.uid)
 		if(this.props.loc === 0){
 			global.pkmn1.setState({
 				uid: pkm.uid,
@@ -266,9 +252,7 @@ export class Pokemon extends React.Component {
 	retrievePkmnInfo(pkmn) {
 		//Call the PokeAPI here to update pokemon info
 		let pokemonName = pkmn.toLowerCase();
-        let stats = [];
         let url = "https://pokeapi.co/api/v2/pokemon/" + pokemonName;
-        let pokemonInfo = {};
         fetch(url)
         .then(response => response.json())
         .then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
@@ -293,7 +277,6 @@ export class Pokemon extends React.Component {
 			Spd: stats[5].base_stat,
 		}
 
-		console.log(pkmnInfo.moves);
 		let newMoves = pkmnInfo.moves;
 		let newImg = pkmnInfo.sprites.front_default;
 		let newTypes = [];
@@ -563,7 +546,7 @@ export class Pokemon extends React.Component {
 								{type2}
 							</div> : null;
 		
-		let disCont = (this.state.display && (this.props.loc == 1)) ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
+		let disCont = (this.state.display && (this.props.loc === 1)) ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
 		
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
