@@ -205,7 +205,7 @@ export class moveCalculator {
             for(let i=0;i<allMoves.length;i++){
                 if (allMoves[i].Name === move.move.name){
                     let damage = this.calculateDamage(allMoves[i], AtkPokemon, DefPokemon, generation, stage_cond)
-                    move_Damage.push({move: move.name, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
+                    move_Damage.push({move: allMoves[i].Name, move_type: allMoves[i].type, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
                 }
             }  
         });
@@ -375,6 +375,8 @@ export class moveCalculator {
             console.log("Before error in moveCalculator.js")
             console.log("elemental types",this.elemental_types)
             console.log("move types",move.type)
+            console.log("elemental types",this.elemental_types)
+            console.log('def pokemon tpyes',DefPokemon.types[0])
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
