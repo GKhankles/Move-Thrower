@@ -569,9 +569,21 @@ let stage_cond_psychic = {
     terrain: 5
 }
 
-let damageCalc31 = moveCalculator.calculateDamage(psychic, pokemon12, pokemon13, 7, stage_cond_psychic)
+let damageCalc31 = moveCalculator.calculateDamage(psychic, pokemon12, pokemon13, 7, stage_cond_psychic);
 
 test("Gen 7 Grassy Terrain Damage Test", () => {
     expect(damageCalc31.min_damage).toBe(78) &&
     expect(damageCalc31.max_damage).toBe(92);
 });
+
+let pokemon14 = {
+    moves: ["Flamethrower", "Fly"],
+    types: ["Fire", "Flying"],
+    level: 99,
+    totalStats: {
+        Atk: 202,
+        SpAtk: 251,
+        Def: 190,
+        SpDef: 203
+    }
+}

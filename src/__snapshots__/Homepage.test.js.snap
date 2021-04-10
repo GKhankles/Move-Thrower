@@ -1,0 +1,353 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomePage Initial Snapshot Test 1`] = `
+<div
+  className="App"
+  style={
+    Object {
+      "fontSize": 25,
+    }
+  }
+>
+  <div
+    className="App-hcontainer"
+  >
+    <header
+      className="App-header"
+    >
+      <h1>
+        Pokemon Move Thrower!
+      </h1>
+    </header>
+    <div
+      className="App-login"
+    >
+      <SignIn
+        preference={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="App-mid"
+  >
+    <div
+      className="App-body"
+    >
+      <b>
+        Attacking Pokemon
+      </b>
+      <Pokemon
+        getPkmnInfo={[Function]}
+        loc={0}
+      />
+    </div>
+    <div
+      className="App-body"
+    >
+      <button
+        className="button"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "fontSize": 18,
+          }
+        }
+      >
+        Switch Roles
+      </button>
+      <br />
+      <br />
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        CALCULATE
+      </button>
+      <br />
+      <b>
+        Advanced Options
+      </b>
+      <input
+        onChange={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "height": 20,
+            "width": 20,
+          }
+        }
+        type="checkbox"
+      />
+      <br />
+      <br />
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "fontSize": 18,
+          }
+        }
+      >
+        Reset Settings
+      </button>
+      <div
+        className="advancedBody"
+      />
+      <br />
+      <br />
+    </div>
+    <div
+      className="App-body"
+    >
+      <b>
+        Defending Pokemon
+      </b>
+      <Pokemon
+        getPkmnInfo={[Function]}
+        loc={1}
+      />
+    </div>
+  </div>
+  <div
+    className="App-body"
+    style={
+      Object {
+        "display": "flex",
+        "minWidth": "100%",
+      }
+    }
+  >
+    <div
+      className="advancedBody2"
+    />
+    <b
+      style={
+        Object {
+          "textDecoration": "underline",
+        }
+      }
+    >
+      Recommended Moves
+    </b>
+  </div>
+</div>
+`;
+
+exports[`Test Create Move List 1`] = `
+<div
+  className="App"
+  style={
+    Object {
+      "fontSize": 25,
+    }
+  }
+>
+  <div
+    className="App-hcontainer"
+  >
+    <header
+      className="App-header"
+    >
+      <h1>
+        Pokemon Move Thrower!
+      </h1>
+    </header>
+    <div
+      className="App-login"
+    >
+      <SignIn
+        preference={Object {}}
+      />
+    </div>
+  </div>
+  <div
+    className="App-mid"
+  >
+    <div
+      className="App-body"
+    >
+      <b>
+        Attacking Pokemon
+      </b>
+      <Pokemon
+        getPkmnInfo={[Function]}
+        loc={0}
+      />
+    </div>
+    <div
+      className="App-body"
+    >
+      <button
+        className="button"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "fontSize": 18,
+          }
+        }
+      >
+        Switch Roles
+      </button>
+      <br />
+      <br />
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+      >
+        CALCULATE
+      </button>
+      <br />
+      <b>
+        Advanced Options
+      </b>
+      <input
+        onChange={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "height": 20,
+            "width": 20,
+          }
+        }
+        type="checkbox"
+      />
+      <br />
+      <br />
+      <br />
+      <button
+        className="button"
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "white",
+            "fontSize": 18,
+          }
+        }
+      >
+        Reset Settings
+      </button>
+      <div
+        className="advancedBody"
+      />
+      <br />
+      <br />
+    </div>
+    <div
+      className="App-body"
+    >
+      <b>
+        Defending Pokemon
+      </b>
+      <Pokemon
+        getPkmnInfo={[Function]}
+        loc={1}
+      />
+    </div>
+  </div>
+  <div
+    className="App-body"
+    style={
+      Object {
+        "display": "flex",
+        "minWidth": "100%",
+      }
+    }
+  >
+    <div
+      className="advancedBody2"
+    />
+    <b
+      style={
+        Object {
+          "textDecoration": "underline",
+        }
+      }
+    >
+      Recommended Moves
+    </b>
+    <div
+      className="moveList"
+    >
+      <div
+        className="moveItem"
+        style={
+          Object {
+            "backgroundImage": "linear-gradient(to right, rgba(169,143,243,1), white, rgba(169,143,243,1), rgba(169,143,243,1), rgba(169,143,243,1))",
+          }
+        }
+      >
+        <b>
+          Fly
+        </b>
+        <b>
+          45-68
+        </b>
+        <b>
+          Flying
+        </b>
+      </div>
+      <div
+        className="moveItem"
+        style={
+          Object {
+            "backgroundImage": "linear-gradient(to right, rgba(214,133,173,1), rgba(214,133,173,1), white, rgba(214,133,173,1), rgba(214,133,173,1))",
+          }
+        }
+      >
+        <b>
+          Fly
+        </b>
+        <b>
+          45-75
+        </b>
+        <b>
+          Fairy
+        </b>
+      </div>
+      <div
+        className="moveItem"
+        style={
+          Object {
+            "backgroundImage": "linear-gradient(to right, rgba(182,161,54,1), white, rgba(182,161,54,1), rgba(182,161,54,1), rgba(182,161,54,1))",
+          }
+        }
+      >
+        <b>
+          Fly
+        </b>
+        <b>
+          45-89
+        </b>
+        <b>
+          Rock
+        </b>
+      </div>
+      <div
+        className="moveItem"
+        style={
+          Object {
+            "backgroundImage": "linear-gradient(to right, rgba(166,185,26,1), rgba(166,185,26,1), white, rgba(166,185,26,1), rgba(166,185,26,1))",
+          }
+        }
+      >
+        <b>
+          Fly
+        </b>
+        <b>
+          45-122
+        </b>
+        <b>
+          Bug
+        </b>
+      </div>
+    </div>
+  </div>
+</div>
+`;
