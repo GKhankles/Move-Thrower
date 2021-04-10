@@ -9,7 +9,7 @@ Barrage	Normal	physical	15
 Barrier	Psychic	status	0
 Bide	Normal	physical	0
 Bind	Normal	physical	15
-Bite	Dark	physical	60
+Bite	Normal	physical	60
 Blizzard	Ice	special	120
 Body Slam	Normal	physical	85
 Bone Club	Ground	physical	65
@@ -54,7 +54,7 @@ Glare	Normal	status	0
 Growl	Normal	status	0
 Growth	Normal	status	0
 Guillotine	Normal	physical	0
-Gust	Flying	special	40
+Gust	Normal	special	40
 Harden	Normal	status	0
 Haze	Ice	status	0
 Headbutt	Normal	physical	70
@@ -68,7 +68,7 @@ Hypnosis	Psychic	status	0
 Ice Beam	Ice	special	95
 Ice Punch	Ice	physical	75
 Jump Kick	Fighting	physical	70
-Karate Chop	Fighting	physical	50
+Karate Chop	Normal	physical	50
 Kinesis	Psychic	status	0
 Leech Life	Bug	physical	20
 Leech Seed	Grass	status	0
@@ -109,7 +109,7 @@ Roar	Normal	status	0
 Rock Slide	Rock	physical	75
 Rock Throw	Rock	physical	50
 Rolling Kick	Fighting	physical	60
-Sand Attack	Ground	status	0
+Sand Attack	Normal	status	0
 Scratch	Normal	physical	40
 Screech	Normal	status	0
 Seismic Toss	Fighting	physical	0

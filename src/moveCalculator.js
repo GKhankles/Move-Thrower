@@ -205,7 +205,7 @@ export class moveCalculator {
             for(let i=0;i<allMoves.length;i++){
                 if (allMoves[i].Name === move.move.name){
                     let damage = this.calculateDamage(allMoves[i], AtkPokemon, DefPokemon, generation, stage_cond)
-                    move_Damage.push({move: move.name, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
+                    move_Damage.push({move: allMoves[i].Name, move_type: allMoves[i].type, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
                 }
             }  
         });
@@ -230,22 +230,22 @@ export class moveCalculator {
     calculateDamage(move, AtkPokemon, DefPokemon, generation, stage_cond){
 
         // Modifier Variables (1 by default)
-        let Targets_mod = 1;
+        //let Targets_mod = 1;
         let Weather_mod = 1;
-        let Badge_mod = 1;
-        let Critical_mod = 1;
+        //let Badge_mod = 1;
+        //let Critical_mod = 1;
         //let Random_mod = 1;
         let Stab_mod = 1;
         let Type_mod = 1;
         let Burn_mod = 1;
-        let Move_mod = 1;
-        let Ability_mod = 1;
-        let Item_mod = 1;
+        //let Move_mod = 1;
+        //let Ability_mod = 1;
+        //let Item_mod = 1;
 
         let max_damage = 0;
         let min_damage = 0;
 
-        let typeIndex;
+        //let typeIndex;
         //add each type to this later
         /*switch (move.type) {
             case "Fire":
@@ -356,8 +356,8 @@ export class moveCalculator {
             }
 
             //Randomness
-            let max_rand_mod = 1
-            let min_rand_mod = 0.85
+            //let max_rand_mod = 1
+            //let min_rand_mod = 0.85
             //STAB
             //console.log("move inside of moveCalculator", move);
             //console.log("AtkPokemon.type", AtkPokemon.types);
@@ -365,16 +365,13 @@ export class moveCalculator {
                 Stab_mod = 1.5
             }*/
             for (let i = 0; i < AtkPokemon.types.length; i++) {
-                if (move.type == AtkPokemon.types[i]) {
+                if (move.type === AtkPokemon.types[i]) {
                     Stab_mod = 1.5
                     break;
                 }
             }
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
-            console.log("Before error in moveCalculator.js")
-            console.log("elemental types",this.elemental_types)
-            console.log("move types",move.type)
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
@@ -399,11 +396,11 @@ export class moveCalculator {
             let level = AtkPokemon.level
             let power = move.power
 
-            let max_rand_mod = 1
-            let min_rand_mod = 0.85
+            //let max_rand_mod = 1
+            //let min_rand_mod = 0.85
 
             for (let i = 0; i < AtkPokemon.types.length; i++) {
-                if (move.type == AtkPokemon.types[i]) {
+                if (move.type === AtkPokemon.types[i]) {
                     Stab_mod = 1.5
                     break;
                 }
@@ -462,7 +459,7 @@ export class moveCalculator {
             let power = move.power
 
             for (let i = 0; i < AtkPokemon.types.length; i++) {
-                if (move.type == AtkPokemon.types[i]) {
+                if (move.type === AtkPokemon.types[i]) {
                     Stab_mod = 1.5
                     break;
                 }
@@ -528,7 +525,7 @@ export class moveCalculator {
             let power = move.power
 
             for (let i = 0; i < AtkPokemon.types.length; i++) {
-                if (move.type == AtkPokemon.types[i]) {
+                if (move.type === AtkPokemon.types[i]) {
                     Stab_mod = 1.5
                     break;
                 }
@@ -612,7 +609,7 @@ export class moveCalculator {
             }
 
             for (let i = 0; i < AtkPokemon.types.length; i++) {
-                if (move.type == AtkPokemon.types[i]) {
+                if (move.type === AtkPokemon.types[i]) {
                     Stab_mod = 1.5
                     break;
                 }
