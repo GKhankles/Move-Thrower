@@ -315,7 +315,7 @@ exports[`Test Create Move List 1`] = `
         className="moveItem"
         style={
           Object {
-            "backgroundImage": "linear-gradient(to right, rgba(182,161,54,1), white, rgba(182,161,54,1), rgba(182,161,54,1), rgba(182,161,54,1))",
+            "backgroundImage": "linear-gradient(to right, rgba(182,161,54,1), rgba(182,161,54,1), rgba(182,161,54,1), white, rgba(182,161,54,1))",
           }
         }
       >
@@ -333,7 +333,7 @@ exports[`Test Create Move List 1`] = `
         className="moveItem"
         style={
           Object {
-            "backgroundImage": "linear-gradient(to right, rgba(166,185,26,1), rgba(166,185,26,1), white, rgba(166,185,26,1), rgba(166,185,26,1))",
+            "backgroundImage": "linear-gradient(to right, rgba(166,185,26,1), rgba(166,185,26,1), rgba(166,185,26,1), white, rgba(166,185,26,1))",
           }
         }
       >

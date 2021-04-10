@@ -100,7 +100,8 @@ test('Gen 3 Resisted Move Damage Test', () => {
 
 let dragonbreath = {
     type: "Dragon",
-    power: 60
+    power: 60,
+    category: "special"
 };
 
 let damageCalc2 = moveCalculator.calculateDamage(dragonbreath, pokemon1, pokemon1, 3, stage_cond);
