@@ -24,7 +24,6 @@ export class HomePage extends React.Component {
 		this.retrieveTerrainFromList = this.retrieveTerrainFromList.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		this.createMoveList = this.createMoveList.bind(this);
-		this.darker = this.darker.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 		
