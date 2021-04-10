@@ -83,7 +83,7 @@ let pokemon1 = {
 let flamethrower = {
     type: "Fire",
     power: 95,
-    isPhysical: false
+    category: "special"
 };
 
 let stage_cond = {
@@ -127,7 +127,7 @@ let pokemon2 = {
 let aerialace = {
     type: "Flying",
     power: 60,
-    isPhysical: true
+    category: "physical"
 }
 
 let damageCalc3 = moveCalculator.calculateDamage(aerialace, pokemon2, pokemon2, 3, stage_cond)
@@ -183,7 +183,7 @@ let pokemon4 = {
 let closecombat = {
     type: "Fighting",
     power: 120,
-    isPhysical: true
+    category: "physical"
 }
 
 let damageCalc6 = moveCalculator.calculateDamage(closecombat, pokemon3, pokemon4, 4, stage_cond)
@@ -204,7 +204,7 @@ test("Gen 4 Super Effective Test", () => {
 let hyperbeam = {
     type: "Normal",
     power: 150,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc8 = moveCalculator.calculateDamage(hyperbeam, pokemon3, pokemon4, 4, stage_cond)
@@ -218,7 +218,7 @@ test("Gen 4 Special Attack Damage Test", () => {
 let heatwave = {
     type: "Fire",
     power: 100,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc9 = moveCalculator.calculateDamage(heatwave, pokemon3, pokemon4, 4, stage_cond_sun)
@@ -289,7 +289,7 @@ let pokemon8 = {
 let waterfall = {
     type: "Water",
     power: 80,
-    isPhysical: true
+    category: "physical"
 }
 
 let damageCalc12 = moveCalculator.calculateDamage(waterfall, pokemon6, pokemon8, 5, stage_cond)
@@ -303,7 +303,7 @@ test("Gen 5 Resisted Move Damage Test", () => {
 let icebeam = {
     type: "Ice",
     power: 95,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc13 = moveCalculator.calculateDamage(icebeam, pokemon6, pokemon8, 5, stage_cond)
@@ -372,7 +372,7 @@ let pokemon11 = {
 let hammerarm = {
     type: "Fighting",
     power: 90,
-    isPhysical: true
+    category: "physical"
 }
 
 let damageCalc17 = moveCalculator.calculateDamage(hammerarm, pokemon9, pokemon11, 6, stage_cond)
@@ -386,7 +386,7 @@ test("Gen 6 Immune Move Damage Test", () => {
 let solarbeam = {
     type: "Grass",
     power: 120,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc18 = moveCalculator.calculateDamage(solarbeam, pokemon9, pokemon11, 6, stage_cond)
@@ -400,7 +400,7 @@ test("Gen 6 Resisted Move Damage Test", () => {
 let bite = {
     type: "Dark",
     power: 60,
-    isPhysical: true
+    category: "physical"
 }
 
 let damageCalc19 = moveCalculator.calculateDamage(bite, pokemon9, pokemon11, 6, stage_cond)
@@ -414,7 +414,7 @@ test("Gen 6 Super Effective Move Damage Test", () => {
 let updatedFlamethrower = {
     type: "Fire",
     power: 90,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc20 = moveCalculator.calculateDamage(updatedFlamethrower, pokemon9, pokemon11, 6, stage_cond_sun)
@@ -436,7 +436,7 @@ test("Gen 6 Rain Modifier Test", () => {
 let rocktomb = {
     type: "Rock",
     power: 60,
-    isPhysical: true
+    category: "physical"
 };
 
 let damageCalc22 = moveCalculator.calculateDamage(rocktomb, pokemon10, pokemon11, 6, stage_cond)
@@ -459,7 +459,7 @@ test("Gen 7 Resisted Move Damage Test", () => {
 let updatedIcebeam = {
     type: "Ice",
     power: 90,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc24 = moveCalculator.calculateDamage(updatedIcebeam, pokemon6, pokemon8, 7, stage_cond)
@@ -515,7 +515,7 @@ let pokemon13 = {
 let thunderbolt = {
     type: "Electric",
     power: 90,
-    isPhysical: false
+    category: "special"
 }
 
 let damageCalc28 = moveCalculator.calculateDamage(thunderbolt, pokemon12, pokemon13, 7, stage_cond_electric)
@@ -528,7 +528,7 @@ test("Gen 7 Electric Terrain Damage Test", () => {
 let woodhammer = {
     type: "Grass",
     power: 120,
-    isPhysical: true
+    category: "physical"
 }
 
 let stage_cond_grassy = {
@@ -545,7 +545,7 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
 let outrage = {
     type: "Dragon",
     power: 120,
-    isPhysical: true
+    category: "physical"
 }
 
 let stage_cond_misty = {
@@ -562,7 +562,7 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
 let psychic = {
     type: "Psychic",
     power: 90,
-    isPhysical: false
+    category: "special"
 }
 
 let stage_cond_psychic = {
