@@ -222,7 +222,7 @@ export class HomePage extends React.Component {
 	}
 
 	//Returns a list of the best possible moves that can be used
-	calculateMoves(event) {
+	async calculateMoves(event) {
 		console.log("Hello there, inside of calculateMoves");
 		/*this.setState({
 			calculatedMoves: undefined
@@ -231,7 +231,7 @@ export class HomePage extends React.Component {
 		this.setState({
 			calculating: true
 		});
-		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+		let calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
 		console.log("calcMoves", calcMoves);
 		calcMoves = calcMoves.slice(0, 4);
 		this.setState({
@@ -302,7 +302,7 @@ export class HomePage extends React.Component {
 		let calcMoveList = this.state.calculatedMoves;
 		let displayList = [];
 		calcMoveList.forEach(element => {
-			let color = this.getTypeColor(element.type);
+			let color = this.getTypeColor(element.move_type);
 			let randomPlace = Math.floor(Math.random() * 3);
 			let finalColor = "linear-gradient(to right, " + color;
 			for (var i = 0; i < 3; i++) {
@@ -318,7 +318,7 @@ export class HomePage extends React.Component {
 				<div className="moveItem" style={{ backgroundImage: finalColor }}>
 					<b>{element.move}</b>
 					<b>{element.min_dmg + "-" + element.max_dmg}</b>
-					<b>{element.type}</b>
+					<b>{element.move_type}</b>
 				</div>
 			);
 		});
