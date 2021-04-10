@@ -246,7 +246,7 @@ export class moveCalculator {
         let max_damage = 0;
         let min_damage = 0;
 
-        if (move.category !== 'special' &&  move.category !== 'physical') {
+        if (move.category === 'none' || move.category === 'status') {
             return {min_damage, max_damage};
         }
 
