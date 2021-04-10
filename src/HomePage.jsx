@@ -70,7 +70,7 @@ export class HomePage extends React.Component {
 	}
 
 	resetSettings() {
-		if (typeof (global.pkmn1) === 'undefined' && typeof (global.pkmn2) === 'undefined') {
+		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
 			return;
 		}
 		var base1 = global.pkmn1.state.baseStats;
@@ -182,7 +182,7 @@ export class HomePage extends React.Component {
 	}
 
 	switchPokemon() {
-		if (typeof (global.pkmn1) === 'undefined' && typeof (global.pkmn2) === 'undefined') {
+		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
 			return;
 		}
 		var tempState = global.pkmn1.state;
