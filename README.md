@@ -1,4 +1,5 @@
-Repo Link: https://github.com/GKhankles/move-thrower/tree/origin/iterations 
+Repo Link: https://github.com/GKhankles/move-thrower/tree/origin/iterations2 
+GH Pages link: https://gkhankles.github.io/move-thrower/#/
 
 To run this do the following:
   1. Download the tagged v2.2 to the local environment.
