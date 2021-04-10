@@ -1,0 +1,166 @@
+Name	Type	Category	Power
+Absorb	Grass	special	40
+Acid	Poison	special	40
+Acid Armor	Poison	status	0
+Agility	Psychic	status	0
+Amnesia	Psychic	status	0
+Aurora Beam	Ice	special	65
+Barrage	Normal	physical	15
+Barrier	Psychic	status	0
+Bide	Normal	physical	0
+Bind	Normal	physical	15
+Bite	Dark	physical	60
+Blizzard	Ice	special	120
+Body Slam	Normal	physical	85
+Bone Club	Ground	physical	65
+Bonemerang	Ground	physical	50
+Bubble	Water	special	20
+Bubble Beam	Water	special	65
+Clamp	Water	physical	35
+Comet Punch	Normal	physical	18
+Confuse Ray	Ghost	status	0
+Confusion	Psychic	special	50
+Constrict	Normal	physical	10
+Conversion	Normal	status	0
+Counter	Fighting	physical	0
+Crabhammer	Water	physical	90
+Cut	Normal	physical	50
+Defense Curl	Normal	status	0
+Dig	Ground	physical	100
+Disable	Normal	status	0
+Dizzy Punch	Normal	physical	70
+Double Kick	Fighting	physical	30
+Double Slap	Normal	physical	15
+Double Team	Normal	status	0
+Double-Edge	Normal	physical	100
+Dragon Rage	Dragon	special	0
+Dream Eater	Psychic	special	100
+Drill Peck	Flying	physical	80
+Earthquake	Ground	physical	100
+Egg Bomb	Normal	physical	100
+Ember	Fire	special	40
+Explosion	Normal	physical	170
+Fire Blast	Fire	special	120
+Fire Punch	Fire	physical	75
+Fire Spin	Fire	special	15
+Fissure	Ground	physical	0
+Flamethrower	Fire	special	95
+Flash	Normal	status	0
+Fly	Flying	physical	70
+Focus Energy	Normal	status	0
+Fury Attack	Normal	physical	15
+Fury Swipes	Normal	physical	18
+Glare	Normal	status	0
+Growl	Normal	status	0
+Growth	Normal	status	0
+Guillotine	Normal	physical	0
+Gust	Flying	special	40
+Harden	Normal	status	0
+Haze	Ice	status	0
+Headbutt	Normal	physical	70
+High Jump Kick	Fighting	physical	85
+Horn Attack	Normal	physical	65
+Horn Drill	Normal	physical	0
+Hydro Pump	Water	special	120
+Hyper Beam	Normal	special	150
+Hyper Fang	Normal	physical	80
+Hypnosis	Psychic	status	0
+Ice Beam	Ice	special	95
+Ice Punch	Ice	physical	75
+Jump Kick	Fighting	physical	70
+Karate Chop	Fighting	physical	50
+Kinesis	Psychic	status	0
+Leech Life	Bug	physical	20
+Leech Seed	Grass	status	0
+Leer	Normal	status	0
+Lick	Ghost	physical	20
+Light Screen	Psychic	status	0
+Lovely Kiss	Normal	status	0
+Low Kick	Fighting	physical	50
+Meditate	Psychic	status	0
+Mega Drain	Grass	special	75
+Mega Kick	Normal	physical	120
+Mega Punch	Normal	physical	80
+Metronome	Normal	status	0
+Mimic	Normal	status	0
+Minimize	Normal	status	0
+Mirror Move	Flying	status	0
+Mist	Ice	status	0
+Night Shade	Ghost	special	0
+Pay Day	Normal	physical	40
+Peck	Flying	physical	35
+Petal Dance	Grass	special	70
+Pin Missile	Bug	physical	14
+Poison Gas	Poison	status	0
+Poison Powder	Poison	status	0
+Poison Sting	Poison	physical	15
+Pound	Normal	physical	40
+Psybeam	Psychic	special	65
+Psychic	Psychic	special	90
+Psywave	Psychic	special	0
+Quick Attack	Normal	physical	40
+Rage	Normal	physical	20
+Razor Leaf	Grass	physical	55
+Razor Wind	Normal	special	80
+Recover	Normal	status	0
+Reflect	Psychic	status	0
+Rest	Psychic	status	0
+Roar	Normal	status	0
+Rock Slide	Rock	physical	75
+Rock Throw	Rock	physical	50
+Rolling Kick	Fighting	physical	60
+Sand Attack	Ground	status	0
+Scratch	Normal	physical	40
+Screech	Normal	status	0
+Seismic Toss	Fighting	physical	0
+Self-Destruct	Normal	physical	130
+Sharpen	Normal	status	0
+Sing	Normal	status	0
+Skull Bash	Normal	physical	100
+Sky Attack	Flying	physical	200
+Slam	Normal	physical	80
+Slash	Normal	physical	70
+Sleep Powder	Grass	status	0
+Sludge	Poison	special	65
+Smog	Poison	special	20
+Smokescreen	Normal	status	0
+Soft-Boiled	Normal	status	0
+Solar Beam	Grass	special	200
+Sonic Boom	Normal	special	0
+Spike Cannon	Normal	physical	20
+Splash	Normal	status	0
+Spore	Grass	status	0
+Stomp	Normal	physical	65
+Strength	Normal	physical	80
+String Shot	Bug	status	0
+Struggle	Normal	physical	50
+Stun Spore	Grass	status	0
+Submission	Fighting	physical	80
+Substitute	Normal	status	0
+Super Fang	Normal	physical	0
+Supersonic	Normal	status	0
+Surf	Water	special	95
+Swift	Normal	special	60
+Swords Dance	Normal	status	0
+Tackle	Normal	physical	35
+Tail Whip	Normal	status	0
+Take Down	Normal	physical	90
+Teleport	Psychic	status	0
+Thrash	Normal	physical	90
+Thunder	Electric	special	120
+Thunder Punch	Electric	physical	75
+Thunder Shock	Electric	special	40
+Thunder Wave	Electric	status	0
+Thunderbolt	Electric	special	95
+Toxic	Poison	status	0
+Transform	Normal	status	0
+Tri Attack	Normal	special	80
+Twineedle	Bug	physical	25
+Vine Whip	Grass	physical	35
+Vise Grip	Normal	physical	55
+Water Gun	Water	special	40
+Waterfall	Water	physical	80
+Whirlwind	Normal	status	0
+Wing Attack	Flying	physical	35
+Withdraw	Water	status	0
+Wrap	Normal	physical	15

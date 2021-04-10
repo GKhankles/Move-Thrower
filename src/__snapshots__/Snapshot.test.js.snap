@@ -4,14 +4,14 @@ exports[`PokemonJSX Snapshot Test 1`] = `
 <div
   className="pokemon"
 >
-  <Dropdown
-    getOption={[Function]}
-    names={
-      Array [
-        "Charizard",
-      ]
-    }
-  />
+  <div
+    className="pokemonList"
+  >
+    <select
+      onChange={[Function]}
+      value="Bulbasaur"
+    />
+  </div>
   <br />
   <img
     alt="pokemonImage"

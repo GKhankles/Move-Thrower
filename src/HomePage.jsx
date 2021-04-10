@@ -385,7 +385,7 @@ export class HomePage extends React.Component {
 						</div>
 					</div>: null;
 		
-		let terrainSelection = global.advancedToggle ? 
+		let terrainSelection = global.advancedToggle && global.curGeneration == 7 || global.curGeneration == 8? 
 		<div className="App-body">
 			<div className="terrainDropDown" onChange={this.changeTerrain}>
 				<h4>Terrain</h4>
