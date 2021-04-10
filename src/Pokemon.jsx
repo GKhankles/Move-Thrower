@@ -462,7 +462,7 @@ export class Pokemon extends React.Component {
 		}
 
 		return <div className="pokemonList">
-				<select value={"Bulbasaur"} onChange={this.retrievePkmnFromList}>
+				<select value={this.state.curPkmn} onChange={(event) => {this.retrievePkmnFromList(event.target.value)}}>
 					{displayList}
 				</select>
 			</div>;
