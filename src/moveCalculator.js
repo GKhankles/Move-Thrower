@@ -1,4 +1,11 @@
-
+import Gen1Moves from './pokemoves_gen_1.txt';
+import Gen2Moves from './pokemoves_gen_2.txt';
+import Gen3Moves from './pokemoves_gen_3.txt';
+import Gen4Moves from './pokemoves_gen_4.txt';
+import Gen5Moves from './pokemoves_gen_5.txt';
+import Gen6Moves from './pokemoves_gen_6.txt';
+import Gen7Moves from './pokemoves_gen_7.txt';
+import Gen8Moves from './pokemoves_gen_8.txt';
 /*
  * Would be a good idea to make a constants file that contains the below variables, this would allow for these
  * Constants to be accessed in other files, if we find that is needed later on
@@ -109,13 +116,98 @@ export class moveCalculator {
         };
     }
 
+
+    readMovesFromFile(generation) {
+        let fileName;
+        switch(generation) {
+            case 1:
+              fileName = Gen1Moves
+              break;
+            case 2:
+                fileName = Gen2Moves
+                break;
+            case 3:
+                fileName = Gen3Moves
+                break;
+            case 4:
+                fileName = Gen4Moves
+                break;
+            case 5:
+                fileName = Gen5Moves
+                break;
+            case 6:
+                fileName = Gen6Moves
+                break;
+            case 7:
+                fileName = Gen7Moves
+                break;
+            case 8:
+                fileName = Gen8Moves
+                break;
+            default:
+                console.log("This generation doesn't exit")
+          }
+
+        return fetch(fileName).then(response => response.text()).then(text => this.moveParserHelper(text));
+    }
+
+    moveParserHelper(text) {
+        //let moves = [];
+        text = text+ ""
+        let movesList = text.split('\n'); //if this breaks at some point, change split parameter
+
+        movesList.forEach(function(line, index, moves) { 
+            let tempLine = line.split("\t");
+            moves[index] = {'Name': tempLine[0].toLowerCase().replace("-"," "), 'type': tempLine[1], 'category': tempLine[2], 'power': tempLine[3]}; 
+        });
+
+        return movesList
+    }
+
+    // getPokemonHelper(text, generation) {
+    //     let pokemonNames = [];
+    //     pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
+    //     //might need to remove below code when running on github
+    //     //TODO Known issue with form pokemon, such as Deoxys, Rotom, etc.
+    //     //Currently removing all regional forms and mega evolutions because we need to format them properly for PokeAPI
+    //     //TODO Another known issue with pokemon with spaces in their names, need to format them correctly for PokeAPI
+    //     let newPokemonList = [];
+    //     let tempID = 0;
+    //     for (let i = 1; i < pokemonNames.length - 1; i++) {
+    //         let tempList = pokemonNames[i].split("\t");
+    //         if (tempList[0] === tempID) {
+    //             continue;
+    //         } else {
+    //             tempID = tempList[0];
+    //             newPokemonList.push(tempList[1]);
+    //         }
+    //     }
+
+    //     let tempPkmnList = [];
+    //     tempPkmnList = this.state.pokemonList;
+    //     tempPkmnList[generation - 1] = newPokemonList;
+    //     this.setState({
+    //         pokemonList: tempPkmnList
+    //     });
+    //     this.forceUpdate();
+    //     return newPokemonList;
+    // }
+
+    
+
     //TODO: Test out with array of numbers or something like that
-    moveCalculator(AtkPokemon, DefPokemon, generation, stage_cond){
+    async moveCalculator(AtkPokemon, DefPokemon, generation, stage_cond){
         //Array of the damage of every move. Retains the same index as the passed in Moves object
         let move_Damage = []
-        AtkPokemon.moves.forEach(move => {
-            let damage = this.calculateDamage(move, AtkPokemon, DefPokemon, generation, stage_cond)
-            move_Damage.push({move: move, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
+        let allMoves = await this.readMovesFromFile(generation)
+        
+        AtkPokemon.moves.forEach(move => {            
+            for(let i=0;i<allMoves.length;i++){
+                if (allMoves[i].Name === move.move.name){
+                    let damage = this.calculateDamage(allMoves[i], AtkPokemon, DefPokemon, generation, stage_cond)
+                    move_Damage.push({move: move.name, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
+                }
+            }  
         });
 
         //Sort list of moves by max_dmg key in descending order
@@ -280,6 +372,9 @@ export class moveCalculator {
             }
             //Type effects (fix later) (check if second type is actual a thing)
             //This assumes move array has two vals, and second is null if pokemon only has one type
+            console.log("Before error in moveCalculator.js")
+            console.log("elemental types",this.elemental_types)
+            console.log("move types",move.type)
             Type_mod = this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen2to5matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
 
@@ -322,7 +417,7 @@ export class moveCalculator {
 
             let isPhysical
 
-            if (move.isPhysical) {
+            if (move.category === "physical") {
                 a = AtkPokemon.totalStats.Atk
                 d = DefPokemon.totalStats.Def
                 isPhysical = true
@@ -378,7 +473,7 @@ export class moveCalculator {
 
             let isPhysical
 
-            if (move.isPhysical) {
+            if (move.category === "physical") {
                 a = AtkPokemon.totalStats.Atk
                 d = DefPokemon.totalStats.Def
                 isPhysical = true
@@ -444,7 +539,7 @@ export class moveCalculator {
 
             let isPhysical
 
-            if (move.isPhysical) {
+            if (move.category === "physical") {
                 a = AtkPokemon.totalStats.Atk
                 d = DefPokemon.totalStats.Def
                 isPhysical = true
@@ -528,7 +623,7 @@ export class moveCalculator {
 
             let isPhysical
 
-            if (move.isPhysical) {
+            if (move.category === "physical") {
                 a = AtkPokemon.totalStats.Atk
                 d = DefPokemon.totalStats.Def
                 isPhysical = true
