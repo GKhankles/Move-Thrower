@@ -23,6 +23,8 @@ export class HomePage extends React.Component {
 		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
 		this.retrieveTerrainFromList = this.retrieveTerrainFromList.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
+		this.createMoveList = this.createMoveList.bind(this);
+		this.darker = this.darker.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 		
@@ -180,9 +182,6 @@ export class HomePage extends React.Component {
 	}
 
 	switchPokemon() {
-		console.log("Placeholder for next iteration.");
-		console.log(global.pkmn1);
-		console.log(global.pkmn2);
 		var tempState = global.pkmn1.state;
 		global.pkmn1.setState({
 		    uid: global.pkmn2.state.uid,
@@ -229,11 +228,13 @@ export class HomePage extends React.Component {
 		/*this.setState({
 			calculatedMoves: undefined
 		});*/
+
 		this.setState({
 			calculating: true
 		});
 		let calcMoves = this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
 		console.log("calcMoves", calcMoves);
+		calcMoves = calcMoves.slice(0, 4);
 		this.setState({
 			calculatedMoves: calcMoves,
 			calculating: false
@@ -252,11 +253,86 @@ export class HomePage extends React.Component {
 			weather: "Clear"
 		});
 		this.forceUpdate();
+		global.pkmn1.forceUpdate();
+		global.pkmn2.forceUpdate();
+	}
+
+	darker(color, percent) {
+		return color;
+	};
+
+	getTypeColor(type) {
+		switch (type) {
+			case "Fire":
+				return "rgba(238,129,48,1)";
+			case "Water":
+				return "rgba(99,144,240,1)";
+			case "Electric":
+				return "rgba(247,208,44,1)";
+			case "Grass":
+				return "rgba(122,199,76,1)";
+			case "Ice":
+				return "rgba(150,217,214,1)";
+			case "Fighting":
+				return "rgba(194,46,40,1)";
+			case "Poison":
+				return "rgba(163,62,161,1)";
+			case "Ground":
+				return "rgba(226,191,101,1)";
+			case "Flying":
+				return "rgba(169,143,243,1)";
+			case "Psychic":
+				return "rgba(249,85,135,1)";
+			case "Bug":
+				return "rgba(166,185,26,1)";
+			case "Rock":
+				return "rgba(182,161,54,1)";
+			case "Ghost":
+				return "rgba(115,87,151,1)";
+			case "Dragon":
+				return "rgba(111,53,252,1)";
+			case "Dark":
+				return "rgba(112,87,70,1)";
+			case "Steel":
+				return "rgba(183,183,206,1)";
+			case "Fairy":
+				return "rgba(214,133,173,1)";
+			default: //normal type
+				return "rgba(168,167,122,1)";
+		}
+	}
+
+	createMoveList() {
+		console.log("Inside of createMoveList");
+		let calcMoveList = this.state.calculatedMoves;
+		let displayList = [];
+		calcMoveList.forEach(element => {
+			let color = this.getTypeColor(element.type);
+			let randomPlace = Math.floor(Math.random() * 3);
+			let finalColor = "linear-gradient(to right, " + color;
+			for (var i = 0; i < 3; i++) {
+				if (i == randomPlace) {
+					finalColor += ", white";
+				} else {
+					finalColor += ", " + color;
+                }
+			}
+			finalColor += ", " + color + ")";
+			console.log(color);
+			displayList.push(
+				<div className="moveItem" style={{ backgroundImage: finalColor }}>
+					<b>{element.move}</b>
+					<b>{element.min_dmg + "-" + element.max_dmg}</b>
+					<b>{element.type}</b>
+				</div>
+			);
+		});
+		return displayList;
 	}
 
     render () {
 		console.log(this.state.atkPkmnInfo);
-		let moveList = this.state.calculatedMoves ? <MoveList calculatedMoves={this.state.calculatedMoves} /> : null;
+		let moveList = this.state.calculatedMoves ? this.createMoveList() : null;
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
 		let generationSelection = global.advancedToggle ? <div>
 						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
@@ -315,7 +391,12 @@ export class HomePage extends React.Component {
 				<h4>Terrain</h4>
 				<Dropdown initial={this.state.terrain} names={this.terrainList} getOption={this.retrieveTerrainFromList}/>
 			</div>
-		</div>: null;
+			</div> : null;
+
+		let wholeList = this.state.calculatedMoves ?
+			<div className="moveList">
+				{moveList}
+			</div> : null;
 
         return (
 			<div className = "App" style={{fontSize: 25}}>
@@ -330,7 +411,7 @@ export class HomePage extends React.Component {
 				<div className="App-mid">
 					<div className="App-body">
 						<b>Attacking Pokemon</b>
-						<Pokemon loc = {0} getPkmnInfo={this.retrieveAtkPokemonInfo}/>
+						<Pokemon loc={0} getPkmnInfo={this.retrieveAtkPokemonInfo} />
 					</div>
 					<div className="App-body">
 						<button className="button" style={{fontSize: 18, backgroundColor:"white"}} onClick={this.switchPokemon}>Switch Roles</button>
@@ -352,30 +433,21 @@ export class HomePage extends React.Component {
 							{weatherSelection3}
 							{weatherSelection45}
 							{weatherSelection678}
-							{terrainSelection}
 						</div>
 						<br/>
 						<br/>
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon loc = {1} getPkmnInfo={this.retrieveDefPokemonInfo}/>
+						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
 				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
 					<div className="advancedBody2">
-						<b>example 1</b>
-						<b>example 2</b>
-						<b>example 3</b>
-						<b>example 4</b>
-						<b>example 5</b>
-						<b>example 6</b>
-						<b>example 7</b>
-						<b>example 8</b>
-						<b>example 9</b>
+						{terrainSelection}
 					</div>
 					<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
-					{moveList}
+					{wholeList}
 				</div>
 			</div>
         );
