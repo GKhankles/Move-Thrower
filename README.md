@@ -1,7 +1,7 @@
 Repo Link: https://github.com/GKhankles/move-thrower/tree/origin/iterations 
 
 To run this do the following:
-  1. Download the tagged v2 to the local environment.
+  1. Download the tagged v2.2 to the local environment.
   2. Set up npm environment by running “npm install”
   3. Install relevant packages including firebase, react-router-dom
   “npm install firebase”,  “npm install react-router-dom”
