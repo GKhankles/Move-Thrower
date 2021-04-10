@@ -299,7 +299,7 @@ export class HomePage extends React.Component {
 		let displayList = [];
 		calcMoveList.forEach(element => {
 			let color = this.getTypeColor(element.move_type);
-			let randomPlace = Math.floor(Math.random() * 3);
+			let randomPlace = 1;//Math.floor(Math.random() * 3);// make this * 3
 			let finalColor = "linear-gradient(to right, " + color;
 			for (var i = 0; i < 3; i++) {
 				if (i === randomPlace) {
