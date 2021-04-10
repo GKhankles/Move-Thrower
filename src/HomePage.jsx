@@ -244,7 +244,7 @@ export class HomePage extends React.Component {
 	}
 
 	changeGeneration(event) {
-		global.curGeneration = event.target.value;
+		global.curGeneration = parseInt(event.target.value);
 		this.setState({
 			weather: "Clear"
 		});

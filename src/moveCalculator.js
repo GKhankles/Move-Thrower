@@ -119,6 +119,7 @@ export class moveCalculator {
 
     readMovesFromFile(generation) {
         let fileName;
+
         switch(generation) {
             case 1:
               fileName = Gen1Moves
@@ -145,7 +146,7 @@ export class moveCalculator {
                 fileName = Gen8Moves
                 break;
             default:
-                console.log("This generation doesn't exit")
+                console.log("This generation doesn't exit", generation);
           }
 
         return fetch(fileName).then(response => response.text()).then(text => this.moveParserHelper(text));
@@ -244,6 +245,10 @@ export class moveCalculator {
 
         let max_damage = 0;
         let min_damage = 0;
+
+        if (move.category !== 'special' &&  move.category !== 'physical') {
+            return {min_damage, max_damage};
+        }
 
         //let typeIndex;
         //add each type to this later
