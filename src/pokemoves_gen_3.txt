@@ -39,7 +39,7 @@ Bullet Seed	Grass	physical	10
 Calm Mind	Psychic	status	0
 Camouflage	Normal	status	0
 Charge	Electric	status	0
-Charm	Fairy	status	0
+Charm	Normal	status	0
 Clamp	Water	physical	35
 Comet Punch	Normal	physical	18
 Confuse Ray	Ghost	status	0
@@ -184,7 +184,7 @@ Mirror Coat	Psychic	special	0
 Mirror Move	Flying	status	0
 Mist	Ice	status	0
 Mist Ball	Psychic	special	70
-Moonlight	Fairy	status	0
+Moonlight	Normal	status	0
 Morning Sun	Normal	status	0
 Mud Shot	Ground	special	55
 Mud Sport	Ground	status	0
@@ -305,7 +305,7 @@ Supersonic	Normal	status	0
 Surf	Water	special	95
 Swagger	Normal	status	0
 Swallow	Normal	status	0
-Sweet Kiss	Fairy	status	0
+Sweet Kiss	Normal	status	0
 Sweet Scent	Normal	status	0
 Swift	Normal	special	60
 Swords Dance	Normal	status	0
