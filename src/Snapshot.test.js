@@ -199,18 +199,26 @@ test('Normal Color Test', () => {
   expect(wrapper.instance().getTypeColor("Normal")).toBe("#A8A77A")
 })
 
-//Update Total Stats Test
-test('updateTotalStats Test', () => {
-  const wrapper = shallow(<Pokemon/>);
+//retrieveNatureFromList Test
+test('retrieveNatureFromList Test', () => {
+  const wrapper = shallow(<Pokemon getPkmnInfo = {() => {}}/>);
   wrapper.setState(stateToSet);
-  let stats = {
-    HP: 1,
-    Atk: 1,
-    SpAtk: 1,
-    Def: 1,
-    SpDef: 1,
-    Spd: 1
-  }
-  wrapper.instance().updateTotalStats(stats)
-  expect(wrapper.instance().state.totalStats.HP).toBe(1)
+  wrapper.instance().retrieveNatureFromList("Docile")
+  expect(wrapper.instance().state.nature).toBe("Docile")
+})
+
+//retrieveStatusFromList Test
+test('retrieveStatusFromList Test', () => {
+  const wrapper = shallow(<Pokemon/>)
+  wrapper.setState(stateToSet)
+  wrapper.instance().retrieveStatusFromList("Burn")
+  expect(wrapper.instance().state.status).toBe("Burn")
+})
+
+//retrieveStatusFromList Test
+test('retrieveStatusFromList1 Test', () => {
+  const wrapper = shallow(<Pokemon/>)
+  wrapper.setState(stateToSet)
+  //wrapper.instance().retrieveStatusFromList("Burn")
+  expect(wrapper.instance().state.status).toBe("Healthy")
 })
