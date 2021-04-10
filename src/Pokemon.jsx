@@ -101,25 +101,29 @@ export class Pokemon extends React.Component {
 	getSavedPokemon() {
 		console.log("get saved")
 		console.log(this.state.uid)
-		let nameList = [];
+		let nmList = [];
 		let prefList = {};
 		if (this.state.uid !== "") {
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				prefList = {};
 				console.log(snapshot.val())
 				let data = snapshot.val() ? snapshot.val() : {};
 				prefList = { ...data }
 				console.log(prefList)
 				let pkmnKeys = Object.keys(prefList);
-				pkmnKeys.map((key) => nameList.push(prefList[key].curPkmn));
-				console.log(nameList)
+				pkmnKeys.map((key) => {
+					nmList.push( prefList[key].curPkmn)
+				});
+				console.log(nmList)
 			});
 			this.setState({
-				nameList: nameList,
+				nameList: nmList,
 				pkmnList: prefList
 			});
 			console.log("pkm")
+			console.log(this.state.nameList)
 			console.log(this.state.pkmnList)
-			return nameList;
+			return nmList;
 		};
 		return ["Abra"];
 	}

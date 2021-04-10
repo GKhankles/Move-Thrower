@@ -434,7 +434,7 @@ export class HomePage extends React.Component {
 					</div>
 					<div className="App-body">
 						<b>Defending Pokemon</b>
-						<Pokemon getPkmnInfo={this.retrieveDefPokemonInfo}/>
+						<Pokemon loc={1} getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
 				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
