@@ -63,7 +63,8 @@ export class HomePage extends React.Component {
 			calculatedMoves: null,
 			calculating: false,
 			weather: "Clear",
-			weatherList: null
+			weatherList: null,
+			switched: false
 		};
 		global.advancedToggle = false;
 		global.curGeneration = 3;
@@ -185,6 +186,9 @@ export class HomePage extends React.Component {
 		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
 			return;
 		}
+		this.setState(prevState => ({
+			switched: !prevState.switched
+		}));
 		var tempState = global.pkmn1.state;
 		global.pkmn1.setState({
 		    uid: global.pkmn2.state.uid,
@@ -230,7 +234,13 @@ export class HomePage extends React.Component {
 		this.setState({
 			calculating: true
 		});
-		let calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+		let calcMoves;
+		
+		if(this.state.switched) {
+			calcMoves = await this.moveCalculator.moveCalculator(this.state.defPkmnInfo, this.state.atkPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+		} else {
+			calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+		}
 		calcMoves = calcMoves.slice(0, 4);
 		this.setState({
 			calculatedMoves: calcMoves,

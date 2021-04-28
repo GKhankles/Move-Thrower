@@ -261,11 +261,19 @@ export class Pokemon extends React.Component {
 	//Called after retrievePkmnFromList is called to update pokemon stats
 	retrievePkmnInfo(pkmn) {
 		//Call the PokeAPI here to update pokemon info
-		let pokemonName = pkmn.toLowerCase();
-        let url = "https://pokeapi.co/api/v2/pokemon/" + pokemonName;
-        fetch(url)
-        .then(response => response.json())
-        .then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
+		if (this.state.pokemonList[7]) {
+					let pkmnID = (this.state.pokemonList[7].indexOf(pkmn) + 1);
+			let url = "https://pokeapi.co/api/v2/pokemon/" + pkmnID;
+			fetch(url)
+			.then(response => response.json())
+			.then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
+		} else {
+			let pkmnName = pkmn.toLowerCase();
+			let url = "https://pokeapi.co/api/v2/pokemon/" + pkmnName;
+			fetch(url)
+			.then(response => response.json())
+			.then(pokemonInfo => pokemonInfo = this.updatePkmnInfo(pokemonInfo));
+		}
 	}
 
 	updateTotalStats(newTotalStats) {
@@ -483,6 +491,7 @@ export class Pokemon extends React.Component {
 		let tempPkmnList = [];
 		tempPkmnList = this.state.pokemonList;
 		tempPkmnList[generation - 1] = newPokemonList;
+		console.log("Double check pokemon list", newPokemonList);
 		this.setState({
 			pokemonList: tempPkmnList
 		});

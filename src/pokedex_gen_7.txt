@@ -943,5 +943,3 @@ ID No.	Name	Type 1	Type 2	Total	HP	Attack	DefenseSp.	AtkSp.	Def	Speed
 805	Stakataka	Rock	Steel	570	61	131	211	53	101	13
 806	Blacephalon	Fire	Ghost	570	53	127	53	151	79	107
 807	Zeraora	Electric		600	88	112	75	102	80	143
-808	Meltan	Steel		300	46	65	65	55	35	34
-809	Melmetal	Steel		600	135	143	143	80	65	34
