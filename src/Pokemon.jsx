@@ -29,6 +29,7 @@ export class Pokemon extends React.Component {
 		this.loadPokemon = this.loadPokemon.bind(this);
 		this.setSavedPokemon = this.setSavedPokemon.bind(this);
 		this.getSavedPokemon = this.getSavedPokemon.bind(this);
+		this.deleteAll = this.deleteAll.bind(this);
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -117,6 +118,15 @@ export class Pokemon extends React.Component {
 				}
 			}
 		} else {
+			return false;
+		}
+	}
+
+	deleteAll(){
+		if (typeof this.state.uid != undefined && this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid).update({"preference": ""});
+			return true;
+		}else{
 			return false;
 		}
 	}
@@ -593,11 +603,15 @@ export class Pokemon extends React.Component {
 		let errorMessage = this.state.error;
         const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
 
+		let loadmessage = (this.props.loc === 0) ? "Load Global Data": "Load Saved Pokemon";
+		let deleteButton = (this.props.loc === 1) ? <button onClick={this.deleteAll}>delete all</button>: null;
+
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
-				<button onClick={this.loadPokemon}>load</button>
+				<button onClick={this.loadPokemon}>{loadmessage}</button>
+				{deleteButton}
 				{disCont}
 				{saveError}
 			</div>
