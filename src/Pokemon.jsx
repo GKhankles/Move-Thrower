@@ -30,6 +30,7 @@ export class Pokemon extends React.Component {
 		this.setSavedPokemon = this.setSavedPokemon.bind(this);
 		this.getSavedPokemon = this.getSavedPokemon.bind(this);
 		this.deleteAll = this.deleteAll.bind(this);
+		this.genChangePokemonReset = this.genChangePokemonReset.bind(this);
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -38,6 +39,8 @@ export class Pokemon extends React.Component {
 		this.statusList = ["Healthy","Badly Poisoned","Burn","Freeze","Paralysis","Poisoned","Sleep"];
 
 		this.statCalculator = new StatCalculator();
+
+		this.curGen = global.curGeneration;
 
         this.state = {
             uid: "",
@@ -87,7 +90,7 @@ export class Pokemon extends React.Component {
 			display : false,
 			nameList: [],
 			pkmnList: [],
-			error: "",
+			error: ""
         };
 	}
 
@@ -432,7 +435,6 @@ export class Pokemon extends React.Component {
 
 	//Updates the Pokemon's IVs in state and calls calculateStats
 	updatePkmnIV(event, statType) {
-
 		let level = this.state.level;
 		let nature = this.state.nature;
 		let evInfo = this.state.evInfo;
@@ -504,11 +506,9 @@ export class Pokemon extends React.Component {
 
     getPokemonHelper(text, generation) {
         let pokemonNames = [];
-        pokemonNames = text.split("\n"); //if this breaks at some point, change split parameter
-        //might need to remove below code when running on github
-		//TODO Known issue with form pokemon, such as Deoxys, Rotom, etc.
-		//Currently removing all regional forms and mega evolutions because we need to format them properly for PokeAPI
-		//TODO Another known issue with pokemon with spaces in their names, need to format them correctly for PokeAPI
+        pokemonNames = text.split("\n"); 
+		//Seems hacky, but made a fix here that takes out all but the first form of a pokemon
+		//And uses index+1 in the array as id to send to PokeAPI
 		let newPokemonList = [];
 		let tempID = 0;
 		for (let i = 1; i < pokemonNames.length - 1; i++) {
@@ -524,15 +524,26 @@ export class Pokemon extends React.Component {
 		let tempPkmnList = [];
 		tempPkmnList = this.state.pokemonList;
 		tempPkmnList[generation - 1] = newPokemonList;
-		console.log("Double check pokemon list", newPokemonList);
 		this.setState({
 			pokemonList: tempPkmnList
 		});
         return newPokemonList;
     }
 
+	genChangePokemonReset() {
+		this.curGen = global.curGeneration;
+		this.retrievePkmnFromList("Bulbasaur");
+	}
+
 
 	render() {
+		/*if (this.curGen > global.curGeneration) {
+			this.genChangePokemonReset();
+		}*/
+
+		console.log("bulbasaur state", this.state);
+
+
 		let IVEV = <div className="advancedStat">
 							<b className="statText">IV</b>
 							<b className="statText">EV</b>

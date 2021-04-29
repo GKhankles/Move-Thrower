@@ -259,6 +259,95 @@ export class HomePage extends React.Component {
 			weather: "Clear"
 		});
 		this.forceUpdate();
+		/*global.pokemon1.setState({
+			curPkmn: "Bulbasaur",
+			baseStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			ivInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			evInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			totalStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			level: 1,
+			nature: "Hardy",
+			status: "Healthy",
+			moves: [],
+			types: []
+		});
+		global.pokemon2.setState({
+			curPkmn: "Bulbasaur",
+			baseStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			ivInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			evInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			totalStats: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			level: 1,
+			nature: "Hardy",
+			status: "Healthy",
+			moves: [],
+			types: []			
+		});*/
+
+		console.log("Bulbasaur info babbyyyyy", global.bulbasaurInfo);
+		console.log("Bulbasaur moves", global.bulbasaurMoves);
+		global.pkmn1.setState({
+			...global.bulbasaurInfo
+		});
+		global.pkmn2.setState({
+			...global.bulbasaurInfo
+		});
 		global.pkmn1.forceUpdate();
 		global.pkmn2.forceUpdate();
 	}
@@ -332,15 +421,24 @@ export class HomePage extends React.Component {
 
     render () {
 		let moveList = this.state.calculatedMoves ? this.createMoveList() : null;
-		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" isDisabled={true}>Calculating...</button>;
+		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" disabled={true}>Calculating...</button>;
 		let generationSelection = global.advancedToggle ? <div>
 						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
 							<h4>Current Generation {global.curGeneration}</h4>
-							<input defaultChecked type="radio" value={3} name="generation"/> 3
-							<input type="radio" value={4} name="generation"/> 4
-							<input type="radio" value={5} name="generation"/> 5
-							<input type="radio" value={6} name="generation"/> 6
-							<input type="radio" value={7} name="generation"/> 7
+							<div>
+								<input type="radio" value={1} name="generation"/> 1
+								<input type="radio" value={2} name="generation"/> 2
+								<input defaultChecked type="radio" value={3} name="generation"/> 3
+							</div>
+							<div>
+								<input type="radio" value={4} name="generation"/> 4
+								<input type="radio" value={5} name="generation"/> 5
+								<input type="radio" value={6} name="generation"/> 6
+							</div>
+							<div>
+								<input type="radio" value={7} name="generation"/> 7
+								<input type="radio" value={8} name="generation"/> 8
+							</div>
 						</div>
 					</div> : null;
 
