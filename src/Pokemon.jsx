@@ -86,13 +86,36 @@ export class Pokemon extends React.Component {
 			display : false,
 			nameList: [],
 			pkmnList: [],
+			error: "",
         };
 	}
 
 	savePokemon() {
 		if (this.state.uid !== "") {
-			firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state)
-			return true;
+			let nmList = [];
+			let prefList = {};
+			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				prefList = {};
+				console.log(snapshot.val())
+				let data = snapshot.val() ? snapshot.val() : {};
+				prefList = { ...data }
+				let pkmnKeys = Object.keys(prefList);
+				pkmnKeys.map((key) => {
+					nmList.push( prefList[key].curPkmn)
+				});
+				console.log(nmList)
+			});
+			if(typeof this.state.curPkmn != undefined && this.state.curPkmn != null){
+				if(nmList.indexOf(this.state.curPkmn) <= -1){
+					firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state)
+					return true;
+				}else{
+					this.setState({
+						error: "Cannot save pokemon with existing name."
+					});
+					return false;
+				}
+			}
 		} else {
 			return false;
 		}
@@ -567,12 +590,16 @@ export class Pokemon extends React.Component {
 		
 		let disCont = (this.state.display && (this.props.loc === 1)) ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
 		
+		let errorMessage = this.state.error;
+        const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
+
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
-			<div classname="App-hcontainer">
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>load</button>
 				{disCont}
+				{saveError}
 			</div>
 			<div classname="App-hcontainer">
 				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
