@@ -639,17 +639,16 @@ export class HomePage extends React.Component {
 						<div className="generationRadio" onChange={this.changeGeneration} value={global.curGeneration}>
 							<h4>Current Generation {global.curGeneration}</h4>
 							<div>
-								<input type="radio" value={1} name="generation"/> 1
 								<input type="radio" value={2} name="generation"/> 2
-								<input defaultChecked type="radio" value={3} name="generation"/> 3
+								<input defaultChecked type="radio" value={3} name="generation" /> 3
+								<input type="radio" value={4} name="generation" /> 4
 							</div>
 							<div>
-								<input type="radio" value={4} name="generation"/> 4
 								<input type="radio" value={5} name="generation"/> 5
-								<input type="radio" value={6} name="generation"/> 6
+								<input type="radio" value={6} name="generation" /> 6
+								<input type="radio" value={7} name="generation" /> 7
 							</div>
 							<div>
-								<input type="radio" value={7} name="generation"/> 7
 								<input type="radio" value={8} name="generation"/> 8
 							</div>
 						</div>
@@ -763,8 +762,6 @@ export class HomePage extends React.Component {
 							{weatherSelection3}
 							{weatherSelection45}
 							{weatherSelection678}
-							{numberMovesSelection}
-							{moveFilterSelection}
 						</div>
 						<br/>
 					</div>
@@ -775,6 +772,8 @@ export class HomePage extends React.Component {
 				</div>
 				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
 					<div className="advancedBody2">
+						{numberMovesSelection}
+						{moveFilterSelection}
 						{terrainSelection}
 					</div>
 					<b style={{ textDecoration: "underline" }}>Recommended Moves</b>

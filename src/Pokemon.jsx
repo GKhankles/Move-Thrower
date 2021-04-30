@@ -31,6 +31,7 @@ export class Pokemon extends React.Component {
 		this.getSavedPokemon = this.getSavedPokemon.bind(this);
 		this.deleteAll = this.deleteAll.bind(this);
 		this.genChangePokemonReset = this.genChangePokemonReset.bind(this);
+		this.calcHPIV = this.calcHPIV.bind(this);
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -604,13 +605,28 @@ export class Pokemon extends React.Component {
 		this.retrievePkmnFromList("Bulbasaur");
 	}
 
+	calcHPIV() {
+		let healthIV = 0;
+		if (this.state.ivInfo.Atk % 2 == 1) {
+			healthIV += 8;
+		}
+		if (this.state.ivInfo.Def % 2 == 1) {
+			healthIV += 4;
+		}
+		if (this.state.ivInfo.Spd % 2 == 1) {
+			healthIV += 2;
+		}
+		if (this.state.ivInfo.SpAtk % 2 == 1) {
+			healthIV += 1;
+		}
+		return healthIV;
+    }
+
 
 	render() {
 		/*if (this.curGen > global.curGeneration) {
 			this.genChangePokemonReset();
 		}*/
-
-		console.log("bulbasaur state", this.state);
 
 
 		let IVEV = <div className="advancedStat">
@@ -619,10 +635,13 @@ export class Pokemon extends React.Component {
 						</div>;
 
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
-		let hpAdvanced = <div className="advancedStat">
-							<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
+		let hpAdvanced = global.curGeneration > 2 ? <div className="advancedStat">
+			<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
-						</div>;
+		</div> : <div className="advancedStat">
+				<input disabled className="App-textBox" type="number" value={this.calcHPIV()} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
+				<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
+			</div>;;
 
 		let atkAdvanced = <div className="advancedStat">
 							<input className="App-textBox" type="number" value={this.state.ivInfo.Atk} onChange={(e) => this.updatePkmnIV(e, "Atk")} onBlur={(e) => this.updatePkmnIV(e, "Atk")} />
