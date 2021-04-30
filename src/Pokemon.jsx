@@ -421,19 +421,38 @@ export class Pokemon extends React.Component {
 			}
 		}
 
-		if (statType === "HP") {
-			tempEvInfo.HP = newStat;
-		} else if (statType === "Atk") {
-			tempEvInfo.Atk = newStat;
-		} else if (statType === "SpAtk") {
-			tempEvInfo.SpAtk = newStat;
-		} else if (statType === "Def") {
-			tempEvInfo.Def = newStat;
-		} else if (statType === "SpDef") {
-			tempEvInfo.SpDef = newStat;
-		} else if (statType === "Spd") {
-			tempEvInfo.Spd = newStat;
+		if (global.curGeneration == 2) {
+			if (statType === "HP") {
+				tempEvInfo.HP = newStat;
+			} else if (statType === "Atk") {
+				tempEvInfo.Atk = newStat;
+			} else if (statType === "SpAtk") {
+				tempEvInfo.SpAtk = newStat;
+				tempEvInfo.SpDef = newStat;
+			} else if (statType === "Def") {
+				tempEvInfo.Def = newStat;
+			} else if (statType === "SpDef") {
+				tempEvInfo.SpAtk = newStat;
+				tempEvInfo.SpDef = newStat;
+			} else if (statType === "Spd") {
+				tempEvInfo.Spd = newStat;
+			}
+		} else {
+			if (statType === "HP") {
+				tempEvInfo.HP = newStat;
+			} else if (statType === "Atk") {
+				tempEvInfo.Atk = newStat;
+			} else if (statType === "SpAtk") {
+				tempEvInfo.SpAtk = newStat;
+			} else if (statType === "Def") {
+				tempEvInfo.Def = newStat;
+			} else if (statType === "SpDef") {
+				tempEvInfo.SpDef = newStat;
+			} else if (statType === "Spd") {
+				tempEvInfo.Spd = newStat;
+			}
 		}
+
 
 		this.setState({
 			evInfo: tempEvInfo
@@ -468,6 +487,36 @@ export class Pokemon extends React.Component {
 				newStat = 0;
 			} else if (!newStat) {
 				newStat = 0;
+			}
+		}
+
+		if (global.curGeneration == 2) {
+			if (statType === "Atk") {
+				tempIvInfo.Atk = newStat;
+			} else if (statType === "SpAtk") {
+				tempIvInfo.SpAtk = newStat;
+				tempIvInfo.SpDef = newStat;
+			} else if (statType === "Def") {
+				tempIvInfo.Def = newStat;
+			} else if (statType === "SpDef") {
+				tempIvInfo.SpAtk = newStat;
+				tempIvInfo.SpDef = newStat;
+			} else if (statType === "Spd") {
+				tempIvInfo.Spd = newStat;
+			}
+		} else {
+			if (statType === "HP") {
+				tempIvInfo.HP = newStat;
+			} else if (statType === "Atk") {
+				tempIvInfo.Atk = newStat;
+			} else if (statType === "SpAtk") {
+				tempIvInfo.SpAtk = newStat;
+			} else if (statType === "Def") {
+				tempIvInfo.Def = newStat;
+			} else if (statType === "SpDef") {
+				tempIvInfo.SpDef = newStat;
+			} else if (statType === "Spd") {
+				tempIvInfo.Spd = newStat;
 			}
 		}
 
