@@ -204,7 +204,7 @@ export class moveCalculator {
         
         AtkPokemon.moves.forEach(move => {            
             for(let i=0;i<allMoves.length;i++){
-                if (allMoves[i].Name === move.move.name){
+                if (allMoves[i].Name.replace(" ", "-") === move.move.name){
                     let damage = this.calculateDamage(allMoves[i], AtkPokemon, DefPokemon, generation, stage_cond)
                     move_Damage.push({move: allMoves[i].Name, move_type: allMoves[i].type, min_dmg: damage.min_damage, max_dmg: damage.max_damage})
                 }
