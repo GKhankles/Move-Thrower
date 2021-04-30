@@ -660,7 +660,7 @@ export class HomePage extends React.Component {
 		let numberMovesSelection = global.advancedToggle? 
 		<div>
 			<div className="numberMovesSelector" onChange={this.changeNumber}>
-				<h4>Number of Moves to Display</h4>
+				<h4>Number of Moves</h4>
 				<div>
 					<Dropdown initial={4} names={[1,2,3,4,5,6,7,8,9,10]} getOption = {this.retrieveNumberFromList}/>
 				</div>
@@ -724,7 +724,7 @@ export class HomePage extends React.Component {
 			</div> : null;
 
 		let wholeList = this.state.calculatedMoves ?
-			<div>
+			<div style={{padding:20}}>
 				<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
 				<div className="moveList">
 					{moveList}
