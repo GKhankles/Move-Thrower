@@ -87,6 +87,9 @@ export class SignIn extends React.Component {
                 //var errorCode = error.code;
                 var errorMessage = error.message;
                 console.log(errorMessage);
+                if(errorMessage === "The password is invalid or the user does not have a password."){
+                    errorMessage = "The password is invalid. Please try again."
+                }
                 this.setState({
                     logInError: errorMessage,
                     isButtonDisabled: true
