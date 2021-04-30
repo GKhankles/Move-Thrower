@@ -25,6 +25,101 @@ export class HomePage extends React.Component {
 		this.createMoveList = this.createMoveList.bind(this);
 
 		this.moveCalculator = new moveCalculator();
+
+		this.bulbasaurMoves = [
+			{	
+				"move": {
+					"name": "sludge"
+				}
+			},
+			{	
+				"move": {
+					"name": "strength"
+				}
+			},
+			{	
+				"move": {
+					"name": "cut"
+				}
+			},
+			{	
+				"move": {
+					"name": "headbutt"
+				}
+			},
+			{	
+				"move": {
+					"name": "facade"
+				}
+			},
+			{	
+				"move": {
+					"name": "tackle"
+				}
+			},
+			{	
+				"move": {
+					"name": "snore"
+				}
+			},
+			{	
+				"move": {
+					"name": "bind"
+				}
+			},
+			{	
+				"move": {
+					"name": "rage"
+				}
+			},
+			{	
+				"move": {
+					"name": "bide"
+				}
+			}
+		];
+
+		this.bulbasaurInfo = {
+			curPkmn: "Bulbasaur",
+			baseStats: {			
+				HP: 45,
+				Atk: 49,
+				SpAtk: 65,
+				Def: 49,
+				SpDef: 65,
+				Spd: 45
+			},
+			ivInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			evInfo: {			
+				HP: 0,
+				Atk: 0,
+				SpAtk: 0,
+				Def: 0,
+				SpDef: 0,
+				Spd: 0
+			},
+			totalStats: {			
+				HP: 11,
+				Atk: 5,
+				SpAtk: 6,
+				Def: 5,
+				SpDef: 6,
+				Spd: 5
+			},
+			level: 1,
+			nature: "Hardy",
+			status: "Healthy",
+			moves: this.bulbasaurMoves,
+			types: ["Grass", "Poison"],
+			pkmnImg: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+        };
 		
 		this.weather_types = {
 			"Clear": 1,
@@ -264,98 +359,15 @@ export class HomePage extends React.Component {
 	changeGeneration(event) {
 		global.curGeneration = parseInt(event.target.value);
 		this.setState({
-			weather: "Clear"
+			weather: "Clear",
+			atkPkmnInfo: {...this.bulbasaurInfo},
+			defPkmnInfo: {...this.bulbasaurInfo}
 		});
 		this.forceUpdate();
-		/*global.pokemon1.setState({
-			curPkmn: "Bulbasaur",
-			baseStats: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			ivInfo: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			evInfo: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			totalStats: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			level: 1,
-			nature: "Hardy",
-			status: "Healthy",
-			moves: [],
-			types: []
-		});
-		global.pokemon2.setState({
-			curPkmn: "Bulbasaur",
-			baseStats: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			ivInfo: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			evInfo: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			totalStats: {			
-				HP: 0,
-				Atk: 0,
-				SpAtk: 0,
-				Def: 0,
-				SpDef: 0,
-				Spd: 0
-			},
-			level: 1,
-			nature: "Hardy",
-			status: "Healthy",
-			moves: [],
-			types: []			
-		});*/
+		global.pkmn1.setState({...this.bulbasaurInfo});
+		global.pkmn2.setState({...this.bulbasaurInfo});
 
-		console.log("Bulbasaur info babbyyyyy", global.bulbasaurInfo);
 		console.log("Bulbasaur moves", global.bulbasaurMoves);
-		global.pkmn1.setState({
-			...global.bulbasaurInfo
-		});
-		global.pkmn2.setState({
-			...global.bulbasaurInfo
-		});
 		global.pkmn1.forceUpdate();
 		global.pkmn2.forceUpdate();
 	}
