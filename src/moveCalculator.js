@@ -327,16 +327,16 @@ export class moveCalculator {
             }
 
             // Weather
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Fire"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Water"){
                 Weather_mod = 1.5
             }
-            if (stage_cond.weather === this.weather_types.Harsh_Sunlight && move.type === this.elemental_types.Water){
+            if (stage_cond.weather === this.weather_types["Harsh Sunlight"] && move.type === "Water"){
                 Weather_mod = 0.5
             }
-            if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
+            if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
 

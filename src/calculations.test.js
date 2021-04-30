@@ -632,6 +632,22 @@ test("Gen 2 Burn Damage Test", () => {
     expect(damageCalc34.max_damage).toBe(86)
 });
 
+aerodactyl.status = "Healthy";
+
+let damageCalc35 = moveCalculator.calculateDamage(flamethrower, aerodactyl, venusaur, 2, stage_cond_sun);
+
+test("Gen 2 Sun Modifier Damage Test", () => {
+    expect(damageCalc35.min_damage).toBe(144) &&
+    expect(damageCalc35.max_damage).toBe(170);
+})
+
+let damageCalc36 = moveCalculator.calculateDamage(flamethrower, aerodactyl, venusaur, 2, stage_cond_rain);
+
+test("Gen 2 Rain Modifier Damage Test", () => {
+    expect(damageCalc36.min_damage).toBe(47) &&
+    expect(damageCalc36.max_damage).toBe(56)
+})
+
 //GEN II STAT CALCULATOR TEST
 let baseStats2 = {
     HP: 80,
