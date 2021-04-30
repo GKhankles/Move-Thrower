@@ -32,6 +32,7 @@ export class Pokemon extends React.Component {
 		this.deleteAll = this.deleteAll.bind(this);
 		this.genChangePokemonReset = this.genChangePokemonReset.bind(this);
 		this.calcHPIV = this.calcHPIV.bind(this);
+		this.saveName = this.saveName.bind(this);
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -87,7 +88,7 @@ export class Pokemon extends React.Component {
 			pokemonList: [],
 			isAdvanced: true,
 			readySwap: false,
-			savedName: "Insert Name",
+			savedName: "",
 			display : false,
 			nameList: [],
 			pkmnList: [],
@@ -113,6 +114,9 @@ export class Pokemon extends React.Component {
 			if(typeof this.state.curPkmn != undefined && this.state.curPkmn != null){
 				if(nmList.indexOf(this.state.curPkmn) <= -1){
 					firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state)
+					this.setState({
+						error: "Save successfully completed!"
+					});
 					return true;
 				}else{
 					this.setState({
@@ -622,6 +626,11 @@ export class Pokemon extends React.Component {
 		return healthIV;
     }
 
+	saveName(event){
+		this.setState({
+			savedName: event.target.value,
+		});
+	}
 
 	render() {
 		/*if (this.curGen > global.curGeneration) {
@@ -713,15 +722,18 @@ export class Pokemon extends React.Component {
 		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
-				{/* Need to fix the dropdown as it is only show null option instead of full options*/}
 				<button onClick={this.loadPokemon}>{loadmessage}</button>
 				{deleteButton}
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				{disCont}
-				{saveError}
 			</div>
 			<div classname="App-hcontainer">
-				<input className="App-textBox" type="text" value={this.state.savedName} style={{width: "50%", height: "80%"}}/>
+				<input className="App-textBox" type="text" value={this.state.savedName} onChange={this.saveName} onBlur={this.saveName} style={{width: "50%", height: "80%"}}/>
 				<button onClick={this.savePokemon}>Save</button>
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				{saveError}
 			</div>
 		</div> : null;
 
