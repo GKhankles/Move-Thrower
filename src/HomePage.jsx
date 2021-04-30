@@ -20,6 +20,7 @@ export class HomePage extends React.Component {
 		this.getAtkPokemon = this.getAtkPokemon.bind(this);
 		this.retrieveWeatherFromList = this.retrieveWeatherFromList.bind(this);
 		this.retrieveTerrainFromList = this.retrieveTerrainFromList.bind(this);
+		this.retrieveNumberFromList = this.retrieveNumberFromList.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		this.createMoveList = this.createMoveList.bind(this);
 
@@ -64,7 +65,8 @@ export class HomePage extends React.Component {
 			calculating: false,
 			weather: "Clear",
 			weatherList: null,
-			switched: false
+			switched: false,
+			numberMoves: 4
 		};
 		global.advancedToggle = false;
 		global.curGeneration = 3;
@@ -182,6 +184,12 @@ export class HomePage extends React.Component {
 		});
 	}
 
+	retrieveNumberFromList(selectedNumber){
+		this.setState({
+			numberMoves: selectedNumber
+		});
+	}
+
 	switchPokemon() {
 		if (typeof (global.pkmn1) === 'undefined' || typeof (global.pkmn2) === 'undefined') {
 			return;
@@ -230,7 +238,6 @@ export class HomePage extends React.Component {
 
 	//Returns a list of the best possible moves that can be used
 	async calculateMoves(event) {
-
 		this.setState({
 			calculating: true
 		});
@@ -241,7 +248,7 @@ export class HomePage extends React.Component {
 		} else {
 			calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
 		}
-		calcMoves = calcMoves.slice(0, 4);
+		calcMoves = calcMoves.slice(0, this.state.numberMoves);
 		this.setState({
 			calculatedMoves: calcMoves,
 			calculating: false
@@ -442,6 +449,14 @@ export class HomePage extends React.Component {
 						</div>
 					</div> : null;
 
+		let numberMovesSelection = global.advancedToggle? 
+		<div>
+			<div className="numberMovesSelector" onChange={this.changeNumber}>
+				<h4>Number of Moves to Display</h4>
+				<Dropdown initial={4} names={[1,2,3,4,5,6,7,8,9,10]} getOption = {this.retrieveNumberFromList}/>
+			</div>
+		</div>: null;
+
 		let weatherSelection1 = global.advancedToggle && global.curGeneration === 1? 
 					<div>
 						<div className="weatherDropDown" onChange={this.changeWeather}>
@@ -516,6 +531,7 @@ export class HomePage extends React.Component {
 						<br/>
 						<br/>
 						{calculateButton}
+						{numberMovesSelection}
 						<br/>
 						<b>Advanced Options</b>
 						<input type="checkbox" style={{height: 20, width: 20, backgroundColor:"white"}} onChange={this.advancedOptions} />
