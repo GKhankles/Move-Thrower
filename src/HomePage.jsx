@@ -23,6 +23,7 @@ export class HomePage extends React.Component {
 		this.retrieveNumberFromList = this.retrieveNumberFromList.bind(this);
 		this.resetSettings = this.resetSettings.bind(this);
 		this.createMoveList = this.createMoveList.bind(this);
+		this.setMoveFilter = this.setMoveFilter.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 
@@ -142,6 +143,28 @@ export class HomePage extends React.Component {
             "Psychic" : 5
         };
 
+		this.moveFilterList = [
+			"None",
+			"Normal",
+            "Fire",
+            "Water",
+            "Electric",
+            "Grass",
+            "Ice",
+            "Fighting",
+            "Poison",
+            "Ground",
+            "Flying",
+            "Psychic",
+            "Bug",
+            "Rock",
+            "Ghost",
+            "Dragon",
+            "Dark",
+            "Steel",
+            "Fairy"
+		];
+
 		this.weatherList1 = ["Clear"];
 		this.weatherList2 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm"];
 		this.weatherList3 = ["Clear", "Harsh Sunlight", "Rain", "Sandstorm", "Hail", "Shadowy Aura"];
@@ -161,7 +184,8 @@ export class HomePage extends React.Component {
 			weather: "Clear",
 			weatherList: null,
 			switched: false,
-			numberMoves: 4
+			numberMoves: 4,
+			moveFilter: "None"
 		};
 		global.advancedToggle = false;
 		global.curGeneration = 3;
@@ -220,6 +244,13 @@ export class HomePage extends React.Component {
 		global.pkmn1.updateTotalStats(global.pkmn1.statCalculator.getStatTotals(base1, clr1, clr2, 1, nature1));
 		global.pkmn2.updateTotalStats(global.pkmn2.statCalculator.getStatTotals(base2, clr3, clr4, 1, nature2));
     }
+
+	//Sets the moveFilter in state to the specified type. Can only do one type at a time
+	setMoveFilter(filterType) {
+		this.setState({
+			moveFilter: filterType
+		});
+	}
     
 	
     /*The Idea here is that since our website is technically only one page, there is nearly 
@@ -339,9 +370,11 @@ export class HomePage extends React.Component {
 		let calcMoves;
 		
 		if(this.state.switched) {
-			calcMoves = await this.moveCalculator.moveCalculator(this.state.defPkmnInfo, this.state.atkPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+			calcMoves = await this.moveCalculator.moveCalculator(this.state.defPkmnInfo, this.state.atkPkmnInfo, global.curGeneration, 
+				{weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]}, this.state.moveFilter);
 		} else {
-			calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
+			calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, 
+				{weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]}, this.state.moveFilter);
 		}
 		calcMoves = calcMoves.slice(0, this.state.numberMoves);
 
@@ -467,10 +500,20 @@ export class HomePage extends React.Component {
 		let numberMovesSelection = global.advancedToggle? 
 		<div>
 			<div className="numberMovesSelector" onChange={this.changeNumber}>
-				<h4>Number of Moves to Display</h4>
-				<Dropdown initial={4} names={[1,2,3,4,5,6,7,8,9,10]} getOption = {this.retrieveNumberFromList}/>
+				<b>Number of Moves to Display</b>
+				<div>
+					<Dropdown initial={4} names={[1,2,3,4,5,6,7,8,9,10]} getOption = {this.retrieveNumberFromList}/>
+				</div>
 			</div>
 		</div>: null;
+
+		let moveFilterSelection = global.advancedToggle?
+			<div>
+				<b>Filter Moves by Type</b>
+				<div>
+					<Dropdown initial={"None"} names={this.moveFilterList} getOption={this.setMoveFilter}/>
+				</div>
+			</div> : null;
 
 		let weatherSelection1 = global.advancedToggle && global.curGeneration === 1? 
 					<div>
@@ -546,13 +589,12 @@ export class HomePage extends React.Component {
 						<br/>
 						<br/>
 						{calculateButton}
-						{numberMovesSelection}
+						<br/>
 						<br/>
 						<b>Advanced Options</b>
 						<input type="checkbox" style={{height: 20, width: 20, backgroundColor:"white"}} onChange={this.advancedOptions} />
 						<br/>
-						<br />
-						<br />
+						<br/>
 						<button className="button" style={{ fontSize: 18, backgroundColor: "white" }} onClick={this.resetSettings}>Reset Settings</button>
 						<div className="advancedBody">
 							{generationSelection}
@@ -561,8 +603,9 @@ export class HomePage extends React.Component {
 							{weatherSelection3}
 							{weatherSelection45}
 							{weatherSelection678}
+							{numberMovesSelection}
+							{moveFilterSelection}
 						</div>
-						<br/>
 						<br/>
 					</div>
 					<div className="App-body">

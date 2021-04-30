@@ -197,7 +197,7 @@ export class moveCalculator {
     
 
     //TODO: Test out with array of numbers or something like that
-    async moveCalculator(AtkPokemon, DefPokemon, generation, stage_cond){
+    async moveCalculator(AtkPokemon, DefPokemon, generation, stage_cond, filterType){
         //Array of the damage of every move. Retains the same index as the passed in Moves object
         let move_Damage = []
         let allMoves = await this.readMovesFromFile(generation)
@@ -213,6 +213,20 @@ export class moveCalculator {
 
         //Sort list of moves by max_dmg key in descending order
         let optimalMoveList = move_Damage.sort((a,b) =>  b.max_dmg-a.max_dmg)
+
+        //Remove moves that aren't of the specified filter type
+        if (filterType == "None") {
+            return optimalMoveList;
+        } else {
+            let filteredList = [];
+            optimalMoveList.forEach(move => {
+                if (move.move_type == filterType) {
+                    filteredList.push(move);
+                }
+            });
+            return filteredList;
+        }
+        
         return optimalMoveList
     }
 
