@@ -669,7 +669,7 @@ export class HomePage extends React.Component {
 
 		let moveFilterSelection = global.advancedToggle ?
 			<div>
-				<h4>Filter Moves by Type</h4>
+				<h4>Filter by Type</h4>
 				<div>
 					<Dropdown initial={"None"} names={this.moveFilterList} getOption={this.setMoveFilter}/>
 				</div>
@@ -723,13 +723,13 @@ export class HomePage extends React.Component {
 			</div>
 			</div> : null;
 
-		let wholeList = this.state.calculatedMoves ?
+		let wholeList = this.state.calculatedMoves && this.state.calculatedMoves.length > 0 ?
 			<div style={{padding:20}}>
 				<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
 				<div className="moveList">
 					{moveList}
 				</div> 
-			</div>: null;
+			</div> : null;
 
 		if (this.state.weather === "Clear") {
 			document.body.style.backgroundColor = "#aaf0d1";
@@ -796,7 +796,7 @@ export class HomePage extends React.Component {
 						<Pokemon loc={1} getPkmnInfo={this.retrieveDefPokemonInfo}/>
 					</div>
 				</div>
-				<div className="App-body" style={{ display: "flex", minWidth: "100%" }}>
+				<div className="App-body" style={{ display: "flex", minWidth: "100%"}}>
 					<div className="advancedBody2">
 						{numberMovesSelection}
 						{moveFilterSelection}
