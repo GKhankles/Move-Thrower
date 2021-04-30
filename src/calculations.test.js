@@ -257,6 +257,43 @@ test("Gen 4 Burn Damage Test", () => {
     expect(damageCalc11.max_damage).toBe(68);
 });
 
+let stage_cond_sandstorm = {
+    weather: 4
+};
+
+let golem = {
+    types: ["Rock", "Ground"],
+    level: 100,
+    totalStats: {
+        HP: 304,
+        Def: 296,
+        SpDef: 166
+    }
+}
+
+let abomasnow = {
+    types: ["Grass", "Ice"],
+    level: 100,
+    totalStats: {
+        Atk: 311,
+        SpAtk: 198
+    }
+}
+
+let gigaDrain = {
+    type: "Grass",
+    power: 60,
+    category: "special"
+}
+
+let damageCalc11A = moveCalculator.calculateDamage(gigaDrain, abomasnow, golem, 4, stage_cond_sandstorm)
+
+//Test Sandstorm Buff
+test("Gen 4 Sandstorm Buff Damage Test", () => {
+    expect(damageCalc11A.min_damage).toBe(208) &&
+    expect(damageCalc11A.max_damage).toBe(252)
+})
+
 //GENERATION V TESTS
 
 let pokemon6 = {
@@ -339,6 +376,16 @@ test("Gen 5 Burn Damage Test", () => {
     expect(damageCalc16.min_damage).toBe(23) &&
     expect(damageCalc16.max_damage).toBe(27);
 });
+
+gigaDrain.power = 75
+
+let damageCalc16A = moveCalculator.calculateDamage(gigaDrain, abomasnow, golem, 5, stage_cond_sandstorm)
+
+//Test Sandstorm Buff
+test("Gen 5 Sandstorm Buffer Test", () => {
+    expect(damageCalc16A.min_damage).toBe(264) &&
+    expect(damageCalc16A.max_damage).toBe(312)
+})
 
 //GENERATION VI TESTS
 
@@ -448,6 +495,14 @@ test("Gen 6 Burn Damage Test", () => {
     expect(damageCalc22.min_damage).toBe(34) &&
     expect(damageCalc22.max_damage).toBe(40);
 });
+
+let damageCalc22A = moveCalculator.calculateDamage(gigaDrain, abomasnow, golem, 6, stage_cond_sandstorm)
+
+//Test Sandstorm Buff
+test("Gen 6 Sandstorm Buffer Test", () => {
+    expect(damageCalc22A.min_damage).toBe(264) &&
+    expect(damageCalc22A.max_damage).toBe(312)
+})
 
 //GENERATION VII TESTS
 
@@ -578,6 +633,14 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
     expect(damageCalc31.max_damage).toBe(92);
 });
 
+let damageCalc31A = moveCalculator.calculateDamage(gigaDrain, abomasnow, golem, 7, stage_cond_sandstorm)
+
+//Test Sandstorm Buff
+test("Gen 7 Sandstorm Buffer Test", () => {
+    expect(damageCalc31A.min_damage).toBe(264) &&
+    expect(damageCalc31A.max_damage).toBe(312)
+})
+
 //GEN II TESTS
 let aerodactyl = {
     types: ["Rock", "Flying"],
@@ -649,7 +712,7 @@ test("Gen 2 Rain Modifier Damage Test", () => {
 })
 
 //GEN VIII TESTS
-let eternatus = {
+/*let eternatus = {
     types: ["Poision", "Dragon"],
     level: 90,
     totalStats: {
@@ -681,6 +744,18 @@ test("Gen 8 Regular Damage Test", () => {
     expect(damageCalc37.min_damage).toBe(62) &&
     expect(damageCalc37.max_damage).toBe(73)
 });
+
+let poisonJab = {
+    type: "Poisoin",
+    power: 80,
+    category: "physical"
+}
+
+let damageCalc38 = moveCalculator.calculateDamage(poisonJab, eternatus, zacian, 8, stage_cond);
+
+test("Gen 8 Super Effective Damage Test", () => {
+    expect(damageCalc)
+})*/
 
 //GEN II STAT CALCULATOR TEST
 let baseStats2 = {

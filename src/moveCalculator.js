@@ -484,6 +484,12 @@ export class moveCalculator {
             if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
             }
+            for (let i = 0; i < DefPokemon.types.length; i++) {
+                if (DefPokemon.types[i] === "Rock" && stage_cond.weather === this.weather_types["Sandstorm"] && !isPhysical) {
+                    d = Math.floor(d * 1.5)
+                    break;
+                }
+            }
 
             if (AtkPokemon.status === "Burn" && isPhysical) {
                 Burn_mod = .5
@@ -541,6 +547,13 @@ export class moveCalculator {
             }
             if (stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire"){
                 Weather_mod = 0.5
+            }
+            for (let i = 0; i < DefPokemon.types.length; i++) {
+                if (DefPokemon.types[i] === "Rock" && stage_cond.weather === this.weather_types["Sandstorm"] && !isPhysical) {
+                    d *= 1.5
+                    d = this.pokeRound(d)
+                    break;
+                }
             }
 
             if (AtkPokemon.status === "Burn" && isPhysical) {
@@ -611,6 +624,13 @@ export class moveCalculator {
             if ((stage_cond.weather === this.weather_types["Rain"] && move.type === "Fire") ||
                 (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
                 Weather_mod = 0.5
+            }
+            for (let i = 0; i < DefPokemon.types.length; i++) {
+                if (DefPokemon.types[i] === "Rock" && stage_cond.weather === this.weather_types["Sandstorm"] && !isPhysical) {
+                    d *= 1.5
+                    d = this.pokeRound(d)
+                    break;
+                }
             }
 
             if (AtkPokemon.status === "Burn" && isPhysical) {
@@ -696,6 +716,13 @@ export class moveCalculator {
                 (stage_cond.weather === this.weather_types["Heavy Rain"] && move.type === "Fire")){
                 Weather_mod = 0.5
             }
+            for (let i = 0; i < DefPokemon.types.length; i++) {
+                if (DefPokemon.types[i] === "Rock" && stage_cond.weather === this.weather_types["Sandstorm"] && !isPhysical) {
+                    d *= 1.5
+                    d = this.pokeRound(d)
+                    break;
+                }
+            }
 
             if (AtkPokemon.status === "Burn" && isPhysical) {
                 Burn_mod = .5
@@ -721,7 +748,6 @@ export class moveCalculator {
         } 
 
         if (generation === 8){
-            console.log("HERE")
 
             let level = AtkPokemon.level
             let power = move.power
