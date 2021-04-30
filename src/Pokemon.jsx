@@ -634,8 +634,13 @@ export class Pokemon extends React.Component {
 							<b className="statText">EV</b>
 						</div>;
 
+		let gen = 3;
+		if (global.curGeneration !== null && global.curGeneration > 0) {
+			gen = global.curGeneration;
+        }
+
 		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" src={this.state.pkmnImg} alt="pokemonImage"/> : null;
-		let hpAdvanced = global.curGeneration > 2 ? <div className="advancedStat">
+		let hpAdvanced = gen > 2 ? <div className="advancedStat">
 			<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />
 		</div> : <div className="advancedStat">
