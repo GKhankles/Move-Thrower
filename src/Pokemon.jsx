@@ -403,12 +403,22 @@ export class Pokemon extends React.Component {
 		
 		let newStat = parseInt(event.target.value);
 
-		if(newStat >= 252) {
-			newStat = 252;
-		} else if (newStat < 0) {
-			newStat = 0;
-		} else if (!newStat) {
-			newStat = 0;
+		if (global.curGeneration == 2){
+			if(newStat >= 65535) {
+				newStat = 65535;
+			} else if (newStat < 0) {
+				newStat = 0;
+			} else if (!newStat) {
+				newStat = 0;
+			}
+		}else{
+			if(newStat >= 252) {
+				newStat = 252;
+			} else if (newStat < 0) {
+				newStat = 0;
+			} else if (!newStat) {
+				newStat = 0;
+			}
 		}
 
 		if (statType === "HP") {
@@ -443,12 +453,22 @@ export class Pokemon extends React.Component {
 		
 		let newStat = parseInt(event.target.value);
 
-		if(newStat >= 31) {
-			newStat = 31;
-		} else if (newStat < 0) {
-			newStat = 0;
-		} else if (!newStat) {
-			newStat = 0;
+		if (global.curGeneration == 2){
+			if(newStat >= 15) {
+				newStat = 15;
+			} else if (newStat < 0) {
+				newStat = 0;
+			} else if (!newStat) {
+				newStat = 0;
+			}
+		}else{
+			if(newStat >= 31) {
+				newStat = 31;
+			} else if (newStat < 0) {
+				newStat = 0;
+			} else if (!newStat) {
+				newStat = 0;
+			}
 		}
 
 		if (statType === "HP") {

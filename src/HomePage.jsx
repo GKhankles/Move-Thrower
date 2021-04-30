@@ -249,6 +249,7 @@ export class HomePage extends React.Component {
 			calcMoves = await this.moveCalculator.moveCalculator(this.state.atkPkmnInfo, this.state.defPkmnInfo, global.curGeneration, {weather: this.weather_types[this.state.weather], terrain: this.terrain_types[this.state.terrain]});
 		}
 		calcMoves = calcMoves.slice(0, this.state.numberMoves);
+
 		this.setState({
 			calculatedMoves: calcMoves,
 			calculating: false
@@ -448,6 +449,8 @@ export class HomePage extends React.Component {
 							</div>
 						</div>
 					</div> : null;
+
+		
 
 		let numberMovesSelection = global.advancedToggle? 
 		<div>
