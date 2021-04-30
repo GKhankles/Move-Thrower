@@ -1,5 +1,4 @@
 import './global.js';
-import { htmlPrefilter } from 'jquery';
 
 export class StatCalculator {
     constructor() {
