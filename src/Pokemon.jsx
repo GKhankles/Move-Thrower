@@ -639,7 +639,7 @@ export class Pokemon extends React.Component {
 			gen = global.curGeneration;
         }
 
-		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" style={{minHeight:"150px"}} src={this.state.pkmnImg} alt="pokemonImage"/> : null;
+		let pkmnImg = this.state.pkmnImg ? <img className="pkmnImg" style={{minHeight:"175px"}} src={this.state.pkmnImg} alt="pokemonImage"/> : null;
 		let hpAdvanced = gen > 2 ? <div className="advancedStat">
 			<input className="App-textBox" type="number" value={this.state.ivInfo.HP} onChange={(e) => this.updatePkmnIV(e, "HP")} onBlur={(e) => this.updatePkmnIV(e, "HP")} />
 							<input className="App-textBox" type="number" value={this.state.evInfo.HP} onChange={(e) => this.updatePkmnEV(e, "HP")} onBlur={(e) => this.updatePkmnEV(e, "HP")} />

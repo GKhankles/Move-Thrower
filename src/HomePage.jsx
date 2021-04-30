@@ -659,16 +659,16 @@ export class HomePage extends React.Component {
 		let numberMovesSelection = global.advancedToggle? 
 		<div>
 			<div className="numberMovesSelector" onChange={this.changeNumber}>
-				<b>Number of Moves to Display</b>
+				<h4>Number of Moves to Display</h4>
 				<div>
 					<Dropdown initial={4} names={[1,2,3,4,5,6,7,8,9,10]} getOption = {this.retrieveNumberFromList}/>
 				</div>
 			</div>
 		</div>: null;
 
-		let moveFilterSelection = global.advancedToggle?
+		let moveFilterSelection = global.advancedToggle ?
 			<div>
-				<b>Filter Moves by Type</b>
+				<h4>Filter Moves by Type</h4>
 				<div>
 					<Dropdown initial={"None"} names={this.moveFilterList} getOption={this.setMoveFilter}/>
 				</div>
