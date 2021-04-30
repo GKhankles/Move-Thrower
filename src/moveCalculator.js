@@ -258,7 +258,6 @@ export class moveCalculator {
                 break;
         }*/
 
-        //Ready to be tested
         /*if (generation === 1){
             let max_level = 2*AtkPokemon.level;
             let min_level = AtkPokemon.level;
@@ -291,9 +290,9 @@ export class moveCalculator {
             min_damage = (((2*min_level/5 + 2)*power*a/d)/50 + 2)*min_modifier;
         }*/
 
-        /*if (generation === 2){
-            let crit_level = 2*AtkPokemon.level
-            let min_level = AtkPokemon.level
+        if (generation === 2){
+            let level = AtkPokemon.level;
+            let power = move.power;
 
             let max_rand_mod = 1
             let min_rand_mod = 217/255
@@ -302,12 +301,14 @@ export class moveCalculator {
             let a = 0
             let d = 0
             
-            if (this.physical_types.indexOf(move.type) > -1) {
-                a = AtkPokemon.attack
-                d = DefPokemon.defense
+            if (this.physical_types.indexOf(this.elemental_types[move.type]) > -1) {
+                a = AtkPokemon.totalStats.Atk;
+                d = DefPokemon.totalStats.Def;
+                isPhysical = true
             } else {
-                a = AtkPokemon.special_attack
-                d = DefPokemon.special_defense
+                a = AtkPokemon.totalStats.SpAtk;
+                d = DefPokemon.totalStats.SpDef;
+                isPhysical = false
             }
 
             // Weather
@@ -323,7 +324,32 @@ export class moveCalculator {
             if (stage_cond.weather === this.weather_types.Rain && move.type === this.elemental_types.Fire){
                 Weather_mod = 0.5
             }
-        }*/
+
+            if (isPhysical && AtkPokemon.status === "Burn") {
+                a = Math.floor(a / 2);
+            }
+
+            if (a > 255 || d > 255) {
+                a = Math.floor(a / 4) % 256;
+                d = Math.floor(d / 4) % 256;
+            }
+
+            let damage = Math.floor(Math.floor((Math.floor((2 * level) / 5 + 2) * Math.max(1, a) * power) / Math.max(1, d)) / 50);
+            damage = Math.min(997, damage) + 2;
+            damage = Math.floor(damage * Weather_mod);
+            for (let i = 0; i < AtkPokemon.types.length; i++) {
+                if (move.type === AtkPokemon.types[i]) {
+                    Stab_mod = 1.5
+                    break;
+                }
+            }
+            damage = Math.floor(damage * Stab_mod);
+            Type_mod = this.gen1matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
+            Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen1matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            min_damage = Math.floor((damage * 217) / 255);
+            max_damage = Math.floor((damage * 255) / 255);
+
+        }
 
         if (generation === 3){
             let level = AtkPokemon.level

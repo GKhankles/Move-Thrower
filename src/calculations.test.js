@@ -1,5 +1,6 @@
 import StatCalculator from './StatCalculator.js';
 import MoveCalculator from './moveCalculator.js';
+import './global.js';
 
 let moveCalculator = new MoveCalculator();
 let statCalculator = new StatCalculator();
@@ -577,14 +578,67 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
     expect(damageCalc31.max_damage).toBe(92);
 });
 
-let pokemon14 = {
-    moves: ["Flamethrower", "Fly"],
-    types: ["Fire", "Flying"],
-    level: 99,
-    totalStats: {
-        Atk: 202,
-        SpAtk: 251,
-        Def: 190,
-        SpDef: 203
-    }
+//GEN I STAT CALCULATOR TEST
+let baseStats2 = {
+    HP: 80,
+    Atk: 105,
+    Def: 65,
+    SpAtk: 60,
+    SpDef: 60,
+    Spd: 130
 }
+
+let IVs2 = {
+    //HP: 31,
+    Atk: 15,
+    Def: 4,
+    SpAtk: 4,
+    SpDef: 4,
+    Spd: 15
+}
+
+let EVs2 = {
+    HP: 65535,
+    Atk: 65535,
+    Def: 65535,
+    SpAtk: 65535,
+    SpDef: 65535,
+    Spd: 65535
+}
+
+let level2 = 95;
+
+let statTotals = statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "");
+
+//HP Calculation Test
+test('HP Calculation Test (Gen 1 & 2)', () => {
+    global.curGeneration = 1;
+    expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").HP).toBe(335);
+});
+
+//Attack Calculation Test
+test('Attack Calculation Test (Gen 1 & 2', () => {
+    global.curGeneration = 1;
+    expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Atk).toBe(292);
+});
+
+//Defense Calculation Test
+test('Defense Calculation Test (Gen 1 & 2', () => {
+    global.curGeneration = 1;
+    expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Def).toBe(195);
+});
+
+//Special Calculation Test
+test('Special Calculation Test (Gen 1 & 2', () => {
+    global.curGeneration = 1;
+    expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").SpAtk).toBe(186);
+});
+
+//Speed Calculation Test
+test('Speed Calculation Test (Gen 1 & 2', () => {
+    global.curGeneration = 1;
+    expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Spd).toBe(340);
+})
+
+
+

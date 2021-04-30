@@ -1,9 +1,36 @@
+import './global.js';
+import { htmlPrefilter } from 'jquery';
+
 export class StatCalculator {
     constructor() {
         this.getStatTotals = this.getStatTotals.bind(this);
     }
 
 getStatTotals(baseStats, EVs, IVs, level, nature) {
+    if (global.curGeneration < 3) {
+        let healthIV = 0;
+        if (IVs.Atk % 2 == 1) {
+            healthIV += 8;
+        }
+        if (IVs.Def % 2 == 1) {
+            healthIV += 4;
+        }
+        if (IVs.Spd % 2 == 1) {
+            healthIV += 2;
+        }
+        if (IVs.SPAtk % 2 == 1) {
+            healthIV += 1;
+        }
+        let statTotals = {
+            HP: this.setHealth12(baseStats.HP, EVs.HP, healthIV, level),
+            Atk: this.setOtherStat12(baseStats.Atk, EVs.Atk, IVs.Atk, level),
+            Def: this.setOtherStat12(baseStats.Def, EVs.Def, IVs.Def, level),
+            SpAtk: this.setOtherStat12(baseStats.SpAtk, EVs.SpAtk, IVs.SpAtk, level),
+            SpDef: this.setOtherStat12(baseStats.SpDef, EVs.SpDef, IVs.SpDef, level),
+            Spd: this.setOtherStat12(baseStats.Spd, EVs.Spd, IVs.Spd, level)
+        }
+        return statTotals;
+    }
     let tempNature = nature.toLowerCase();
     let statTotals = {
         HP: this.setHealth(baseStats.HP, EVs.HP, IVs.HP, level, tempNature),
@@ -15,6 +42,26 @@ getStatTotals(baseStats, EVs, IVs, level, nature) {
     };
 
     return statTotals;
+}
+
+setHealth12(baseHealth, EVHealth, IVHealth, level) {
+    let EVVar = Math.ceil(Math.sqrt(EVHealth));
+    if (EVVar > 255) {
+        EVVar = 255;
+    }
+    EVVar = Math.floor(EVVar / 4);
+    let HP = Math.floor((((baseHealth + IVHealth) * 2 + EVVar) * level)/100) + level + 10;
+    return HP;
+}
+
+setOtherStat12(baseStat, EVStat, IVStat, level) {
+    let EVVar = Math.ceil(Math.sqrt(EVStat));
+    if (EVVar > 255) {
+        EVVar = 255;
+    }
+    EVVar = Math.floor(EVVar / 4);
+    let stat = Math.floor((((baseStat + IVStat) * 2 + EVVar) * level)/100) + 5
+    return stat
 }
 
 //does gen 3 calculation for now
