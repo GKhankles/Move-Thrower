@@ -649,9 +649,6 @@ export class HomePage extends React.Component {
 								<input type="radio" value={6} name="generation" /> 6
 								<input type="radio" value={7} name="generation" /> 7
 							</div>
-							<div>
-								<input type="radio" value={8} name="generation"/> 8
-							</div>
 						</div>
 					</div> : null;
 
