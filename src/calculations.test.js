@@ -578,7 +578,7 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
     expect(damageCalc31.max_damage).toBe(92);
 });
 
-//GEN II DAMAGE CALCULATOR
+//GEN II TESTS
 let aerodactyl = {
     types: ["Rock", "Flying"],
     level: 95,
@@ -647,6 +647,40 @@ test("Gen 2 Rain Modifier Damage Test", () => {
     expect(damageCalc36.min_damage).toBe(47) &&
     expect(damageCalc36.max_damage).toBe(56)
 })
+
+//GEN VIII TESTS
+let eternatus = {
+    types: ["Poision", "Dragon"],
+    level: 90,
+    totalStats: {
+        Atk: 166,
+        SpAtk: 293
+    },
+    status: "Healthy"
+}
+
+let zacian = {
+    types: ["Fairy"],
+    level: 100,
+    totalStats: {
+        HP: 325,
+        Def: 266,
+        SpDef: 267
+    }
+}
+
+let gigaImpact = {
+    type: "Normal",
+    power: 150,
+    category: "physical"
+}
+
+let damageCalc37 = moveCalculator.calculateDamage(gigaImpact, eternatus, zacian, 8, stage_cond);
+
+test("Gen 8 Regular Damage Test", () => {
+    expect(damageCalc37.min_damage).toBe(62) &&
+    expect(damageCalc37.max_damage).toBe(73)
+});
 
 //GEN II STAT CALCULATOR TEST
 let baseStats2 = {

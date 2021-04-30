@@ -17,6 +17,11 @@ exports[`PokemonJSX Snapshot Test 1`] = `
     alt="pokemonImage"
     className="pkmnImg"
     src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    style={
+      Object {
+        "minHeight": "175px",
+      }
+    }
   />
   <br />
   <div
