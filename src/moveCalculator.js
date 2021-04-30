@@ -314,6 +314,7 @@ export class moveCalculator {
             //Chooses correct a and d based on type of move
             let a = 0
             let d = 0
+            let isPhysical;            
             
             if (this.physical_types.indexOf(this.elemental_types[move.type]) > -1) {
                 a = AtkPokemon.totalStats.Atk;
