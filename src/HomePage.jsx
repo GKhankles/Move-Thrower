@@ -5,6 +5,7 @@ import Pokemon from './Pokemon.jsx';
 import moveCalculator from './moveCalculator.js';
 import './global.js';
 import Dropdown from './Dropdown';
+import mainLogo from './Title.png';
 //import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
@@ -723,15 +724,40 @@ export class HomePage extends React.Component {
 			</div> : null;
 
 		let wholeList = this.state.calculatedMoves ?
-			<div className="moveList">
-				{moveList}
-			</div> : null;
+			<div>
+				<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
+				<div className="moveList">
+					{moveList}
+				</div> 
+			</div>: null;
 
-        return (
-			<div className = "App" style={{fontSize: 25}}>
+		if (this.state.weather === "Clear") {
+			document.body.style.backgroundColor = "#aaf0d1";
+		} else if (this.state.weather === "Harsh Sunlight") {
+			document.body.style.backgroundColor = "#ffdd42";
+		} else if (this.state.weather === "Rain") {
+			document.body.style.backgroundColor = "#a1caf1";
+		} else if (this.state.weather === "Sandstorm") {
+			document.body.style.backgroundColor = "#ecd540";
+		} else if (this.state.weather === "Hail") {
+			document.body.style.backgroundColor = "#d3d3d3";
+		} else if (this.state.weather === "Shadowy Aura") {
+			document.body.style.backgroundColor = "#280c44";
+		} else if (this.state.weather === "Fog") {
+			document.body.style.backgroundColor = "#DCDBDF";
+		} else if (this.state.weather === "Strong Winds") {
+			document.body.style.backgroundColor = "#b9c4d6";
+		} else if (this.state.weather === "Extremely Harsh Sunlight") {
+			document.body.style.backgroundColor = "#ffae42";
+		} else if (this.state.weather === "Heavy Rain") {
+			document.body.style.backgroundColor = "#11416f";
+		}
+
+		return (
+			<div className="App" style={{ fontSize: 25 }} >
 				<div className="App-hcontainer">
 					<header className="App-header">
-						<h1>Pokemon Move Thrower!</h1>
+						<img src={mainLogo} style={{ padding:20 }}/>
 					</header>
 					<div className="App-login">
 						<SignIn preference = {this.state.atkPkmnInfo}/>
@@ -776,7 +802,6 @@ export class HomePage extends React.Component {
 						{moveFilterSelection}
 						{terrainSelection}
 					</div>
-					<b style={{ textDecoration: "underline" }}>Recommended Moves</b>
 					{wholeList}
 				</div>
 			</div>
