@@ -361,6 +361,7 @@ export class moveCalculator {
             damage = Math.floor(damage * Stab_mod);
             Type_mod = this.gen1matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[0]]]
             Type_mod *= DefPokemon.types[1] === undefined ? 1 : this.gen1matchups[this.elemental_types[move.type]][this.elemental_types[DefPokemon.types[1]]]
+            damage = Math.floor(damage * Type_mod);
             min_damage = Math.floor((damage * 217) / 255);
             max_damage = Math.floor((damage * 255) / 255);
 

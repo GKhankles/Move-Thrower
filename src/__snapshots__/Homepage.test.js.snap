@@ -66,6 +66,7 @@ exports[`HomePage Initial Snapshot Test 1`] = `
         CALCULATE
       </button>
       <br />
+      <br />
       <b>
         Advanced Options
       </b>
@@ -80,7 +81,6 @@ exports[`HomePage Initial Snapshot Test 1`] = `
         }
         type="checkbox"
       />
-      <br />
       <br />
       <br />
       <button
@@ -98,7 +98,6 @@ exports[`HomePage Initial Snapshot Test 1`] = `
       <div
         className="advancedBody"
       />
-      <br />
       <br />
     </div>
     <div
@@ -204,6 +203,7 @@ exports[`Test Create Move List 1`] = `
         CALCULATE
       </button>
       <br />
+      <br />
       <b>
         Advanced Options
       </b>
@@ -218,7 +218,6 @@ exports[`Test Create Move List 1`] = `
         }
         type="checkbox"
       />
-      <br />
       <br />
       <br />
       <button
@@ -236,7 +235,6 @@ exports[`Test Create Move List 1`] = `
       <div
         className="advancedBody"
       />
-      <br />
       <br />
     </div>
     <div

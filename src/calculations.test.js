@@ -578,7 +578,61 @@ test("Gen 7 Grassy Terrain Damage Test", () => {
     expect(damageCalc31.max_damage).toBe(92);
 });
 
-//GEN I STAT CALCULATOR TEST
+//GEN II DAMAGE CALCULATOR
+let aerodactyl = {
+    types: ["Rock", "Flying"],
+    level: 95,
+    totalStats: {
+        Atk: 289,
+        SpAtk: 207
+    },
+    status: "Healthy" 
+}
+
+let venusaur = {
+    types: ["Grass", "Poison"],
+    level: 95,
+    totalStats: {
+        HP: 345,
+        Def: 251,
+        SpDef: 283
+    }
+}
+
+let wingAttack = {
+    type: "Flying",
+    power: 60,
+}
+
+let damageCalc32 = moveCalculator.calculateDamage(wingAttack, aerodactyl, venusaur, 2, stage_cond);
+
+test("Gen 2 Super Effective Damage Test", () => {
+    expect(damageCalc32.min_damage).toBe(144) &&
+    expect(damageCalc32.max_damage).toBe(170);
+});
+
+let waterGun = {
+    type: "Water",
+    power: 40
+}
+
+let damageCalc33 = moveCalculator.calculateDamage(waterGun, aerodactyl, venusaur, 2, stage_cond);
+
+test("Gen 2 Non Very Effective Damage Test", () => {
+    expect(damageCalc33.min_damage).toBe(10) &&
+    expect(damageCalc33.max_damage).toBe(12)
+});
+
+aerodactyl.status = "Burn";
+
+let damageCalc34 = moveCalculator.calculateDamage(wingAttack, aerodactyl, venusaur, 2, stage_cond);
+
+test("Gen 2 Burn Damage Test", () => {
+    expect(damageCalc34.min_damage).toBe(73) &&
+    expect(damageCalc34.max_damage).toBe(86)
+});
+
+//GEN II STAT CALCULATOR TEST
 let baseStats2 = {
     HP: 80,
     Atk: 105,
@@ -608,37 +662,35 @@ let EVs2 = {
 
 let level2 = 95;
 
-let statTotals = statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "");
-
 //HP Calculation Test
-test('HP Calculation Test (Gen 1 & 2)', () => {
+test('HP Calculation Test (Gen 2)', () => {
     global.curGeneration = 1;
     expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").HP).toBe(335);
 });
 
 //Attack Calculation Test
-test('Attack Calculation Test (Gen 1 & 2', () => {
+test('Attack Calculation Test (Gen 2)', () => {
     global.curGeneration = 1;
     expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Atk).toBe(292);
 });
 
 //Defense Calculation Test
-test('Defense Calculation Test (Gen 1 & 2', () => {
+test('Defense Calculation Test (Gen 2)', () => {
     global.curGeneration = 1;
     expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Def).toBe(195);
 });
 
 //Special Calculation Test
-test('Special Calculation Test (Gen 1 & 2', () => {
+test('Special Calculation Test (Gen 2)', () => {
     global.curGeneration = 1;
     expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").SpAtk).toBe(186);
 });
 
 //Speed Calculation Test
-test('Speed Calculation Test (Gen 1 & 2', () => {
+test('Speed Calculation Test (Gen 2)', () => {
     global.curGeneration = 1;
     expect(statCalculator.getStatTotals(baseStats2, EVs2, IVs2, level2, "").Spd).toBe(340);
-})
+});
 
 
 
