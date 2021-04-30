@@ -408,7 +408,7 @@ export class Pokemon extends React.Component {
 		
 		let newStat = parseInt(event.target.value);
 
-		if (global.curGeneration == 2){
+		if (global.curGeneration === 2){
 			if(newStat >= 65535) {
 				newStat = 65535;
 			} else if (newStat < 0) {
@@ -426,7 +426,7 @@ export class Pokemon extends React.Component {
 			}
 		}
 
-		if (global.curGeneration == 2) {
+		if (global.curGeneration === 2) {
 			if (statType === "HP") {
 				tempEvInfo.HP = newStat;
 			} else if (statType === "Atk") {
@@ -477,7 +477,7 @@ export class Pokemon extends React.Component {
 		
 		let newStat = parseInt(event.target.value);
 
-		if (global.curGeneration == 2){
+		if (global.curGeneration === 2){
 			if(newStat >= 15) {
 				newStat = 15;
 			} else if (newStat < 0) {
@@ -495,7 +495,7 @@ export class Pokemon extends React.Component {
 			}
 		}
 
-		if (global.curGeneration == 2) {
+		if (global.curGeneration === 2) {
 			if (statType === "Atk") {
 				tempIvInfo.Atk = newStat;
 			} else if (statType === "SpAtk") {
@@ -611,16 +611,16 @@ export class Pokemon extends React.Component {
 
 	calcHPIV() {
 		let healthIV = 0;
-		if (this.state.ivInfo.Atk % 2 == 1) {
+		if (this.state.ivInfo.Atk % 2 === 1) {
 			healthIV += 8;
 		}
-		if (this.state.ivInfo.Def % 2 == 1) {
+		if (this.state.ivInfo.Def % 2 === 1) {
 			healthIV += 4;
 		}
-		if (this.state.ivInfo.Spd % 2 == 1) {
+		if (this.state.ivInfo.Spd % 2 === 1) {
 			healthIV += 2;
 		}
-		if (this.state.ivInfo.SpAtk % 2 == 1) {
+		if (this.state.ivInfo.SpAtk % 2 === 1) {
 			healthIV += 1;
 		}
 		return healthIV;
