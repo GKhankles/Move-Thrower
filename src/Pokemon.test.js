@@ -66,13 +66,6 @@ test('PokemonJSX Snapshot Test', () => {
   expect(wrapper).toMatchSnapshot();
 })
 
-//Load Pokemon Test
-test('Load Pokemon Test', () => {
-  const wrapper = shallow(<Pokemon />);
-  wrapper.setState(stateToSet)
-  expect(wrapper.instance().savePokemon()).toBe(false)
-})
-
 //Fire Color Test
 test('Fire Color Test', () => {
   const wrapper = shallow(<Pokemon/>);

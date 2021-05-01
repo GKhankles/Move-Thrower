@@ -667,7 +667,7 @@ export class HomePage extends React.Component {
 			}
 			finalColor += ", " + color + ")";
 			displayList.push(
-				<div className="moveItem" style={{ backgroundImage: finalColor }}>
+				<div key={element.move} className="moveItem" style={{ backgroundImage: finalColor }}>
 					<b>{element.move}</b>
 					<b>{element.min_dmg + "-" + element.max_dmg}</b>
 					<b>{element.move_type}</b>
@@ -1072,7 +1072,6 @@ export class HomePage extends React.Component {
 		let disContRight = this.state.displayRight && this.state.nameList ? <Dropdown names = {this.state.nameList} getOption = {this.setRightSavedPokemon}>Right Pokemon</Dropdown>: null;
 		let errorMessage = this.state.error;
 		const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
-		console.log(global.uid);
 
 		let saveLoad = (this.state.uid && this.state.uid.length > 0) ?
 			<div className="App-login" style={{ minWidth: "100%", paddingLeft: "49%", paddingRight: "49%"}}>

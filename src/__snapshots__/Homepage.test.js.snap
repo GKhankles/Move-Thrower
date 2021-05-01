@@ -28,7 +28,9 @@ exports[`HomePage Initial Snapshot Test 1`] = `
       className="App-login"
     >
       <SignIn
-        preference={Object {}}
+        retrieveUid={[Function]}
+        setName={[Function]}
+        setPkmn={[Function]}
       />
     </div>
   </div>
@@ -130,6 +132,9 @@ exports[`HomePage Initial Snapshot Test 1`] = `
       className="advancedBody2"
     />
   </div>
+  <div
+    className="advancedBody"
+  />
 </div>
 `;
 
@@ -161,7 +166,9 @@ exports[`Test Create Move List 1`] = `
       className="App-login"
     >
       <SignIn
-        preference={Object {}}
+        retrieveUid={[Function]}
+        setName={[Function]}
+        setPkmn={[Function]}
       />
     </div>
   </div>
@@ -283,6 +290,7 @@ exports[`Test Create Move List 1`] = `
       >
         <div
           className="moveItem"
+          key="Fly"
           style={
             Object {
               "backgroundImage": "linear-gradient(to right, rgba(169,143,243,1), rgba(169,143,243,1), white, rgba(169,143,243,1), rgba(169,143,243,1))",
@@ -301,6 +309,7 @@ exports[`Test Create Move List 1`] = `
         </div>
         <div
           className="moveItem"
+          key="Fly"
           style={
             Object {
               "backgroundImage": "linear-gradient(to right, rgba(214,133,173,1), rgba(214,133,173,1), white, rgba(214,133,173,1), rgba(214,133,173,1))",
@@ -319,6 +328,7 @@ exports[`Test Create Move List 1`] = `
         </div>
         <div
           className="moveItem"
+          key="Fly"
           style={
             Object {
               "backgroundImage": "linear-gradient(to right, rgba(182,161,54,1), rgba(182,161,54,1), white, rgba(182,161,54,1), rgba(182,161,54,1))",
@@ -337,6 +347,7 @@ exports[`Test Create Move List 1`] = `
         </div>
         <div
           className="moveItem"
+          key="Fly"
           style={
             Object {
               "backgroundImage": "linear-gradient(to right, rgba(166,185,26,1), rgba(166,185,26,1), white, rgba(166,185,26,1), rgba(166,185,26,1))",
@@ -356,5 +367,8 @@ exports[`Test Create Move List 1`] = `
       </div>
     </div>
   </div>
+  <div
+    className="advancedBody"
+  />
 </div>
 `;
