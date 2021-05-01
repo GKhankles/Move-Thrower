@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/move-thrower/static/css/main.9c17f08e.chunk.css",
-    "main.js": "/move-thrower/static/js/main.a10eb0c0.chunk.js",
-    "main.js.map": "/move-thrower/static/js/main.a10eb0c0.chunk.js.map",
-    "runtime-main.js": "/move-thrower/static/js/runtime-main.fc50817b.js",
-    "runtime-main.js.map": "/move-thrower/static/js/runtime-main.fc50817b.js.map",
-    "static/js/2.d118f1f6.chunk.js": "/move-thrower/static/js/2.d118f1f6.chunk.js",
-    "static/js/2.d118f1f6.chunk.js.map": "/move-thrower/static/js/2.d118f1f6.chunk.js.map",
-    "static/js/3.0209afab.chunk.js": "/move-thrower/static/js/3.0209afab.chunk.js",
-    "static/js/3.0209afab.chunk.js.map": "/move-thrower/static/js/3.0209afab.chunk.js.map",
+    "main.js": "/move-thrower/static/js/main.3fb58a77.chunk.js",
+    "main.js.map": "/move-thrower/static/js/main.3fb58a77.chunk.js.map",
+    "runtime-main.js": "/move-thrower/static/js/runtime-main.d9c30f30.js",
+    "runtime-main.js.map": "/move-thrower/static/js/runtime-main.d9c30f30.js.map",
+    "static/js/2.e099a6a5.chunk.js": "/move-thrower/static/js/2.e099a6a5.chunk.js",
+    "static/js/2.e099a6a5.chunk.js.map": "/move-thrower/static/js/2.e099a6a5.chunk.js.map",
+    "static/js/3.b9360b9f.chunk.js": "/move-thrower/static/js/3.b9360b9f.chunk.js",
+    "static/js/3.b9360b9f.chunk.js.map": "/move-thrower/static/js/3.b9360b9f.chunk.js.map",
     "index.html": "/move-thrower/index.html",
     "static/css/main.9c17f08e.chunk.css.map": "/move-thrower/static/css/main.9c17f08e.chunk.css.map",
-    "static/js/2.d118f1f6.chunk.js.LICENSE.txt": "/move-thrower/static/js/2.d118f1f6.chunk.js.LICENSE.txt",
+    "static/js/2.e099a6a5.chunk.js.LICENSE.txt": "/move-thrower/static/js/2.e099a6a5.chunk.js.LICENSE.txt",
     "static/media/pokedex_gen_1.txt": "/move-thrower/static/media/pokedex_gen_1.a2f9083b.txt",
     "static/media/pokedex_gen_2.txt": "/move-thrower/static/media/pokedex_gen_2.399c9232.txt",
     "static/media/pokedex_gen_3.txt": "/move-thrower/static/media/pokedex_gen_3.d7f3a944.txt",
     "static/media/pokedex_gen_4.txt": "/move-thrower/static/media/pokedex_gen_4.c5352ff6.txt",
     "static/media/pokedex_gen_5.txt": "/move-thrower/static/media/pokedex_gen_5.835cf307.txt",
     "static/media/pokedex_gen_6.txt": "/move-thrower/static/media/pokedex_gen_6.929b6ea1.txt",
-    "static/media/pokedex_gen_7.txt": "/move-thrower/static/media/pokedex_gen_7.fb9e4691.txt",
+    "static/media/pokedex_gen_7.txt": "/move-thrower/static/media/pokedex_gen_7.a7a35cc6.txt",
     "static/media/pokedex_gen_8.txt": "/move-thrower/static/media/pokedex_gen_8.7d15b9e1.txt",
     "static/media/pokemoves_gen_1.00c9e28b.txt": "/move-thrower/static/media/pokemoves_gen_1.00c9e28b.txt",
     "static/media/pokemoves_gen_2.a6391b38.txt": "/move-thrower/static/media/pokemoves_gen_2.a6391b38.txt",
@@ -30,9 +30,9 @@
     "static/media/pokemoves_gen_8.30aca0d7.txt": "/move-thrower/static/media/pokemoves_gen_8.30aca0d7.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.fc50817b.js",
-    "static/js/2.d118f1f6.chunk.js",
+    "static/js/runtime-main.d9c30f30.js",
+    "static/js/2.e099a6a5.chunk.js",
     "static/css/main.9c17f08e.chunk.css",
-    "static/js/main.a10eb0c0.chunk.js"
+    "static/js/main.3fb58a77.chunk.js"
   ]
 }
