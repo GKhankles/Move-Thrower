@@ -1074,11 +1074,11 @@ export class HomePage extends React.Component {
 		const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
 		console.log(global.uid);
 
-		let saveLoad = (this.state.uid && this.state.uid.length > 0) ? 
-		<div className="App-login">
+		let saveLoad = (this.state.uid && this.state.uid.length > 0) ?
+			<div className="App-login" style={{ minWidth: "100%", paddingLeft: "49%", paddingRight: "49%"}}>
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
-				<b>You need to click this before loading. </b>
+				<b>You need to click this before loading: </b>
 				<button onClick={this.loadPokemon}>Load Global Pokemon</button>
 			</div>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
@@ -1096,10 +1096,10 @@ export class HomePage extends React.Component {
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				<button onClick={this.deleteAll}>Delete All Saved Pkmn</button>
 			</div>
-			<div classname="App-hcontainer">
-				<input className="App-textBox" type="text" value={this.state.savedName} onChange={this.saveName} onBlur={this.saveName} style={{width: "50%", height: "80%"}}/>
-				<button onClick={this.saveLeftPokemon}>Save Left Pokemon</button>
-				<button onClick={this.saveRightPokemon}>Save Right Pokemon</button>
+				<div classname="App-hcontainer" style={{display: "flex", flexDirection: "row"}}>
+					<button onClick={this.saveLeftPokemon} style={{ fontSize: 10 }}>Save Left Pokemon</button>
+					<input className="App-textBox" type="text" value={this.state.savedName} onChange={this.saveName} onBlur={this.saveName} style={{width: "50%", height: "80%"}}/>
+					<button onClick={this.saveRightPokemon} style={{ fontSize: 10 }}>Save Right Pokemon</button>
 			</div>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				{saveError}
@@ -1164,9 +1164,6 @@ export class HomePage extends React.Component {
 							{weatherSelection45}
 							{weatherSelection678}
 						</div>
-						<div className="advancedBody">
-							{saveLoad}
-						</div>
 						<br/>
 					</div>
 					<div className="App-body">
@@ -1181,6 +1178,9 @@ export class HomePage extends React.Component {
 						{terrainSelection}
 					</div>
 					{wholeList}
+				</div>
+				<div className="advancedBody">
+					{saveLoad}
 				</div>
 			</div>
         );
