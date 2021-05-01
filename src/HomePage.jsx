@@ -731,9 +731,9 @@ export class HomePage extends React.Component {
 	}
 
 	saveRightPokemon() {
+		let nmList = [];
+		let prefList = {};
 		if (this.state.uid !== "") {
-			let nmList = [];
-			let prefList = {};
 			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
 				prefList = {};
 				console.log(snapshot.val())
@@ -745,20 +745,39 @@ export class HomePage extends React.Component {
 				});
 				console.log(nmList)
 			});
-			if(typeof global.pkmn2 != undefined && global.pkmn2.curPkmn != null){
-				if(nmList.indexOf(global.pkmn2.curPkmn) <= -1){
-					firebase.database().ref('users/' + this.state.uid + '/preference').push(global.pkmn2.state)
-					this.setState({
-						error: "Save successfully completed!"
-					});
-					return true;
-				}else{
-					this.setState({
-						error: "Cannot save pokemon with existing name."
-					});
-					return false;
+			console.log(this.state.atkPkmnInfo.state);
+			if(!this.state.switched){
+				if(this.state.defPkmnInfo){
+					if(nmList.indexOf(this.state.defPkmnInfo.curPkmn) <= -1){
+						firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state.defPkmnInfo);
+						this.setState({
+							error: "Save successfully completed!"
+						});
+						return true;
+					}else{
+						this.setState({
+							error: "Cannot save pokemon with existing name."
+						});
+						return false;
+					}
+				}
+			}else{
+				if(this.state.atkPkmnInfo){
+					if(nmList.indexOf(this.state.atkPkmnInfo.curPkmn) <= -1){
+						firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state.atkPkmnInfo);
+						this.setState({
+							error: "Save successfully completed!"
+						});
+						return true;
+					}else{
+						this.setState({
+							error: "Cannot save pokemon with existing name."
+						});
+						return false;
+					}
 				}
 			}
+			
 		} else {
 			return false;
 		}
