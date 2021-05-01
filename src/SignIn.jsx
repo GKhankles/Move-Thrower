@@ -80,6 +80,9 @@ export class SignIn extends React.Component {
                         preference: userInfo.preference
                     });
                 });
+                this.props.retrieveUid(user.uid);
+                this.props.setPkmn(this.state.preference);
+                global.uid = user.uid;
                 global.pkmn1.setState({ uid: user.uid });
                 global.pkmn2.setState({ uid: user.uid });
                 
@@ -120,6 +123,10 @@ export class SignIn extends React.Component {
                     signedIn: true,
                     uid: user.uid,
                 });
+                this.props.retrieveUid(user.uid);
+                global.uid = user.uid;
+                global.pkmn1.setState({ uid: user.uid });
+                global.pkmn2.setState({ uid: user.uid });
 
                 //TODO Redirect user to finish signing up here
             })
@@ -147,9 +154,12 @@ export class SignIn extends React.Component {
                     uid: "",
                     username: "",
                     password: "",
-                    preference: "",
+                    preference: "1",
                     isButtonDisabled: false,
                 });
+                this.props.retrieveUid("");
+                this.props.setPkmn("");
+                global.uid = "";
                 global.pkmn1.setState({ uid: "" });
                 global.pkmn2.setState({ uid: "" });
             })

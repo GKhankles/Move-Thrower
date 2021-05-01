@@ -25,14 +25,8 @@ export class Pokemon extends React.Component {
 		this.retrieveNatureFromList = this.retrieveNatureFromList.bind(this);
 		this.retrieveStatusFromList = this.retrieveStatusFromList.bind(this);
 		this.getTypeColor = this.getTypeColor.bind(this);
-		this.savePokemon = this.savePokemon.bind(this);
-		this.loadPokemon = this.loadPokemon.bind(this);
-		this.setSavedPokemon = this.setSavedPokemon.bind(this);
-		this.getSavedPokemon = this.getSavedPokemon.bind(this);
-		this.deleteAll = this.deleteAll.bind(this);
 		this.genChangePokemonReset = this.genChangePokemonReset.bind(this);
 		this.calcHPIV = this.calcHPIV.bind(this);
-		this.saveName = this.saveName.bind(this);
 
 		this.natureList = ["Hardy", "Lonely", "Brave", "Adamant", "Naughty", "Bold", "Docile", 
 			"Relaxed", "Impish", "Lax", "Timid", "Hasty", "Serious", "Jolly", "Naive", "Modest", 
@@ -94,134 +88,6 @@ export class Pokemon extends React.Component {
 			pkmnList: [],
 			error: ""
         };
-	}
-
-	savePokemon() {
-		if (this.state.uid !== "") {
-			let nmList = [];
-			let prefList = {};
-			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
-				prefList = {};
-				console.log(snapshot.val())
-				let data = snapshot.val() ? snapshot.val() : {};
-				prefList = { ...data }
-				let pkmnKeys = Object.keys(prefList);
-				pkmnKeys.map((key) => {
-					nmList.push( prefList[key].curPkmn)
-				});
-				console.log(nmList)
-			});
-			if(typeof this.state.curPkmn != undefined && this.state.curPkmn != null){
-				if(nmList.indexOf(this.state.curPkmn) <= -1){
-					firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state)
-					this.setState({
-						error: "Save successfully completed!"
-					});
-					return true;
-				}else{
-					this.setState({
-						error: "Cannot save pokemon with existing name."
-					});
-					return false;
-				}
-			}
-		} else {
-			return false;
-		}
-	}
-
-	deleteAll(){
-		if (typeof this.state.uid != undefined && this.state.uid !== "") {
-			firebase.database().ref('users/' + this.state.uid).update({"preference": ""});
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	getSavedPokemon() {
-		console.log("get saved")
-		console.log(this.state.uid)
-		let nmList = [];
-		let prefList = {};
-		if (this.state.uid !== "") {
-			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
-				prefList = {};
-				console.log(snapshot.val())
-				let data = snapshot.val() ? snapshot.val() : {};
-				prefList = { ...data }
-				let pkmnKeys = Object.keys(prefList);
-				pkmnKeys.map((key) => {
-					nmList.push( prefList[key].curPkmn)
-				});
-				console.log(nmList)
-			});
-			this.setState({
-				nameList: nmList,
-				pkmnList: prefList
-			});
-			console.log("pkm")
-			console.log(this.state.nameList)
-			console.log(this.state.pkmnList)
-			return nmList;
-		};
-		return ["Abra"];
-	}
-
-	//need to style.
-	loadPokemon() {
-		this.getSavedPokemon()
-		this.setState({
-			display: true,
-			nameList: this.getSavedPokemon()
-		})
-	}
-
-	setSavedPokemon(selectedPokemon) {
-		let pkm = null;
-		let pkmnKeys = Object.keys(this.state.pkmnList);
-		pkmnKeys.map((key) => 
-		{
-			if(this.state.pkmnList[key].curPkmn === selectedPokemon){
-				pkm = this.state.pkmnList[key];
-			}
-		}
-		)
-		if(this.props.loc === 0){
-			global.pkmn1.setState({
-				uid: pkm.uid,
-				curPkmn: pkm.curPkmn,
-				baseStats: pkm.baseStats,
-				ivInfo: pkm.ivInfo,
-				evInfo: pkm.evInfo,
-				totalStats: pkm.totalStats,
-				level: pkm.level,
-				nature: pkm.nature,
-				status: pkm.status,
-				moves: pkm.moves,
-				types: pkm.types,
-				pkmnImg: pkm.pkmnImg,
-				isAdvanced: pkm.isAdvanced,
-				readySwap: pkm.readySwap
-			});
-		}else{
-			global.pkmn2.setState({
-				uid: pkm.uid,
-				curPkmn: pkm.curPkmn,
-				baseStats: pkm.baseStats,
-				ivInfo: pkm.ivInfo,
-				evInfo: pkm.evInfo,
-				totalStats: pkm.totalStats,
-				level: pkm.level,
-				nature: pkm.nature,
-				status: pkm.status,
-				moves: pkm.moves,
-				types: pkm.types,
-				pkmnImg: pkm.pkmnImg,
-				isAdvanced: pkm.isAdvanced,
-				readySwap: pkm.readySwap
-			});
-		}
 	}
 
 	getTypeColor(type) {
@@ -626,12 +492,6 @@ export class Pokemon extends React.Component {
 		return healthIV;
     }
 
-	saveName(event){
-		this.setState({
-			savedName: event.target.value,
-		});
-	}
-
 	render() {
 		/*if (this.curGen > global.curGeneration) {
 			this.genChangePokemonReset();
@@ -711,7 +571,6 @@ export class Pokemon extends React.Component {
 								{type2}
 							</div> : null;
 		
-		let disCont = (this.state.display && (this.props.loc === 1)) ? <Dropdown names = {this.state.nameList} getOption = {this.setSavedPokemon}>Saved Pokemon</Dropdown>: null;
 		
 		let errorMessage = this.state.error;
         const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
@@ -719,7 +578,9 @@ export class Pokemon extends React.Component {
 		let loadmessage = (this.props.loc === 0) ? "Load Global Data": "Load Saved Pokemon";
 		let deleteButton = (this.props.loc === 1) ? <button onClick={this.deleteAll}>delete all</button>: null;
 
-		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? <div className="App-login">
+		/*
+		let serverPokemon = typeof (this.state.uid) !== 'undefined' && this.state.uid.length > 0 ? 
+		<div className="App-login">
 			<b>Saved Pokemon </b>
 			<div classname="App-hcontainer" style={{fontSize: 15}}>
 				<button onClick={this.loadPokemon}>{loadmessage}</button>
@@ -736,6 +597,7 @@ export class Pokemon extends React.Component {
 				{saveError}
 			</div>
 		</div> : null;
+		*/
 
         return (
             <div className = "pokemon">
@@ -771,7 +633,7 @@ export class Pokemon extends React.Component {
 					</div>
 					{advancedStats}
 				</div>
-				{serverPokemon}
+				{/*serverPokemon*/}
             </div>
         );
     }

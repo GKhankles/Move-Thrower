@@ -6,7 +6,7 @@ import moveCalculator from './moveCalculator.js';
 import './global.js';
 import Dropdown from './Dropdown';
 import mainLogo from './Title.png';
-//import firebase from 'firebase';
+import firebase from 'firebase';
 //import createFirebase from './firebase.js';
 
 export class HomePage extends React.Component {
@@ -25,6 +25,19 @@ export class HomePage extends React.Component {
 		this.resetSettings = this.resetSettings.bind(this);
 		this.createMoveList = this.createMoveList.bind(this);
 		this.setMoveFilter = this.setMoveFilter.bind(this);
+		this.saveLeftPokemon = this.saveLeftPokemon.bind(this);
+		this.saveRightPokemon = this.saveRightPokemon.bind(this);
+		this.loadLeftPokemon = this.loadLeftPokemon.bind(this);
+		this.loadRightPokemon = this.loadRightPokemon.bind(this);
+		this.setLeftSavedPokemon = this.setLeftSavedPokemon.bind(this);
+		this.setRightSavedPokemon = this.setRightSavedPokemon.bind(this);
+		this.getSavedPokemon = this.getSavedPokemon.bind(this);
+		this.deleteAll = this.deleteAll.bind(this);
+		this.saveName = this.saveName.bind(this);
+		this.setUid = this.setUid.bind(this);
+		this.setNameList = this.setNameList.bind(this);
+		this.setPkmnList = this.setPkmnList.bind(this);
+		this.loadPokemon = this.loadPokemon.bind(this);
 
 		this.moveCalculator = new moveCalculator();
 
@@ -177,6 +190,7 @@ export class HomePage extends React.Component {
 		this.terrainList = ["Normal","Electric","Grassy","Misty","Psychic"]
 
 		this.state = {
+			uid:"",
 			atkPkmnInfo: {},
 			defPkmnInfo: {},
 			isAdvanced: false,
@@ -186,10 +200,38 @@ export class HomePage extends React.Component {
 			weatherList: null,
 			switched: false,
 			numberMoves: 4,
-			moveFilter: "None"
+			moveFilter: "None",
+			savedName: "",
+			displayLeft : false,
+			displayRight : false,
+			nameList: [],
+			pkmnList: [],
+			error: ""
 		};
 		global.advancedToggle = false;
 		global.curGeneration = 3;
+	}
+
+	setUid(setUid){
+		this.setState({
+			uid: setUid
+		});
+	}
+
+	setNameList(newList){
+		this.setState({
+			nameList:newList
+		})
+	}
+
+	setPkmnList(newList){
+		this.setState({
+			pkmnList:newList
+		});
+		let pkmnKeys = Object.keys(this.state.pkmnList);
+		pkmnKeys.map((key) => {
+			this.state.nameList.push( this.state.pkmnList[key].curPkmn)
+		});
 	}
 
 	resetSettings() {
@@ -362,6 +404,8 @@ export class HomePage extends React.Component {
 	getAtkPokemon(){
 		return this.state.atkPkmnInfo;
 	}
+
+
 
 	//Returns a list of the best possible moves that can be used
 	async calculateMoves(event) {
@@ -633,6 +677,282 @@ export class HomePage extends React.Component {
 		return displayList;
 	}
 
+	saveLeftPokemon() {
+		let nmList = [];
+		let prefList = {};
+		if (this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				prefList = {};
+				console.log(snapshot.val())
+				let data = snapshot.val() ? snapshot.val() : {};
+				prefList = { ...data }
+				let pkmnKeys = Object.keys(prefList);
+				pkmnKeys.map((key) => {
+					nmList.push( prefList[key].curPkmn)
+				});
+				console.log(nmList)
+			});
+			console.log(this.state.atkPkmnInfo.state);
+			if(!this.state.switched){
+				if(this.state.atkPkmnInfo){
+					if(nmList.indexOf(this.state.atkPkmnInfo.curPkmn) <= -1){
+						firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state.atkPkmnInfo);
+						this.setState({
+							error: "Save successfully completed!"
+						});
+						return true;
+					}else{
+						this.setState({
+							error: "Cannot save pokemon with existing name."
+						});
+						return false;
+					}
+				}
+			}else{
+				if(this.state.defPkmnInfo){
+					if(nmList.indexOf(this.state.defPkmnInfo.curPkmn) <= -1){
+						firebase.database().ref('users/' + this.state.uid + '/preference').push(this.state.defPkmnInfo);
+						this.setState({
+							error: "Save successfully completed!"
+						});
+						return true;
+					}else{
+						this.setState({
+							error: "Cannot save pokemon with existing name."
+						});
+						return false;
+					}
+				}
+			}
+			
+		} else {
+			return false;
+		}
+	}
+
+	saveRightPokemon() {
+		if (this.state.uid !== "") {
+			let nmList = [];
+			let prefList = {};
+			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				prefList = {};
+				console.log(snapshot.val())
+				let data = snapshot.val() ? snapshot.val() : {};
+				prefList = { ...data }
+				let pkmnKeys = Object.keys(prefList);
+				pkmnKeys.map((key) => {
+					nmList.push( prefList[key].curPkmn)
+				});
+				console.log(nmList)
+			});
+			if(typeof global.pkmn2 != undefined && global.pkmn2.curPkmn != null){
+				if(nmList.indexOf(global.pkmn2.curPkmn) <= -1){
+					firebase.database().ref('users/' + this.state.uid + '/preference').push(global.pkmn2.state)
+					this.setState({
+						error: "Save successfully completed!"
+					});
+					return true;
+				}else{
+					this.setState({
+						error: "Cannot save pokemon with existing name."
+					});
+					return false;
+				}
+			}
+		} else {
+			return false;
+		}
+	}
+
+	deleteAll(){
+		if (typeof this.state.uid != undefined && this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid).update({"preference": ""});
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	getSavedPokemon() {
+		let nmList = [];
+		let prefList = {};
+		if (this.state.uid !== "") {
+			firebase.database().ref('users/' + this.state.uid + '/preference').on("value", snapshot => {
+				prefList = {};
+				console.log(snapshot.val())
+				let data = snapshot.val() ? snapshot.val() : {};
+				prefList = { ...data }
+				let pkmnKeys = Object.keys(prefList);
+				pkmnKeys.map((key) => {
+					nmList.push( prefList[key].curPkmn)
+				});
+				console.log(nmList)
+			});
+			this.setState({
+				nameList: nmList,
+				pkmnList: prefList
+			});
+			console.log("pkm")
+			console.log(this.state.nameList)
+			console.log(this.state.pkmnList)
+			return nmList;
+		};
+		return ["Abra"];
+	}
+
+	loadPokemon(){
+		this.getSavedPokemon()
+		this.setState({
+			nameList: this.getSavedPokemon()
+		})
+	}
+
+	//need to style.
+	loadLeftPokemon() {
+		this.getSavedPokemon()
+		this.setState({
+			displayLeft: true,
+			nameList: this.getSavedPokemon()
+		})
+	}
+	loadRightPokemon() {
+		this.getSavedPokemon()
+		this.setState({
+			displayRight: true,
+			nameList: this.getSavedPokemon()
+		})
+	}
+
+	setLeftSavedPokemon(selectedPokemon) {
+		let pkm = null;
+		let pkmnKeys = Object.keys(this.state.pkmnList);
+		pkmnKeys.map((key) => 
+		{
+			if(this.state.pkmnList[key].curPkmn === selectedPokemon){
+				pkm = this.state.pkmnList[key];
+			}
+		}
+		)
+			global.pkmn1.setState({
+				uid: pkm.uid,
+				curPkmn: pkm.curPkmn,
+				baseStats: pkm.baseStats,
+				ivInfo: pkm.ivInfo,
+				evInfo: pkm.evInfo,
+				totalStats: pkm.totalStats,
+				level: pkm.level,
+				nature: pkm.nature,
+				status: pkm.status,
+				moves: pkm.moves,
+				types: pkm.types,
+				pkmnImg: pkm.pkmnImg
+			});
+			if(!this.state.switched){
+				this.setState({
+					atkPkmnInfo: {
+						uid: pkm.uid,
+						curPkmn: pkm.curPkmn,
+						baseStats: pkm.baseStats,
+						ivInfo: pkm.ivInfo,
+						evInfo: pkm.evInfo,
+						totalStats: pkm.totalStats,
+						level: pkm.level,
+						nature: pkm.nature,
+						status: pkm.status,
+						moves: pkm.moves,
+						types: pkm.types,
+						pkmnImg: pkm.pkmnImg
+					}
+				});
+			}else{
+				this.setState({
+					defPkmnInfo: {
+						uid: pkm.uid,
+						curPkmn: pkm.curPkmn,
+						baseStats: pkm.baseStats,
+						ivInfo: pkm.ivInfo,
+						evInfo: pkm.evInfo,
+						totalStats: pkm.totalStats,
+						level: pkm.level,
+						nature: pkm.nature,
+						status: pkm.status,
+						moves: pkm.moves,
+						types: pkm.types,
+						pkmnImg: pkm.pkmnImg
+					}
+				});
+			}
+		}
+
+		setRightSavedPokemon(selectedPokemon) {
+			let pkm = null;
+			let pkmnKeys = Object.keys(this.state.pkmnList);
+			pkmnKeys.map((key) => 
+			{
+				if(this.state.pkmnList[key].curPkmn === selectedPokemon){
+					pkm = this.state.pkmnList[key];
+				}
+			}
+			)
+				global.pkmn2.setState({
+					uid: pkm.uid,
+					curPkmn: pkm.curPkmn,
+					baseStats: pkm.baseStats,
+					ivInfo: pkm.ivInfo,
+					evInfo: pkm.evInfo,
+					totalStats: pkm.totalStats,
+					level: pkm.level,
+					nature: pkm.nature,
+					status: pkm.status,
+					moves: pkm.moves,
+					types: pkm.types,
+					pkmnImg: pkm.pkmnImg
+				});
+				if(!this.state.switched){
+					this.setState({
+						defPkmnInfo: {
+							uid: pkm.uid,
+							curPkmn: pkm.curPkmn,
+							baseStats: pkm.baseStats,
+							ivInfo: pkm.ivInfo,
+							evInfo: pkm.evInfo,
+							totalStats: pkm.totalStats,
+							level: pkm.level,
+							nature: pkm.nature,
+							status: pkm.status,
+							moves: pkm.moves,
+							types: pkm.types,
+							pkmnImg: pkm.pkmnImg
+						}
+					});
+				}else{
+					this.setState({
+						atkPkmnInfo: {
+							uid: pkm.uid,
+							curPkmn: pkm.curPkmn,
+							baseStats: pkm.baseStats,
+							ivInfo: pkm.ivInfo,
+							evInfo: pkm.evInfo,
+							totalStats: pkm.totalStats,
+							level: pkm.level,
+							nature: pkm.nature,
+							status: pkm.status,
+							moves: pkm.moves,
+							types: pkm.types,
+							pkmnImg: pkm.pkmnImg
+						}
+					});
+				}
+			}
+
+
+	saveName(event){
+		this.setState({
+			savedName: event.target.value,
+		});
+	}
+
+
     render () {
 		let moveList = this.state.calculatedMoves ? this.createMoveList() : null;
 		let calculateButton = !this.state.calculating ? <button className="button" onClick={this.calculateMoves} >CALCULATE</button> : <button className="button" disabled={true}>Calculating...</button>;
@@ -728,6 +1048,45 @@ export class HomePage extends React.Component {
 				</div> 
 			</div> : null;
 
+		
+		let disContLeft = this.state.displayLeft && this.state.nameList ? <Dropdown names = {this.state.nameList} getOption = {this.setLeftSavedPokemon}>Left Pokemon</Dropdown>: null;
+		let disContRight = this.state.displayRight && this.state.nameList ? <Dropdown names = {this.state.nameList} getOption = {this.setRightSavedPokemon}>Right Pokemon</Dropdown>: null;
+		let errorMessage = this.state.error;
+		const saveError = errorMessage !== "" ? <p>{errorMessage}</p> : null;
+		console.log(global.uid);
+
+		let saveLoad = (this.state.uid && this.state.uid.length > 0) ? 
+		<div className="App-login">
+			<b>Saved Pokemon </b>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				<b>You need to click this before loading. </b>
+				<button onClick={this.loadPokemon}>Load Global Pokemon</button>
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				<button onClick={this.loadLeftPokemon}>Load Left pokemon</button>
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				{disContLeft}
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				<button onClick={this.loadRightPokemon}>Load Right pokemon</button>
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				{disContRight}
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				<button onClick={this.deleteAll}>Delete All Saved Pkmn</button>
+			</div>
+			<div classname="App-hcontainer">
+				<input className="App-textBox" type="text" value={this.state.savedName} onChange={this.saveName} onBlur={this.saveName} style={{width: "50%", height: "80%"}}/>
+				<button onClick={this.saveLeftPokemon}>Save Left Pokemon</button>
+				<button onClick={this.saveRightPokemon}>Save Right Pokemon</button>
+			</div>
+			<div classname="App-hcontainer" style={{fontSize: 15}}>
+				{saveError}
+			</div>
+		</div> : null;
+
 		if (this.state.weather === "Clear") {
 			document.body.style.backgroundColor = "#aaf0d1";
 		} else if (this.state.weather === "Harsh Sunlight") {
@@ -757,7 +1116,7 @@ export class HomePage extends React.Component {
 						<img src={mainLogo} style={{ padding:20 }}/>
 					</header>
 					<div className="App-login">
-						<SignIn preference = {this.state.atkPkmnInfo}/>
+						<SignIn retrieveUid = {this.setUid} setName = {this.setNameList} setPkmn = {this.setPkmnList}/>
 					</div>
 				</div>
 				<div className="App-mid">
@@ -785,6 +1144,9 @@ export class HomePage extends React.Component {
 							{weatherSelection3}
 							{weatherSelection45}
 							{weatherSelection678}
+						</div>
+						<div className="advancedBody">
+							{saveLoad}
 						</div>
 						<br/>
 					</div>
